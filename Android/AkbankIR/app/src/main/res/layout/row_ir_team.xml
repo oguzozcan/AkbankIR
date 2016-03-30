@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/portraitImage"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="10dp"
+        android:contentDescription="Profil Fotosu"
+        app:civ_border_width="1px"
+        app:civ_border_color="@color/warm_grey"
+        app:civ_border_overlay="true"
+        android:src="@drawable/avatar" />
+    <!--app:civ_border_color="@color/warm_gray"-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/portraitImage"
+        android:layout_toRightOf="@+id/portraitImage"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="8dp"
+        android:text="Sample Text"
+        android:textSize="16dp"
+        android:textColor="@android:color/black"
+        android:id="@+id/nameTv"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/nameTv"
+        android:layout_below="@+id/nameTv"
+        android:layout_marginBottom="2dp"
+        android:textSize="15dp"
+        android:text="Sample Text"
+        android:textColor="@color/tomato"
+        android:id="@+id/positionTv"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/nameTv"
+        android:layout_below="@+id/positionTv"
+        android:layout_marginBottom="2dp"
+        android:textSize="13dp"
+        android:text="Sample Text"
+        android:textColor="@color/warm_grey"
+        android:id="@+id/emailTv"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/nameTv"
+        android:layout_below="@+id/emailTv"
+        android:layout_marginBottom="8dp"
+        android:textSize="13dp"
+        android:text="Sample Text"
+        android:textColor="@color/warm_grey"
+        android:id="@+id/phoneTv"/>
+
+    <View
+        android:id="@+id/divider"
+        style="@style/Divider"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:background="@color/warm_grey" />
+
+
+</RelativeLayout>

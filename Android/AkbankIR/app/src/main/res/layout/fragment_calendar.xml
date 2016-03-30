@@ -1,0 +1,90 @@
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="5dp"
+        tools:context=".fragments.CalendarActivityFragment"
+        tools:showIn="@layout/activity_calendar">
+
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mcv_selectionColor="@color/warm_grey"
+            app:mcv_arrowColor="@color/tomato"
+            app:mcv_dateTextAppearance="@color/warm_grey"
+            app:mcv_showOtherDates="none" />
+
+        <LinearLayout
+            android:id="@+id/titlesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/calendarView"
+            android:layout_marginBottom="8dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:weightSum="7">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:drawableLeft="@drawable/red_shape"
+                android:drawablePadding="4dp"
+                android:lines="2"
+                android:text="@string/Calendar_Event_IR" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_weight="1"></View>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:lines="2"
+                android:drawableLeft="@drawable/black_calendar_shape"
+                android:drawablePadding="4dp"
+                android:text="@string/Calendar_Event_Major" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/agendaTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#e6e6e6"
+            android:paddingBottom="6dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="6dp"
+            android:layout_below="@+id/titlesLayout"
+            android:text="@string/Calendar_Agenda" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/eventsListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/agendaTitle"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:descendantFocusability="beforeDescendants"
+            android:background="@color/white"
+            android:fadeScrollbars="true"
+            android:overScrollMode="always"
+            android:stackFromBottom="false"
+            android:transcriptMode="normal"
+            app:layout_collapseMode="pin"
+            />
+    </RelativeLayout>
+
+</android.support.v4.widget.NestedScrollView>

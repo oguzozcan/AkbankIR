@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CompareButton">
+        <attr name="underline_color" format="color" />
+        <attr name="tag" format="string" />
+        <attr name="text" format="string" />
+        <attr name="textSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="IntervalButton">/>
+        <attr name="buttonSelected" format="boolean" />
+        <attr name="period" format="integer"/>
+        <attr name="interval" format="enum">
+            <enum name="interday" value="1"/>
+            <enum name="onemonth" value="2"/>
+            <enum name="threemonth" value="3"/>
+            <enum name="sixmonth" value="4"/>
+            <enum name="oneyear" value="5"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="DateTextView">
+        <attr name="defaultDateText" format="string" />
+        <attr name="isStartDate" format="boolean" />/>
+    </declare-styleable>
+
+    <attr name="textFieldStyle" format="reference"/>
+</resources>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
+    android:background="@color/calendarRowBackground"
+    android:layout_marginBottom="2dp"
+    android:paddingTop="4dp">
+    <!--
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/imageView"
+        android:layout_centerVertical="true"
+        android:padding="5dp"
+        android:src="@drawable/calendar_major_events_background"/>-->
+    <LinearLayout
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:padding="3dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/calendar_major_events_background">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dateTextView"
+            android:textSize="9dp"
+            android:lines="2"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textColor="@color/white"
+/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toLeftOf="@+id/addToCalendarIcon"
+        android:id="@+id/eventNameTextView"
+        android:textColor="@color/warm_grey"
+        android:text="Event name"
+        android:layout_centerVertical="true"/>
+    <ImageView
+        android:layout_width="32dp"
+        android:src="@drawable/add_to_calendar_icon"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/addToCalendarIcon"
+        android:padding="5dp"/>
+
+</RelativeLayout>

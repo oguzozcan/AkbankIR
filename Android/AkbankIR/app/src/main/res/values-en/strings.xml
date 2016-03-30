@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Loco xml export: Android string resources
+ Project: Localizable_en-2.strings conversion
+ Release: Working copy
+ Locale: en, English
+ Exported by: Unregistered user
+ Exported at: Fri, 05 Feb 2016 11:44:16 +0000
+-->
+<resources>
+    <!-- Buttons -->
+    <string name="Ok">Ok</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Confirm">Confirm</string>
+    <string name="Button_Agree">Agree &amp; Continue</string>
+    <string name="Button_Save">Save</string>
+    <string name="Button_View">View</string>
+    <string name="Button_SaveDocument">Save Document</string>
+    <string name="Button_Watch">Watch</string>
+    <string name="Button_Listen">Listen</string>
+    <string name="Button_Delete">Delete</string>
+    <string name="Button_Done">Done</string>
+    <string name="Button_ViewDetails">View details</string>
+    <!-- Alerts -->
+    <string name="Error">Error</string>
+    <string name="Notification">Notification</string>
+    <string name="NoInternetConnection">No internet connection</string>
+    <string name="AccessDenied">Access Denied</string>
+    <string name="SavedEvent">Save Event</string>
+    <string name="SavingSuccessed">Saved Successfully</string>
+    <string name="SavingFailed">Failed Saving</string>
+    <string name="DataAddedToCRM">New data was added to crm</string>
+    <string name="SureWantToDelete">Are you sure you want to delete:</string>
+    <string name="DeleteSuccess">It has been deleted successfully</string>
+    <!-- Labels -->
+    <string name="SavingFile">Saving File:</string>
+    <string name="International">International</string>
+    <string name="Local">Local</string>
+    <string name="View">View</string>
+    <string name="Save">Save</string>
+    <string name="Listen">Listen</string>
+    <string name="InvestorRelationsCalendar">Calendar</string>
+    <string name="Ratings">Ratings</string>
+    <string name="Next">Next</string>
+    <string name="Previous">Previous</string>
+    <string name="ContactUs">Contact us</string>
+    <!-- Menu -->
+    <string name="Menu_Menu">Menu</string>
+    <string name="Menu_Dashboard">Dashboard</string>
+    <string name="Menu_InvestorToolkit">Investor Toolkit</string>
+    <string name="Menu_AnnouncementsAndNews">Announcements and News</string>
+    <string name="Menu_Stocks">Stock</string>
+    <string name="Menu_Calendar">Calendar</string>
+    <string name="Menu_AnalystCoverage">Analyst Coverage</string>
+    <string name="Menu_CorporateGovernance">Corporate Governance</string>
+    <string name="Menu_AboutTurkey">About Turkey</string>
+    <string name="Menu_IRTeam">IR Team</string>
+    <string name="Menu_SavedDocuments">Saved Documents</string>
+
+    <!--SubMenus-->
+    <string name="Sub_Menu_1_Financial">Financial Results &amp; Earning Presentation</string>
+    <string name="Sub_Menu_1_Investor">Investor Presentation</string>
+    <string name="Sub_Menu_1_Akbank_Analyst">Akbank Analyst and Investor Days</string>
+    <string name="Sub_Menu_1_Annual_Reports">Annual Reports</string>
+    <string name="Sub_Menu_1_Webcasts">Webcasts</string>
+    <string name="Sub_Menu_1_Sustainability">Sustainability Report</string>
+
+    <string name="Sub_Menu_2_Corparate">Corporate Governance</string>
+    <string name="Sub_Menu_2_Articles">Articles of Association</string>
+    <string name="Sub_Menu_2_Renumuration">Renumeration Policy</string>
+    <string name="Sub_Menu_2_Annual">Annual General Meeting Documents</string>
+    <string name="Sub_Menu_2_About">About Suzan Sabancı Dinçer</string>
+    <string name="Sub_Menu_2_Capital">Capital and Trade Registry Information</string>
+    <string name="Sub_Menu_2_Ethnical">Ethical Principles</string>
+    <string name="Sub_Menu_2_Compliance">Compliance</string>
+    <string name="Sub_Menu_2_Compensation">Compensation Policy</string>
+    <string name="Sub_Menu_2_Donation">Donation &amp; Contribution Policy</string>
+    <string name="Sub_Menu_2_Disclosure">Disclosure Policy</string>
+    <string name="Sub_Menu_2_Anti_Bribery">Anti Bribery &amp; Anti Corruption Policy</string>
+    <string name="Sub_Menu_2_Divident_Policy">Divident Policy</string>
+
+    <!-- Screen titles -->
+    <string name="ScreenTitle_AnnouncementsAndNews">Announcements and News</string>
+    <string name="ScreenTitle_Calendar">Calendar</string>
+    <string name="ScreenTitle_AnalystCoverage">Analyst Coverage</string>
+    <string name="ScreenTitle_About">About</string>
+    <string name="ScreenTitle_SavedDocuments">Saved Documents</string>
+    <string name="ScreenTitle_AnnualReports">Annual Reports</string>
+    <string name="ScreenTitle_SustainabilityReports">Sustainability Reports</string>
+    <string name="ScreenTitle_InvestorPresentation">Investor Presentation</string>
+    <string name="ScreenTitle_Stock">Stock</string>
+    <!-- Dashboard cell headers -->
+    <string name="DashboardHeader_News">Latest news</string>
+    <string name="DashboardHeader_InvestorPresentation">Investor presentation</string>
+    <string name="DashboardHeader_Stock">Stock</string>
+    <string name="DashboardHeader_Webcasts">Webcasts</string>
+    <string name="DashboardHeader_AnnualReports">Annual reports</string>
+    <string name="DashboardHeader_SustainabilityReports">Sustainability reports</string>
+    <string name="DashboardHeader_Calendar">Calendar</string>
+    <string name="DashboardHeader_Ratings">Ratings</string>
+    <string name="DashboardHeader_AboutTurkey">About Turkey</string>
+    <!-- Reports cell headers -->
+    <string name="ReportHeader_Latest">Latest Report</string>
+    <string name="ReportHeader_Previous">Previous Report</string>
+    <!-- Investor day's headers -->
+    <string name="InvestorDay_LatestInvDays">Latest Investor day</string>
+    <string name="InvestorDay_PrevInvDays">Previous investor days</string>
+    <!-- Webcasts headers -->
+    <string name="WebcastHeader_Previous">Previous Webcasts</string>
+    <!-- Presentations headers -->
+    <string name="PresentationsHeader_Latest">Latest Presentation</string>
+    <string name="PresentationsHeader_Previous">Previous Presentation</string>
+    <!-- Investor Toolkit Subitems -->
+    <string name="InvestorToolkit_FinancialResultsPresentations">Financial Results &amp; Earning Presentation</string>
+    <string name="InvestorToolkit_InvestorPresentation">Investor Presentation</string>
+    <string name="InvestorToolkit_AnalystAndInvestorDays">Akbank Analyst and Investor Days</string>
+    <string name="InvestorToolkit_AnnualReports">Annual Reports</string>
+    <string name="InvestorToolkit_WebAndAudiocasts">Webcasts</string>
+    <string name="InvestorToolkit_SustainabilityReport">Sustainability report</string>
+    <!-- Calendar screen -->
+    <string name="Calendar_Event_IR">IR Calendar</string>
+    <string name="Calendar_Event_Major">Turkey Major Event</string>
+    <string name="Calendar_Agenda">Agenda</string>
+    <!-- Stock screen -->
+    <string name="Stock_Current">INTERDAY</string>
+    <string name="Stock_OneMonth">1M</string>
+    <string name="Stock_ThreeMonth">3M</string>
+    <string name="Stock_SixMonth">6M</string>
+    <string name="Stock_Year">1Y</string>
+    <string name="Stock_RotateDevice">PLEASE ROTATE THE DEVICE VERTICALLY TO CHANGE THE PARAMETERS</string>
+    <string name="Stock_StockName">Stock Name</string>
+    <string name="Stock_Change">%Change</string>
+    <string name="Stock_Last">Last</string>
+    <string name="Stock_Volume">Volume</string>
+    <string name="Stock_Volume_TL">Volume (TL)</string>
+    <string name="Stock_HighestLowest">Highest Lowest</string>
+    <string name="Stock_MarketCapital">Market Capital</string>
+    <!-- Ratings screen -->
+    <string name="RatingsScreen_SelectStartDate">Select start date</string>
+    <string name="RatingsScreen_SelectEndDate">Select end date</string>
+</resources>

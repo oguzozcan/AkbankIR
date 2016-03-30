@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/aboutTurkeyLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="5dp"
+    android:paddingBottom="@dimen/activity_horizontal_margin">
+
+
+    <ImageView
+        android:id="@+id/pdfIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:src="@drawable/pdf_icon_copy" />
+
+    <TextView
+        android:id="@+id/aboutTurkeyDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/pdfIcon"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/black"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
+        android:textSize="16dp"
+        android:text="description" />
+
+    <TextView
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/aboutTurkeyDescription"
+        android:layout_below="@+id/aboutTurkeyDescription"
+        android:layout_marginRight="25dp"
+        android:text="@string/Save"
+        android:textSize="13dp"
+        android:drawableLeft="@drawable/save_icon"
+        android:textColor="@color/tomato"
+        android:drawablePadding="10dp" />
+
+    <TextView
+        android:id="@+id/viewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="25dp"
+        android:textColor="@color/tomato"
+        android:text="@string/View"
+        android:textSize="13dp"
+        android:layout_below="@+id/aboutTurkeyDescription"
+        android:layout_toRightOf="@id/saveButton"
+        android:drawableLeft="@drawable/view_icon"
+        android:drawablePadding="10dp" />
+
+
+</RelativeLayout>
