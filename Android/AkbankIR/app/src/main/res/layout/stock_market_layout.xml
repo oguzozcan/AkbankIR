@@ -2,9 +2,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?actionBarSize"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="beforeDescendants"
     android:background="@color/white">
 
     <RelativeLayout
@@ -18,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp">
 
 
             <LinearLayout
@@ -27,9 +31,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
+                android:focusable="true"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
                 android:orientation="horizontal"
                 android:weightSum="5">
 
@@ -138,7 +143,6 @@
                         android:id="@+id/endingDateView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         app:isStartDate="false" />
 
                     <View
@@ -220,10 +224,27 @@
             android:paddingBottom="10dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
+            android:descendantFocusability="afterDescendants"
             android:visibility="visible"
             app:seriesColor="#ee0000"
             app:seriesType="line"
             tools:context=".fragments.ItemDetailFragment" />
+
+        <LinearLayout
+            android:id="@+id/popupPanel"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:layout_below="@+id/topPanel"
+            android:layout_marginBottom="5dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@color/warm_grey"
+            android:visibility="gone">
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/graphTitle"

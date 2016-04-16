@@ -1,14 +1,19 @@
 package com.mallardduckapps.akbankir;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.mallardduckapps.akbankir.objects.ApiErrorEvent;
 import com.mallardduckapps.akbankir.services.AboutTurkeyRestApi;
+import com.mallardduckapps.akbankir.services.AnalystCovarageRestApi;
+import com.mallardduckapps.akbankir.services.AnnualReportRestApi;
 import com.mallardduckapps.akbankir.services.CalendarRestApi;
 import com.mallardduckapps.akbankir.services.CalendarService;
 import com.mallardduckapps.akbankir.services.DashboardRestApi;
@@ -16,11 +21,16 @@ import com.mallardduckapps.akbankir.services.DashboardService;
 import com.mallardduckapps.akbankir.services.DownloadFileApi;
 import com.mallardduckapps.akbankir.services.GraphRestApi;
 import com.mallardduckapps.akbankir.services.GraphService;
+import com.mallardduckapps.akbankir.services.InvestorPresentationRestApi;
 import com.mallardduckapps.akbankir.services.IrTeamRestApi;
 import com.mallardduckapps.akbankir.services.MainGraphRestApi;
 import com.mallardduckapps.akbankir.services.MiscService;
+import com.mallardduckapps.akbankir.services.NewsRestApi;
 import com.mallardduckapps.akbankir.services.RatingsRestApi;
 import com.mallardduckapps.akbankir.services.SnapshotRestApi;
+import com.mallardduckapps.akbankir.services.SustainabilityReportRestApi;
+import com.mallardduckapps.akbankir.services.WebcastsRestApi;
+import com.mallardduckapps.akbankir.services.WebcastsService;
 import com.squareup.okhttp.Cache;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -75,19 +85,19 @@ public class AkbankApp extends Application{
         Picasso.setSingletonInstance(picasso);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/DIN.ttf")
+                        .setDefaultFontPath("fonts/DIN.ttf")// //  //dinbek-regular.ttf
                         .setFontAttrId(R.attr.fontPath)
 //                        .addCustomViewWithSetTypeface(CustomViewWithTypefaceSupport.class)
 //                        .addCustomStyle(TextField.class, R.attr.textFieldStyle)
                         .build()
         );
-
         getBus().register(this);
-
         getBus().register(new GraphService(retrofitForex.create(MainGraphRestApi.class),retrofitForex.create(GraphRestApi.class),retrofitForex.create(SnapshotRestApi.class), getBus()));
         getBus().register(new DashboardService(retrofit.create(DashboardRestApi.class),retrofit.create(RatingsRestApi.class), retrofit.create(AboutTurkeyRestApi.class), retrofit1.create(DownloadFileApi.class), getBus()));
         getBus().register(new CalendarService(retrofit.create(CalendarRestApi.class), getBus()));
-        getBus().register(new MiscService(retrofit.create(IrTeamRestApi.class), getBus()));
+        getBus().register(new WebcastsService(retrofit.create(WebcastsRestApi.class), getBus()));
+        getBus().register(new MiscService(retrofit.create(IrTeamRestApi.class), retrofit.create(NewsRestApi.class), retrofit.create(AnalystCovarageRestApi.class),
+                retrofit.create(SustainabilityReportRestApi.class),retrofit.create(AnnualReportRestApi.class),retrofit.create(InvestorPresentationRestApi.class),getBus()));
     }
 
     public Bus getBus() {
@@ -124,5 +134,17 @@ public class AkbankApp extends Application{
         // if no network is available networkInfo will be null
         // otherwise check if we are connected
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    public int[] getScreenSize(Activity activity){
+        Point size = new Point();
+        activity.getWindowManager().getDefaultDisplay().getSize(size);
+        int width = size.x;
+        int height = size.y;
+        int[] sizes = {width, height};
+        Log.d("SCREEN_SIZE", "WIDTH: " + width);
+        Log.d("SCREEN_SIZE", "HEIGHT: " + height);
+        Log.d("SCREEN_SIZE", "Density: " + activity.getResources().getDisplayMetrics().density );
+        return sizes;
     }
 }

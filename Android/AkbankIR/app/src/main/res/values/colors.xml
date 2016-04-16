@@ -18,12 +18,14 @@
 
 <resources>
     <color name="tomato">#ee3124</color>
+    <color name="title_background">#C4261E</color>
     <color name="coral">#ff5a47</color>
     <color name="pinkish_grey">#d1d1d1</color>
     <color name="warm_grey">#9b9b9b</color>
+    <color name="loading_gray">#909090</color>
     <color name="coral_two">#ff523a</color>
     <color name="greyish_brown">#4a4a4a</color>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#ee3124</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="calendarRowBackground">#f9f9f9</color>

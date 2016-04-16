@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/newsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/arrowIcon"
+        android:paddingBottom="16dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="20dp"
+        android:lines="2"
+        android:maxLines="5"
+        android:paddingTop="16dp"
+        android:text="News asdasda"
+        android:textColor="@color/greyish_brown"
+        android:textSize="18dp"
+        />
+
+    <ImageView
+        android:id="@+id/arrowIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:layout_marginRight="5dp"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="14dp"
+        android:src="@drawable/news_detail_arrow_icon" />
+
+    <View
+        android:id="@+id/divider"
+        style="@style/Divider"
+        android:layout_alignParentBottom="true"
+        android:background="@color/warm_grey" />
+
+</RelativeLayout>

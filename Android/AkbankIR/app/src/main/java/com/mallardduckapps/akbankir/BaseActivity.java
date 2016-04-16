@@ -72,12 +72,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
                 //getActionBar().setTitle(mDrawerTitle);
             }
         };
-//        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(mToolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//        getSupportActionBar().setHomeButtonEnabled(false);
-
-
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         final String[] menuItems = new String[]{
@@ -109,34 +103,22 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
 
         NavDrawerListAdapter adapter = new NavDrawerListAdapter(this, menuItems, imageId, getSubMenuItems());
         mDrawerList.setAdapter(adapter); //new ArrayAdapter<String>(this,         R.layout.row_navigation_drawer, menuItems)
-        // Set the list's click listener
         //mDrawerList.setOnItemClickListener(new DrawerItemClickListener(mDrawerList));
         mDrawerList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int position, long l) {
                 Log.d(TAG, "ON GROUP CLICK: " + position);
-//                if(position == 4){
-//                    Intent intent = new Intent(BaseActivity.this, CalendarActivity.class);
-//                    //intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-//                    BaseActivity.this.startActivity(intent);
-//                }
-                onTitleTextChange(menuItems[position]);
                 selectItem(position, mDrawerList);
+                onTitleTextChange(menuItems[position]);
                 mDrawerList.setItemChecked(position, true);
                 //setTitle(mPlanetTitles[position]);
-//                if (position != 4 && position != 8 ) {
-//                    mDrawerLayout.closeDrawer(mDrawerLinearLayout);
-//                }
-
                 return true;
             }
 
 
         });
-
         //expListView.setOnGroupExpandListener(new OnGroupExpandListener() {
 //        expListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
-
         mDrawerList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int position, int childPosition, long l) {
@@ -146,65 +128,82 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
                     switch (childPosition){
                         case 0:
                             intent.putExtra("file_name", "corporate_governance.html");
-                            intent.putExtra("title", "Corporate Governance");
+                            intent.putExtra("title", getString(R.string.Sub_Menu_2_Corparate));
                             intent.putExtra("type", "web");
                             break;
                         case 1:
                             intent.putExtra("file_name", "corporate_governance.html");
-                            intent.putExtra("title", "Articles of Association");
+                            intent.putExtra("title", getString(R.string.Sub_Menu_2_Articles));
                             intent.putExtra("type", "web");
                             break;
                         case 2:
                             intent.putExtra("file_name", "renumeration-policy.pdf");
-                            intent.putExtra("title", "Renumeration Policy");
+                            intent.putExtra("title", getString(R.string.Sub_Menu_2_Renumuration));
                             intent.putExtra("type", "pdf");
                             break;
                         case 3:
-                            intent.putExtra("title", "Annual General Meeting");
+                            intent.putExtra("title", getString(R.string.Sub_Menu_2_Annual));
                             intent.putExtra("type", "web");
                             break;
                         case 4:
-                            intent.putExtra("title", "About Suzan Sabancı");
+                            intent.putExtra("title", getString(R.string.Sub_Menu_2_About));
                             intent.putExtra("type", "web");
                             break;
                         case 5:
-                            intent.putExtra("title", "Capital and Trade Registry");
+                            intent.putExtra("title", getString(R.string.Sub_Menu_2_Capital));
                             intent.putExtra("type", "web");
                             break;
                         case 6:
-                            intent.putExtra("title", "Ethnical Principles");
+                            intent.putExtra("title", getString(R.string.Sub_Menu_2_Ethnical));
                             intent.putExtra("type", "web");
                             break;
                         case 7:
-                            intent.putExtra("title", "Compliance");
+                            intent.putExtra("title", getString(R.string.Sub_Menu_2_Compliance));
                             intent.putExtra("type", "web");
                             break;
                         case 8:
-                            intent.putExtra("title", "Compensation Policy");
+                            intent.putExtra("title", getString(R.string.Sub_Menu_2_Compensation));
                             intent.putExtra("type", "web");
                             break;
                         case 9:
-                            intent.putExtra("title", "Donation");
+                            intent.putExtra("title", getString(R.string.Sub_Menu_2_Donation));
                             intent.putExtra("type", "web");
                             break;
                         case 10:
-                            intent.putExtra("title", "Disclosure Policy");
+                            intent.putExtra("title", getString(R.string.Sub_Menu_2_Disclosure));
                             intent.putExtra("type", "web");
                             break;
                         case 12:
-                            intent.putExtra("title", "Divident Policy");
+                            intent.putExtra("title", getString(R.string.Sub_Menu_2_Divident_Policy));
                             intent.putExtra("type", "web");
                             break;
                         case 11:
                             intent.putExtra("file_name", "anti-bribery-anti-corruption-policy.pdf");
-                            intent.putExtra("title", "Anti Bribery Anti Corruption Policy");
+                            intent.putExtra("title", getString(R.string.Sub_Menu_2_Anti_Bribery));
                             intent.putExtra("type", "pdf");
                             break;
 
                     }
                     BaseActivity.this.startActivity(intent);
                 }else if(position == 1){
-
+                    switch (childPosition){
+                        case 1:
+                            Intent investorIndent = new Intent(BaseActivity.this, InvestorPresentationActivity.class);
+                            BaseActivity.this.startActivity(investorIndent);
+                            break;
+                        case 3:
+                            Intent aReportIntent = new Intent(BaseActivity.this, AnnualReportsActivity.class);
+                            BaseActivity.this.startActivity(aReportIntent);
+                            break;
+                        case 4:
+                            Intent webcastsIntent = new Intent(BaseActivity.this, WebcastsActivity.class);
+                            BaseActivity.this.startActivity(webcastsIntent);
+                            break;
+                        case 5:
+                            Intent sReportIntent = new Intent(BaseActivity.this, SustainabilityReportActivity.class);
+                            BaseActivity.this.startActivity(sReportIntent);
+                            break;
+                    }
                 }
                 return false;
             }
@@ -225,9 +224,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
         }
 
         toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        onTitleTextChange("");
         //fragmentManager = getSupportFragmentManager();
     }
-
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -239,8 +238,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
         Log.d("BASE ACTIVITY", "DRAWER BUTTON CLICKED");
         if(mDrawerLayout.isDrawerOpen(mDrawerLinearLayout)) {
             mDrawerLayout.closeDrawer(mDrawerLinearLayout);
-        }
-        else {
+        } else {
             // open the drawer
             mDrawerLayout.openDrawer(mDrawerLinearLayout);
         }
@@ -283,6 +281,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
                 }
                 break;
             case 2:
+                mDrawerLayout.closeDrawer(mDrawerLinearLayout);
+                Intent newsIntent = new Intent(this, AnnouncementAndNewsActivity.class);
+                this.startActivity(newsIntent);
                 break;
             case 3:
                 mDrawerLayout.closeDrawer(mDrawerLinearLayout);
@@ -294,13 +295,21 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
             case 4:
                 mDrawerLayout.closeDrawer(mDrawerLinearLayout);
                 Intent intentCalendar = new Intent(this, CalendarActivity.class);
-                //intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                 this.startActivity(intentCalendar);
+                break;
+            case 5:
+                mDrawerLayout.closeDrawer(mDrawerLinearLayout);
+                Intent covarageIntent = new Intent(this, AnalystCovarageActivity.class);
+                this.startActivity(covarageIntent);
+                break;
+            case 7:
+                mDrawerLayout.closeDrawer(mDrawerLinearLayout);
+                Intent intentAboutTurkey = new Intent(this, AboutTurkeyActivity.class);
+                this.startActivity(intentAboutTurkey);
                 break;
             case 8:
                 mDrawerLayout.closeDrawer(mDrawerLinearLayout);
                 Intent intentIR = new Intent(this, IRTeamActivity.class);
-                //intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                 this.startActivity(intentIR);
                 break;
 

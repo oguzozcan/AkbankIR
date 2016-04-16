@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.jjoe64.graphview.GraphView;
 import com.mallardduckapps.akbankir.AkbankApp;
@@ -34,7 +36,12 @@ import com.mallardduckapps.akbankir.utils.Constants;
 import com.mallardduckapps.akbankir.utils.TimeUtil;
 import com.squareup.otto.Subscribe;
 import org.joda.time.DateTime;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
+
 import retrofit2.Response;
 
 /**
@@ -49,6 +56,7 @@ public class ItemDetailFragment extends BaseFragment {
     GraphHelper helper;
     RelativeLayout loadingLayout;
     int period = 60;
+    ScrollView sc;
 
     public ItemDetailFragment() {
     }
@@ -139,6 +147,7 @@ public class ItemDetailFragment extends BaseFragment {
         final AkbankApp app = (AkbankApp) (getActivity().getApplication());
 
         helper = new GraphHelper(getActivity(), graphView, barGraphView);
+        helper.setPopupPanel((LinearLayout) rootView.findViewById(R.id.popupPanel));
         //send request imm. to draw main graph
         GridView snapshotGridView = (GridView) rootView.findViewById(R.id.snapshotGridView);
         CompareButton bist30Button = (CompareButton) rootView.findViewById(R.id.bist30Button);
@@ -155,7 +164,8 @@ public class ItemDetailFragment extends BaseFragment {
         initIntervalLayout(rootView, sDateView, eDateView);
         drawMainGraph(app, sDateView.getFormatConvertedDateText(), eDateView.getFormatConvertedDateText(),snapshotGridView, period);
         //getSnapShotData(app, snapshotGridView);
-
+        sc = (ScrollView) rootView.findViewById(R.id.scrollView);
+        sc.scrollTo(0,0);
         View.OnClickListener compareButtonListener = new CompareButton.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -205,6 +215,7 @@ public class ItemDetailFragment extends BaseFragment {
         if (response.isSuccessful()) {
             //ArrayList<MainGraphDot> graphDots = response.body();
             helper.init(response.body());
+            sc.scrollTo(0, 0);
         }else{
             app.getBus().post(new ApiErrorEvent(response.code(), response.message(),true));
         }
@@ -228,13 +239,16 @@ public class ItemDetailFragment extends BaseFragment {
         if(response.isSuccessful()){
             ArrayList<SnapshotData> snapshotDataList = response.body();
             SnapshotData snapshotData = snapshotDataList.get(0);
+            //NumberFormat nf = NumberFormat.getCurrencyInstance(TimeUtil.localeTr);
+            DecimalFormat volumeFormatter = new DecimalFormat("#,###,###");
+            DecimalFormat capitalFormatter = new DecimalFormat("#,###");
             ArrayList<SnapshotGridAdapter.SnapShotItem> items = new ArrayList<>();
             items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_StockName), snapshotData.getName()));
             items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Last), Double.toString(snapshotData.getLast()) + " TL"));
-            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Change), Double.toString(snapshotData.getDailyChangePercentage())));
-            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Volume), Long.toString(snapshotData.getDailyVolume().longValue())));
+            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Change), (Double.toString(snapshotData.getDailyChangePercentage())+ " %")));
+            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Volume), volumeFormatter.format(snapshotData.getDailyVolume().longValue() / 1000) + " MiO TL"));
             items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_HighestLowest), snapshotData.getDailyHighest() + " - " + snapshotData.getDailyLowest()));
-            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_MarketCapital), ""));
+            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_MarketCapital), capitalFormatter.format(snapshotData.getMarketCapital().longValue() / 100000) + " MiO TL"));
             SnapshotGridAdapter adapter = new SnapshotGridAdapter(getContext(), items);
             event.getSnapShotGridView().setAdapter(adapter);
         }else{

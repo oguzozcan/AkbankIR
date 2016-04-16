@@ -20,8 +20,8 @@ public class WebcastObject {
     private String videoUrl;
     @SerializedName("image")
     private String image;
-    @SerializedName("authors")
-    private String[] authors;
+   // @SerializedName("authors")
+    //private String[] authors;
     @SerializedName("created")
     private String createdDate;
     @SerializedName("date")
@@ -83,13 +83,13 @@ public class WebcastObject {
         this.image = image;
     }
 
-    public String[] getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(String[] authors) {
-        this.authors = authors;
-    }
+//    public String[] getAuthors() {
+//        return authors;
+//    }
+//
+//    public void setAuthors(String[] authors) {
+//        this.authors = authors;
+//    }
 
     public String getCreatedDate() {
         return createdDate;

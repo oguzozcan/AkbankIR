@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class DashboardContainerObject {
 
     @SerializedName("sustainabilityReport")
-    private SustainabilityReportObject sustainabilityReportObject;
+    private ReportObject reportObject;
     @SerializedName("investorPresentation")
     private InvestorPresentationObject investorPresentationObject;
     @SerializedName("webcast")
@@ -22,12 +22,12 @@ public class DashboardContainerObject {
     @SerializedName("annualReport")
     private AnnualReportObject annualReportObject;
 
-    public SustainabilityReportObject getSustainabilityReportObject() {
-        return sustainabilityReportObject;
+    public ReportObject getReportObject() {
+        return reportObject;
     }
 
-    public void setSustainabilityReportObject(SustainabilityReportObject sustainabilityReportObject) {
-        this.sustainabilityReportObject = sustainabilityReportObject;
+    public void setReportObject(ReportObject reportObject) {
+        this.reportObject = reportObject;
     }
 
     public InvestorPresentationObject getInvestorPresentationObject() {

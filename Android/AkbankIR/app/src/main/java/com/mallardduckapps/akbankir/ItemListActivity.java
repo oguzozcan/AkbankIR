@@ -32,7 +32,6 @@ import com.mallardduckapps.akbankir.busevents.EventAboutTurkeyRequest;
 import com.mallardduckapps.akbankir.busevents.EventAboutTurkeyResponse;
 import com.mallardduckapps.akbankir.busevents.EventDashboardRequest;
 import com.mallardduckapps.akbankir.busevents.EventDashboardResponse;
-import com.mallardduckapps.akbankir.busevents.EventFileDownloadRequest;
 import com.mallardduckapps.akbankir.busevents.EventFileDownloadResponse;
 import com.mallardduckapps.akbankir.busevents.EventMainGraphRequest;
 import com.mallardduckapps.akbankir.busevents.EventMainGraphResponse;
@@ -91,7 +90,6 @@ public class ItemListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TAG = "DashboardActivity";
         LayoutInflater inflater = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_item_list, null, false);
@@ -127,7 +125,7 @@ public class ItemListActivity extends BaseActivity {
         //   View recyclerView = findViewById(R.id.item_list);
         //   assert recyclerView != null;
         //   setupRecyclerView((RecyclerView) recyclerView);
-
+        TAG = "DashboardActivity";
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -427,7 +425,8 @@ public class ItemListActivity extends BaseActivity {
         newsTitleLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent newsIntent = new Intent(ItemListActivity.this, AnnouncementAndNewsActivity.class);
+                ItemListActivity.this.startActivity(newsIntent);
             }
         });
         stocksTitleLayout.setOnClickListener(new View.OnClickListener() {
@@ -454,13 +453,15 @@ public class ItemListActivity extends BaseActivity {
         webCastsTitleLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent webcastsIntent = new Intent(ItemListActivity.this, WebcastsActivity.class);
+                ItemListActivity.this.startActivity(webcastsIntent);
             }
         });
         aboutTurkeyTitleLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intentAboutTurkey = new Intent(ItemListActivity.this, AboutTurkeyActivity.class);
+                ItemListActivity.this.startActivity(intentAboutTurkey);
             }
         });
         ratingsTitleLayout.setOnClickListener(new View.OnClickListener() {
@@ -578,10 +579,8 @@ public class ItemListActivity extends BaseActivity {
     }
 
     private void setAboutTurkeyLayout(final AboutTurkeyObject aboutTurkeyObject) {
-//         annualReportObject = dashboardContainerObject.get;
         TextView aboutTurkeyPdfName = (TextView) aboutTurkeyView.findViewById(R.id.aboutTurkeyDescription);
         aboutTurkeyPdfName.setText(aboutTurkeyObject.getPdfTitle());
-
         TextView saveButton = (TextView) aboutTurkeyView.findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -597,11 +596,6 @@ public class ItemListActivity extends BaseActivity {
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(ItemListActivity.this, WebActivity.class);
-//                intent.putExtra("file_name", aboutTurkeyObject.getPdf());
-//                intent.putExtra("title", aboutTurkeyObject.getTitle());
-//                intent.putExtra("type", "web");
-//                ItemListActivity.this.startActivity(intent);
                 startFileDownload(aboutTurkeyObject.getPdf(), aboutTurkeyObject.getTitle(), true);
             }
         });
@@ -613,6 +607,10 @@ public class ItemListActivity extends BaseActivity {
         TextView webcastTitle = (TextView) webcastView.findViewById(R.id.webcastsTitle);
         webcastTitle.setText(webcastObject.getTitle());
         TextView listenButton = (TextView) webcastView.findViewById(R.id.listenButton);
+        TextView dateText = (TextView ) webcastView.findViewById(R.id.dateText);
+        String date = TimeUtil.getDateTime(webcastObject.getDate(), TimeUtil.dfISO, TimeUtil.dtfOutWOTimeShort);
+        //String date = TimeUtil.getDateTime(webcastObject.getDate(), TimeUtil.dtfForex, TimeUtil.dtfOutWOTimeShort);
+        dateText.setText(date);
         listenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

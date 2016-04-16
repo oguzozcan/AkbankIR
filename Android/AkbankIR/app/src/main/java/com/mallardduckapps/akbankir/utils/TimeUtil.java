@@ -5,6 +5,7 @@ import android.util.Log;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
+import org.joda.time.chrono.ISOChronology;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -29,6 +30,7 @@ public class TimeUtil {
     private final static DateTimeFormatter dtfSimple = DateTimeFormat.forPattern("dd.MM.yyyy HH.mm").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
     private final static DateTimeFormatter dtfSimpleWOTime = DateTimeFormat.forPattern("dd.MM.yyyy").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
     private final static DateTimeFormatter dtfForex = DateTimeFormat.forPattern("yyyyMMddHHmmss").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
+    public static final DateTimeFormatter dfISO = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'").withChronology(ISOChronology.getInstanceUTC());//.withLocale(TimeUtil.localeTr)
     public final static DateTimeFormatter dtfBarGraph = DateTimeFormat.forPattern("dd.MM").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
     public final static DateTimeFormatter dtfApiFormat = DateTimeFormat.forPattern("yyyy-MM-dd").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
     //"20121201000000"

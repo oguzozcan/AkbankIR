@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mallardduckapps.akbankir.R;
 import com.mallardduckapps.akbankir.adapters.EventsCalendarAdapter;
@@ -42,6 +43,8 @@ public class CalendarActivityFragment extends BaseFragment {
     private DateTime fromDate;
     private ArrayList<CalendarEvent> calendarEvents;
     private MaterialCalendarView calendarView;
+    private boolean filterEnabled = false;
+    private boolean filterMajorElseIrEvents = false;
 
     public CalendarActivityFragment() {
     }
@@ -69,7 +72,43 @@ public class CalendarActivityFragment extends BaseFragment {
                 }
             }
         });
+
+        filterEnabled = false;
+        filterMajorElseIrEvents = false;
+        TextView majorFilterButton = (TextView) view.findViewById(R.id.majorButton);
+        TextView irFilterButton = (TextView) view.findViewById(R.id.irButton);
+        majorFilterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(calendarEvents != null){
+                    if(filterMajorElseIrEvents){
+                        filterEnabled = false;
+                    }else{
+                        filterEnabled = true;
+                    }
+                    filterMajorElseIrEvents = true;
+                    eventsListView.setAdapter(new EventsCalendarAdapter(getActivity(), sortCalendarEventsAccordingToDate(calendarEvents)));
+                }
+            }
+        });
+        irFilterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(calendarEvents != null){
+                    //filterEnabled = !filterEnabled;
+                    if(!filterMajorElseIrEvents){
+                        filterEnabled = false;
+                    }else{
+                        filterEnabled = true;
+                    }
+                    filterMajorElseIrEvents = false;
+
+                    eventsListView.setAdapter(new EventsCalendarAdapter(getActivity(), sortCalendarEventsAccordingToDate(calendarEvents)));
+                }
+            }
+        });
         fromDate = DateTime.now();//TimeUtil.getTodayJoda(TimeUtil.dtfApiFormat);
+        calendarView.setDateSelected(new Date(System.currentTimeMillis()), true);
         app.getBus().post(new EventCalendarRequest());
         return view;
     }
@@ -112,7 +151,13 @@ public class CalendarActivityFragment extends BaseFragment {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                calendarEventsFromDate.add(ce);
+                if(!filterEnabled){
+                    calendarEventsFromDate.add(ce);
+                }else{
+                    if((filterMajorElseIrEvents && ce.getType().equals(EventsCalendarAdapter.MAJOR)) || (!filterMajorElseIrEvents && ce.getType().equals(EventsCalendarAdapter.IR))){
+                        calendarEventsFromDate.add(ce);
+                    }
+                }
                 Log.d(TAG, "EVENT: " + ce.getEventDate() + "");
             }
         }

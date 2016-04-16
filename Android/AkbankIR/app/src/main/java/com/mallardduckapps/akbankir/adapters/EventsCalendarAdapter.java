@@ -2,6 +2,7 @@ package com.mallardduckapps.akbankir.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +19,10 @@ import com.mallardduckapps.akbankir.R;
 import com.mallardduckapps.akbankir.objects.CalendarEvent;
 import com.mallardduckapps.akbankir.utils.TimeUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by oguzemreozcan on 06/03/16.
@@ -92,7 +96,7 @@ public class EventsCalendarAdapter extends RecyclerView.Adapter<EventsCalendarAd
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
-        CalendarEvent event = getItem(position);
+        final CalendarEvent event = getItem(position);
         String eventDate = TimeUtil.getDateTime(event.getEventDate(), TimeUtil.dtfApiFormat, TimeUtil.dtfOutWOTimeShort);
         String weekDay = TimeUtil.getDateTime(event.getEventDate(), TimeUtil.dtfApiFormat, TimeUtil.dtfOutWeekday);
         holder.dateTv.setText(eventDate + "\n" + weekDay);
@@ -103,6 +107,28 @@ public class EventsCalendarAdapter extends RecyclerView.Adapter<EventsCalendarAd
         }else{
             holder.imageView.setBackgroundResource(R.drawable.calendar_ircalendar_background);
         }
+
+        holder.addToCalendarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_EDIT);
+                intent.setType("vnd.android.cursor.item/event");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                Date d;
+                try {
+                    d = formatter.parse(event.getEventDate());
+                    long timestamp = d.getTime();
+                    intent.putExtra("beginTime", timestamp);
+                    intent.putExtra("allDay", true);
+                    intent.putExtra("rrule", "FREQ=YEARLY");
+                    intent.putExtra("endTime", timestamp);//TimeUtil.getDateTime(event.getEventDate(), false, false).getMillis()+60*60*1000);
+                    intent.putExtra("title", event.getTitle());
+                    activity.startActivity(intent);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override

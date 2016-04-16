@@ -42,7 +42,7 @@ public class WebActivity extends BaseActivity {
         PDFView pdfView = (PDFView) contentView.findViewById(R.id.pdfview);
         //pdfView.
         webView.getSettings().setBuiltInZoomControls(true);
-        webView.setInitialScale(1);
+        webView.setInitialScale(150);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setJavaScriptEnabled(true);

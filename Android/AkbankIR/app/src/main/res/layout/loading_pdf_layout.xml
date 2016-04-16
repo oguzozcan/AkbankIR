@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/loading_gray"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_above="@+id/fileName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:padding="12dp"
+        android:textColor="@color/red"
+        android:text="@string/SavingFile"/>
+
+    <TextView
+        android:id="@+id/fileName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:layout_centerInParent="true"
+        android:text="File Name"/>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress"
+        android:layout_below="@+id/fileName"
+        android:padding="20dp"
+        android:max="100"
+        android:progress="1"/>
+
+</RelativeLayout>

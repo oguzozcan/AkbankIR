@@ -28,8 +28,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:maxEms="15"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textColor="@color/white"
-                android:textSize="17dp"
+                android:textSize="16dp"
                 android:text=""/>
 
             <ImageButton

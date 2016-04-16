@@ -3,8 +3,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorPrimaryDark">@color/red</item>
+        <item name="colorPrimary">@color/tomato</item>
+        <item name="colorPrimaryDark">@color/title_background</item>
         <item name="colorAccent">@color/colorAccent</item>
 
 
@@ -14,7 +14,7 @@
              which is used to tint widgets -->
         <item name="colorControlNormal">@color/greyish_brown</item>
 
-        <item name="android:windowTitleBackgroundStyle">@color/red</item>
+        <item name="android:windowTitleBackgroundStyle">@color/title_background</item>
         <!--We will be using the toolbar so no need to show ActionBar-->
         <!--TODO -->
         <!--<item name="windowActionBar">false</item>-->

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by oguzemreozcan on 20/03/16.
  */
-public class SustainabilityReportObject {
+public class ReportObject {
 
     @SerializedName("id")
     private int id;

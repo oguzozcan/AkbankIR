@@ -65,7 +65,7 @@ public class DateTextView extends LinearLayout implements View.OnClickListener, 
         //setTextSize(fontSize);
         textView.setGravity(Gravity.LEFT);
         textView.setLayoutParams(params);
-        textView.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.page_1), null);
+        textView.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getContext(), R.drawable.calendar_dashbard_mini_icon), null);
         textView.setCompoundDrawablePadding(drawablePadding);
         addView(textView);
     }

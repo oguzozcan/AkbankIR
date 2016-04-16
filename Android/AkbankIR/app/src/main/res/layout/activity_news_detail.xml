@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.mallardduckapps.akbankir.NewsDetailActivity">
+
+        <TextView
+            android:id="@+id/newsDetailTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="25dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/greyish_brown"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/newsDetailSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/newsDetailTitle"
+            android:layout_marginTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/greyish_brown"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+</ScrollView>

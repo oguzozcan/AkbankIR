@@ -19,7 +19,6 @@ public class Person {
     @SerializedName("position")
     private String position;
 
-
     public int getId() {
         return id;
     }

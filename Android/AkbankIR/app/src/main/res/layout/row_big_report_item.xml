@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/reportLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="@color/white"
+    android:paddingTop="10dp"
+    android:paddingBottom="@dimen/activity_horizontal_margin">
+
+    <ImageView
+        android:id="@+id/pdfIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="5dp"
+        android:layout_marginTop="8dp"
+        android:paddingRight="14dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="32dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin" />
+
+    <TextView
+        android:id="@+id/reportDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/pdfIcon"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/greyish_brown"
+        android:paddingTop="7dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="10dp"
+        android:textSize="18dp"
+        android:text="description" />
+
+    <TextView
+        android:id="@+id/reportDescription2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reportDescription"
+        android:layout_alignLeft="@+id/reportDescription"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/warm_grey"
+        android:paddingBottom="24dp"
+        android:paddingRight="10dp"
+        android:textSize="14dp"
+        android:text="description" />
+
+    <TextView
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/reportDescription"
+        android:layout_below="@+id/reportDescription2"
+        android:layout_marginRight="32dp"
+        android:text="@string/Save"
+        android:textSize="15dp"
+        android:drawableLeft="@drawable/save_icon"
+        android:textColor="@color/tomato"
+        android:drawablePadding="11dp" />
+
+    <TextView
+        android:id="@+id/viewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:textColor="@color/tomato"
+        android:text="@string/View"
+        android:textSize="15dp"
+        android:layout_below="@+id/reportDescription2"
+        android:layout_toRightOf="@id/saveButton"
+        android:drawableLeft="@drawable/view_icon"
+        android:drawablePadding="11dp" />
+
+
+</RelativeLayout>

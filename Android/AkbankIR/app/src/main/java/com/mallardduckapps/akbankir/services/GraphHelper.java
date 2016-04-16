@@ -3,9 +3,14 @@ package com.mallardduckapps.akbankir.services;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.percent.PercentLayoutHelper;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.jjoe64.graphview.DefaultLabelFormatter;
@@ -19,11 +24,13 @@ import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.Series;
+import com.mallardduckapps.akbankir.AkbankApp;
 import com.mallardduckapps.akbankir.R;
 import com.mallardduckapps.akbankir.objects.ComparableStockData;
 import com.mallardduckapps.akbankir.objects.GraphDot;
 import com.mallardduckapps.akbankir.objects.MainGraphDot;
 import com.mallardduckapps.akbankir.utils.TimeUtil;
+import com.mallardduckapps.akbankir.utils.Utils;
 
 import org.joda.time.DateTime;
 
@@ -44,6 +51,7 @@ public class GraphHelper {
     private final GraphView graphView;
     private final GraphView barGraph;
     private final Activity activity;
+    private LinearLayout popupPanel;
     private final String TAG = "GraphHelper";
 
     public GraphHelper(final Activity activity, final GraphView mainGrapView, final GraphView barGraph){
@@ -62,9 +70,6 @@ public class GraphHelper {
         graphView.getGridLabelRenderer().setVerticalLabelsSecondScaleAlign(Paint.Align.CENTER);
         graphView.getViewport().setScalable(false);
         graphView.getViewport().setXAxisBoundsManual(true);
-//        for(MainGraphDot dot : graphDots){
-//            Log.d(TAG, "MainGraphDot: " + dot.getCloseValue());
-//        }
   /*      graphView.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX) {
@@ -102,18 +107,24 @@ public class GraphHelper {
             }
         });*/
     }
-//    dates;
-    private void setMainGraph(ArrayList<MainGraphDot> graphDots){
+
+    public void setPopupPanel(LinearLayout popupPanel){
+        this.popupPanel = popupPanel;
+    }
+
+    private void setMainGraph(final ArrayList<MainGraphDot> graphDots){
         if(graphDots != null){
-            DataPoint[] dataPoints = new DataPoint[graphDots.size()];
-            DataPoint[] dataPoints2 = new DataPoint[graphDots.size()];
-            DataPoint[] volumeDataPoints = new DataPoint[graphDots.size()];
+            final int dotsSize = graphDots.size();
+            DataPoint[] dataPoints = new DataPoint[dotsSize];
+            DataPoint[] dataPoints2 = new DataPoint[dotsSize];
+            DataPoint[] volumeDataPoints = new DataPoint[dotsSize];
             //dateDataPoints = new DataPoint[graphDots.size()];
             String[] dates = new String[graphDots.size()];
             //dateArray = new long[graphDots.size()];
             int i = 0 ;
             double max = 0;
             double min = 0;
+
             for(MainGraphDot gd :  graphDots){
                 double y = gd.getCloseValue();
                 dataPoints[i] = new DataPoint(i, gd.getCloseValue());
@@ -139,16 +150,85 @@ public class GraphHelper {
                 }
                 i ++;
             }
+            final AkbankApp app = (AkbankApp)activity.getApplication();
             LineGraphSeries<DataPoint> series = setLineGraphSerie(dataPoints, Color.RED);
+            final int screenWidth = app.getScreenSize(activity)[0];
+            final double avarage = max - min;
+            final double graphMin = min;
+
             series.setOnDataPointTapListener(new OnDataPointTapListener() {
                 @Override
                 public void onTap(Series series, DataPointInterface dataPoint) {
-                    Toast.makeText(activity, "Series1: On Data Point clicked: " + dataPoint, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(activity, "Series1: On Data Point clicked: x:" + dataPoint.getX(), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "GRAPH DOT size: " + dotsSize + "- x: " + dataPoint.getX() + "- screenwidth: " + screenWidth + " - graphView height: " + graphView.getHeight());
+                    if (popupPanel != null) {
+                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(150, 80);
+                        int marginLeft = dataPoint.getX() > 0 ? ((int) (screenWidth / dotsSize * (dataPoint.getX() - 1))) : 0;
+                        int marginTop = graphView.getHeight() - popupPanel.getHeight()- 20;;
+                        //avarage = graphView.getHeight
+                        double differenceWithMin = (dataPoint.getY() - graphMin);
+                        if(differenceWithMin > 0){
+                            marginTop -= (int)(graphView.getHeight() * (differenceWithMin) / avarage);
+                            Log.d(TAG, "MARGIN TOP : " + marginTop );
+                        }else {
+                           //÷ marginTop =
+                        }
+                        params.topMargin = marginTop;
+                        if(marginLeft + popupPanel.getWidth() >= screenWidth){
+                            marginLeft = screenWidth - popupPanel.getWidth() - 45;
+                        }
+                        params.leftMargin = marginLeft;
+                        params.addRule(RelativeLayout.BELOW, R.id.topPanel);
+                        Log.d(TAG, "LEFT MARGIN : " + marginLeft + " - screenwidth: " + screenWidth + " - popup panelwidth: " + popupPanel.getWidth() + "- topMargin : " + dataPoint.getY());
+                        if (dataPoint.getX() > dotsSize / 2) {
+                            //setPivot
+                            popupPanel.setPivotX(popupPanel.getWidth());
+                        } else {
+                            popupPanel.setPivotX(0);
+                        }
+                        popupPanel.setVisibility(View.VISIBLE);
+                        popupPanel.setLayoutParams(params);
+                    }
+
                 }
             });
-            LineGraphSeries<DataPoint> series2 = setLineGraphSerie(dataPoints2, Color.TRANSPARENT);
 
+//            graphView.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View view) {
+//                    return false;
+//                }
+//            });
+            //To remove popup panel when user
+            if(popupPanel != null){
+                graphView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        switch (motionEvent.getAction()){
+                            case MotionEvent.ACTION_DOWN:
+                                Log.d(TAG, "MOTION EVENT DOWN");
+                                if(popupPanel.getVisibility() == View.VISIBLE){
+                                    return false;
+                                }else{
+                                    return false;
+                                }
+
+                            case MotionEvent.ACTION_UP:
+                                Log.d(TAG, "MOTION EVENT UP");
+                                if(popupPanel.getVisibility() == View.VISIBLE){
+                                    popupPanel.setVisibility(View.GONE);
+                                }
+                                return false;
+
+                        }
+                        return false;
+                    }
+                });
+            }
+            LineGraphSeries<DataPoint> series2 = setLineGraphSerie(dataPoints2, Color.TRANSPARENT);
             graphView.getSecondScale().addSeries(series);
+            series.setDrawDataPoints(true);
+            series.setDataPointsRadius(2);
             graphView.addSeries(series2);
             if(barGraph != null){
                 BarGraphSeries<DataPoint> barGraphSeries = setBarGraphSerie(volumeDataPoints, Color.RED);
@@ -314,7 +394,7 @@ public class GraphHelper {
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPoints);
         series.setThickness(3);
         series.setDrawDataPoints(false);
-        series.setDataPointsRadius(10);
+        series.setDataPointsRadius(3);
         series.setColor(color);
         return series;
     }
