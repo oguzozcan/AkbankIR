@@ -14,14 +14,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:descendantFocusability="afterDescendants"
-        android:paddingBottom="16dp">
+        android:descendantFocusability="afterDescendants">
 
         <RelativeLayout
             android:id="@+id/topPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
             android:paddingLeft="13dp"
             android:paddingRight="13dp">
 
@@ -32,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:focusable="true"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
                 android:orientation="horizontal"
@@ -107,7 +105,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/intervalLayout"
                 android:descendantFocusability="afterDescendants"
-                android:padding="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
                 android:weightSum="2">
 
                 <LinearLayout
@@ -159,7 +159,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dateLayout"
-                android:layout_marginBottom="5dp"
                 android:orientation="horizontal"
                 android:weightSum="4">
 
@@ -221,7 +220,6 @@
             android:layout_height="200dp"
             android:layout_below="@+id/topPanel"
             android:layout_marginBottom="5dp"
-            android:paddingBottom="10dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:descendantFocusability="afterDescendants"
@@ -295,7 +293,6 @@
             android:layout_width="match_parent"
             android:layout_height="190dp"
             android:layout_below="@+id/barGraph"
-            android:layout_marginBottom="10dp"
             android:layout_marginLeft="12dp"
             android:background="@color/white"
             android:columnWidth="120dp"

@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,6 +39,7 @@ import com.mallardduckapps.akbankir.busevents.EventMainGraphRequest;
 import com.mallardduckapps.akbankir.busevents.EventMainGraphResponse;
 import com.mallardduckapps.akbankir.busevents.EventRatingRequest;
 import com.mallardduckapps.akbankir.busevents.EventRatingResponse;
+import com.mallardduckapps.akbankir.fragments.DownloadDialogFragment;
 import com.mallardduckapps.akbankir.objects.AboutTurkeyObject;
 import com.mallardduckapps.akbankir.objects.AnnualReportObject;
 import com.mallardduckapps.akbankir.objects.ApiErrorEvent;
@@ -47,6 +50,7 @@ import com.mallardduckapps.akbankir.objects.NewsObject;
 import com.mallardduckapps.akbankir.objects.Rating;
 import com.mallardduckapps.akbankir.objects.WebcastObject;
 import com.mallardduckapps.akbankir.services.GraphHelper;
+import com.mallardduckapps.akbankir.utils.DataSaver;
 import com.mallardduckapps.akbankir.utils.TimeUtil;
 import com.squareup.okhttp.ResponseBody;
 import com.squareup.otto.Subscribe;
@@ -133,6 +137,20 @@ public class ItemListActivity extends BaseActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+
+        final DataSaver ds = app.getDataSaver();
+        if(!ds.getBoolean("N_FIRST_ENTRANCE")){
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent termsIntent = new Intent(ItemListActivity.this, TermsActivity.class);
+                    ItemListActivity.this.startActivity(termsIntent);
+                    ds.putBoolean("N_FIRST_ENTRANCE", true);
+                    ds.save();
+                }
+            }, 300);
+        }
     }
 
     @Override
@@ -141,23 +159,29 @@ public class ItemListActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        onTitleTextChange("");
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         app.getBus().register(this);
         //TODO these dates need to be fixed
-        drawMainGraph(app, TimeUtil.getDateBeforeOrAfterToday(-1, true, false), TimeUtil.getDateBeforeOrAfterToday(0, true, false));
+        drawMainGraph(app, TimeUtil.getDateBeforeOrAfterToday(-30, true, false), TimeUtil.getDateBeforeOrAfterToday(0, true, false), 1440);
         app.getBus().post(new EventDashboardRequest());
         app.getBus().post(new EventRatingRequest());
         app.getBus().post(new EventAboutTurkeyRequest());
-        registerReceiver(receiver, new IntentFilter(
-                DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+//        registerReceiver(receiver, new IntentFilter(
+//                DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     @Override
     public void onStop() {
         super.onStop();
         app.getBus().unregister(this);
-        unregisterReceiver(receiver);
+        //unregisterReceiver(receiver);
     }
 
     @Subscribe
@@ -304,13 +328,13 @@ public class ItemListActivity extends BaseActivity {
 
     }
 
-    private void drawMainGraph(AkbankApp app, String startDate, String endDate) {
+    private void drawMainGraph(AkbankApp app, String startDate, String endDate, int period) {
         if (helper != null) {
             helper.cleanGraph();
         }
         //loadingLayout.setVisibility(View.VISIBLE);
         Log.d(TAG, "START DATE: " + startDate + " - endDate: " + endDate);
-        app.getBus().post(new EventMainGraphRequest(TimeUtil.getDateTxtForForex(startDate), TimeUtil.getDateTxtForForex(endDate), 60));
+        app.getBus().post(new EventMainGraphRequest(TimeUtil.getDateTxtForForex(startDate), TimeUtil.getDateTxtForForex(endDate), period));
         //mainGraphRestApi.getMainGraphData(period, startDate, endDate).enqueue(ItemDetailFragment.this);
     }
 
@@ -537,46 +561,57 @@ public class ItemListActivity extends BaseActivity {
             public void onClick(View view) {
                 //app.getBus().post(new EventFileDownloadRequest(ItemListActivity.this, AkbankApp.ROOT_URL_1, annualReportObject.getPdfUrl()));
                 Log.d(TAG, "Download STARTED annualReport");
-                startFileDownload(annualReportObject.getPdfUrl(), annualReportObject.getTitle(), false);
+                FragmentManager fm = getSupportFragmentManager();
+                DownloadDialogFragment newFragment = new DownloadDialogFragment();
+                Bundle b = new Bundle();
+                b.putString("title", annualReportObject.getTitle());
+                b.putString("url", annualReportObject.getPdfUrl());
+                b.putBoolean("shouldShowAfterDownload", false);
+                newFragment.setArguments(b);
+                newFragment.show(fm, getString(R.string.Opening));
+                //startFileDownload(annualReportObject.getPdfUrl(), annualReportObject.getTitle(), false);
             }
         });
         TextView viewButton = (TextView) annualReportView.findViewById(R.id.viewButton);
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(ItemListActivity.this, WebActivity.class);
-//                intent.putExtra("file_name", annualReportObject.getPdfUrl());
-//                intent.putExtra("title", annualReportObject.getTitle());
-//                intent.putExtra("type", "web");
-//                ItemListActivity.this.startActivity(intent);
-                startFileDownload(annualReportObject.getPdfUrl(), annualReportObject.getTitle(), true);
+                FragmentManager fm = getSupportFragmentManager();
+                DownloadDialogFragment newFragment = new DownloadDialogFragment();
+                Bundle b = new Bundle();
+                b.putString("title", annualReportObject.getTitle());
+                b.putString("url", annualReportObject.getPdfUrl());
+                b.putBoolean("shouldShowAfterDownload", true);
+                newFragment.setArguments(b);
+                newFragment.show(fm, getString(R.string.Downloading));
+                //startFileDownload(annualReportObject.getPdfUrl(), annualReportObject.getTitle(), true);
             }
         });
     }
 
-    private void startFileDownload(String fileName, String title, boolean shouldShownAfterDownload) {
-        progressBarLayout.setVisibility(View.VISIBLE);
-        File direct = new File(Environment.getExternalStorageDirectory()
-                + "/akbank_files");
-
-        if (!direct.exists()) {
-            direct.mkdirs();
-        }
-        DownloadManager dm = (DownloadManager) getSystemService(BaseActivity.DOWNLOAD_SERVICE);
-
-        DownloadManager.Request request = new DownloadManager.Request(
-                Uri.parse((AkbankApp.ROOT_URL_1 + fileName))); //"http://www.vogella.de/img/lars/LarsVogelArticle7.png"
-        request.setAllowedNetworkTypes(
-                DownloadManager.Request.NETWORK_WIFI
-                        | DownloadManager.Request.NETWORK_MOBILE)
-                .setAllowedOverRoaming(false)
-                .setTitle(title)
-                .setDescription(shouldShownAfterDownload ? "view" : "download")
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                .setDestinationInExternalPublicDir("/akbank_files", title)
-                .allowScanningByMediaScanner();
-        long enqueue = dm.enqueue(request);
-    }
+//    private void startFileDownload(String fileName, String title, boolean shouldShownAfterDownload) {
+//        progressBarLayout.setVisibility(View.VISIBLE);
+//        File direct = new File(Environment.getExternalStorageDirectory()
+//                + "/akbank_files");
+//
+//        if (!direct.exists()) {
+//            direct.mkdirs();
+//        }
+//        DownloadManager dm = (DownloadManager) getSystemService(BaseActivity.DOWNLOAD_SERVICE);
+//
+//        DownloadManager.Request request = new DownloadManager.Request(
+//                Uri.parse((AkbankApp.ROOT_URL_1 + fileName))); //"http://www.vogella.de/img/lars/LarsVogelArticle7.png"
+//        request.setAllowedNetworkTypes(
+//                DownloadManager.Request.NETWORK_WIFI
+//                        | DownloadManager.Request.NETWORK_MOBILE)
+//                .setAllowedOverRoaming(false)
+//                .setTitle(title)
+//                .setDescription(shouldShownAfterDownload ? "view" : "download")
+//                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+//                .setDestinationInExternalPublicDir("/akbank_files", title)
+//                .allowScanningByMediaScanner();
+//        long enqueue = dm.enqueue(request);
+//    }
 
     private void setAboutTurkeyLayout(final AboutTurkeyObject aboutTurkeyObject) {
         TextView aboutTurkeyPdfName = (TextView) aboutTurkeyView.findViewById(R.id.aboutTurkeyDescription);
@@ -587,7 +622,15 @@ public class ItemListActivity extends BaseActivity {
             public void onClick(View view) {
                 //app.getBus().post(new EventFileDownloadRequest(ItemListActivity.this,AkbankApp.ROOT_URL_1, aboutTurkeyObject.getPdf()));
                 Log.d(TAG, "Download STARTED about Turkey");
-                startFileDownload(aboutTurkeyObject.getPdf(), aboutTurkeyObject.getTitle(), false);
+                FragmentManager fm = getSupportFragmentManager();
+                DownloadDialogFragment newFragment = new DownloadDialogFragment();
+                Bundle b = new Bundle();
+                b.putString("title", aboutTurkeyObject.getTitle());
+                b.putString("url", aboutTurkeyObject.getPdf());
+                b.putBoolean("shouldShowAfterDownload", false);
+                newFragment.setArguments(b);
+                newFragment.show(fm, getString(R.string.Downloading));
+                //startFileDownload(aboutTurkeyObject.getPdf(), aboutTurkeyObject.getTitle(), false);
 
 
             }
@@ -596,7 +639,16 @@ public class ItemListActivity extends BaseActivity {
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startFileDownload(aboutTurkeyObject.getPdf(), aboutTurkeyObject.getTitle(), true);
+                Log.d(TAG, "Download STARTED about Turkey");
+                FragmentManager fm = getSupportFragmentManager();
+                DownloadDialogFragment newFragment = new DownloadDialogFragment();
+                Bundle b = new Bundle();
+                b.putString("title", aboutTurkeyObject.getTitle());
+                b.putString("url", aboutTurkeyObject.getPdf());
+                b.putBoolean("shouldShowAfterDownload", true);
+                newFragment.setArguments(b);
+                newFragment.show(fm, getString(R.string.Opening));
+                //startFileDownload(aboutTurkeyObject.getPdf(), aboutTurkeyObject.getTitle(), true);
             }
         });
     }
@@ -662,44 +714,49 @@ public class ItemListActivity extends BaseActivity {
         }
     }
 
-    BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
-                Log.d(TAG, "Download Completed");
-                progressBarLayout.setVisibility(View.GONE);
-                long downloadId = intent.getLongExtra(
-                        DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-                Log.d(TAG, "Download Completed id: " + downloadId);
-                DownloadManager.Query query = new DownloadManager.Query();
-                query.setFilterById(downloadId);
-                Cursor c = ((DownloadManager) getSystemService(BaseActivity.DOWNLOAD_SERVICE)).query(query);
-                if (c.moveToFirst()) {
-                    int columnIndex = c
-                            .getColumnIndex(DownloadManager.COLUMN_STATUS);
-                    if (DownloadManager.STATUS_SUCCESSFUL == c
-                            .getInt(columnIndex)) {
-                        String uriString = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
-                        String description = c.getString(c.getColumnIndex(DownloadManager.COLUMN_DESCRIPTION));
-                        String title = c.getString(c.getColumnIndex(DownloadManager.COLUMN_TITLE));
-                        //Log.d(TAG, "DOWNLOAD COMPLETED: " + uriString);
-                        Log.d(TAG, "DOWNLOAD COMPLETED: " + Uri.parse(uriString));
-                        Log.d(TAG, "DOWNLOAD DESCRIPTION: " + description);
-                        if(description.equals("view")){
-                            Intent intentPdf = new Intent(ItemListActivity.this, WebActivity.class);
-                            intentPdf.putExtra("uri", uriString);
-                            intentPdf.putExtra("title", title);
-                            intentPdf.putExtra("type", "pdf");
-                            ItemListActivity.this.startActivity(intentPdf);
-                        }else{
-                            Log.d(TAG, "ONLY DOWNLOAD: " + description);
-                        }
-
-                    }
-                }
-            }
-        }
-    };
+//    BroadcastReceiver receiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            String action = intent.getAction();
+//            Log.d(TAG, "ACTION : " + action);
+//            if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
+//                Log.d(TAG, "Download Completed");
+//                progressBarLayout.setVisibility(View.GONE);
+//                long downloadId = intent.getLongExtra(
+//                        DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+//                Log.d(TAG, "Download Completed id: " + downloadId);
+//                DownloadManager.Query query = new DownloadManager.Query();
+//                query.setFilterById(downloadId);
+//                Cursor c = ((DownloadManager) getSystemService(BaseActivity.DOWNLOAD_SERVICE)).query(query);
+//                if (c.moveToFirst()) {
+//                    int columnIndex = c
+//                            .getColumnIndex(DownloadManager.COLUMN_STATUS);
+//                    if (DownloadManager.STATUS_SUCCESSFUL == c
+//                            .getInt(columnIndex)) {
+//                        String uriString = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+//                        String description = c.getString(c.getColumnIndex(DownloadManager.COLUMN_DESCRIPTION));
+//                        String title = c.getString(c.getColumnIndex(DownloadManager.COLUMN_TITLE));
+//                        //Log.d(TAG, "DOWNLOAD COMPLETED: " + uriString);
+//                        Log.d(TAG, "DOWNLOAD COMPLETED: " + Uri.parse(uriString));
+//                        Log.d(TAG, "DOWNLOAD DESCRIPTION: " + description);
+//                        if(description.equals("view")){
+//                            Intent intentPdf = new Intent(ItemListActivity.this, WebActivity.class);
+//                            intentPdf.putExtra("uri", uriString);
+//                            intentPdf.putExtra("title", title);
+//                            intentPdf.putExtra("type", "pdf");
+//                            ItemListActivity.this.startActivity(intentPdf);
+//                        }else{
+//                            Log.d(TAG, "ONLY DOWNLOAD: " + description);
+//                        }
+//
+//                    }
+//                    int columnDownloadedBytes = c
+//                            .getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR);
+//                    Log.d(TAG, "DOWNLOADED BYTES: " + c.getInt(columnDownloadedBytes));
+//
+//                }
+//            }
+//        }
+//    };
 
 }

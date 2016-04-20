@@ -6,17 +6,27 @@ import com.mallardduckapps.akbankir.busevents.EventAnalystCovarageRequest;
 import com.mallardduckapps.akbankir.busevents.EventAnalystCovarageResponse;
 import com.mallardduckapps.akbankir.busevents.EventAnnualReportsRequest;
 import com.mallardduckapps.akbankir.busevents.EventAnnualReportsResponse;
+import com.mallardduckapps.akbankir.busevents.EventDeviceRegisterRequest;
+import com.mallardduckapps.akbankir.busevents.EventDeviceRegisterResponse;
+import com.mallardduckapps.akbankir.busevents.EventEarningPresentationsRequest;
+import com.mallardduckapps.akbankir.busevents.EventEarningPresentationsResponse;
 import com.mallardduckapps.akbankir.busevents.EventIRTeamRequest;
 import com.mallardduckapps.akbankir.busevents.EventIRTeamResponse;
+import com.mallardduckapps.akbankir.busevents.EventInvestorDaysRequest;
+import com.mallardduckapps.akbankir.busevents.EventInvestorDaysResponse;
 import com.mallardduckapps.akbankir.busevents.EventInvestorPresentationRequest;
 import com.mallardduckapps.akbankir.busevents.EventInvestorPresentationsResponse;
 import com.mallardduckapps.akbankir.busevents.EventNewsRequest;
 import com.mallardduckapps.akbankir.busevents.EventNewsResponse;
+import com.mallardduckapps.akbankir.busevents.EventPagesRequest;
+import com.mallardduckapps.akbankir.busevents.EventPagesResponse;
 import com.mallardduckapps.akbankir.busevents.EventSustainabilityReportsRequest;
 import com.mallardduckapps.akbankir.busevents.EventSustainabilityReportsResponse;
 import com.mallardduckapps.akbankir.objects.AnalystCovarageObject;
 import com.mallardduckapps.akbankir.objects.ApiErrorEvent;
+import com.mallardduckapps.akbankir.objects.InvestorDaysObject;
 import com.mallardduckapps.akbankir.objects.NewsObject;
+import com.mallardduckapps.akbankir.objects.PagesObject;
 import com.mallardduckapps.akbankir.objects.Person;
 import com.mallardduckapps.akbankir.objects.ReportObject;
 import com.squareup.otto.Bus;
@@ -39,16 +49,25 @@ public class MiscService {
     private final SustainabilityReportRestApi sRestApi;
     private final AnnualReportRestApi aRestApi;
     private final InvestorPresentationRestApi iRestApi;
+    private final EarningPresentationsRestApi eRestApi;
+    private final InvestorDaysRestApi daysRestApi;
+    private final PagesRestApi pagesRestApi;
+    private final DeviceRestApi deviceRestApi;
     private final String TAG = "MiscService";
 
     public MiscService(IrTeamRestApi irTeamApi, NewsRestApi newsRestApi, AnalystCovarageRestApi analystRestApi,
-                       SustainabilityReportRestApi sRestApi, AnnualReportRestApi aRestApi,InvestorPresentationRestApi iRestApi, Bus bus){
+                       SustainabilityReportRestApi sRestApi, AnnualReportRestApi aRestApi,InvestorPresentationRestApi iRestApi,
+                       EarningPresentationsRestApi eRestApi, InvestorDaysRestApi daysRestApi,PagesRestApi pagesRestApi, DeviceRestApi deviceRestApi, Bus bus){
         this.irTeamApi = irTeamApi;
         this.newsRestApi = newsRestApi;
         this.analystRestApi = analystRestApi;
         this.sRestApi= sRestApi;
         this.aRestApi = aRestApi;
         this.iRestApi = iRestApi;
+        this.eRestApi = eRestApi;
+        this.daysRestApi = daysRestApi;
+        this.pagesRestApi = pagesRestApi;
+        this.deviceRestApi = deviceRestApi;
         this.mBus = bus;
     }
 
@@ -113,6 +132,27 @@ public class MiscService {
     }
 
     @Subscribe
+    public void onDeviceRegistered(final EventDeviceRegisterRequest event) {
+        deviceRestApi.registerDevice(event.getRegistrationId(), event.isActive(), event.getLang()).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
+                if (response.isSuccessful()) {
+                    mBus.post(new EventDeviceRegisterResponse(response));
+                } else {
+                    mBus.post(new ApiErrorEvent(response.code(), response.message(), false));
+                }
+
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d(TAG, "ON FAilure");
+                mBus.post(new ApiErrorEvent());
+            }
+        });
+    }
+
+    @Subscribe
     public void onLoadInvestorPresentations(final EventInvestorPresentationRequest event) {
         iRestApi.getInvestorPresentations().enqueue(new Callback<ArrayList<ReportObject>>() {
             @Override
@@ -126,6 +166,26 @@ public class MiscService {
             }
             @Override
             public void onFailure(Call<ArrayList<ReportObject>> call, Throwable t) {
+                Log.d(TAG, "ON FAilure");
+                mBus.post(new ApiErrorEvent());
+            }
+        });
+    }
+
+    @Subscribe
+    public void onLoadInvestorDays(final EventInvestorDaysRequest event) {
+        daysRestApi.getInvestorDays().enqueue(new Callback<ArrayList<InvestorDaysObject>>() {
+            @Override
+            public void onResponse(Call<ArrayList<InvestorDaysObject>> call, Response<ArrayList<InvestorDaysObject>> response) {
+                Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
+                if (response.isSuccessful()) {
+                    mBus.post(new EventInvestorDaysResponse(response));
+                } else {
+                    mBus.post(new ApiErrorEvent(response.code(), response.message(), false));
+                }
+            }
+            @Override
+            public void onFailure(Call<ArrayList<InvestorDaysObject>> call, Throwable t) {
                 Log.d(TAG, "ON FAilure");
                 mBus.post(new ApiErrorEvent());
             }
@@ -166,6 +226,46 @@ public class MiscService {
             }
             @Override
             public void onFailure(Call<ArrayList<ReportObject>> call, Throwable t) {
+                Log.d(TAG, "ON FAilure");
+                mBus.post(new ApiErrorEvent());
+            }
+        });
+    }
+
+    @Subscribe
+    public void onLoadEarningPresentations(final EventEarningPresentationsRequest event) {
+        eRestApi.getEarningPresentations().enqueue(new Callback<ArrayList<ReportObject>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ReportObject>> call, Response<ArrayList<ReportObject>> response) {
+                Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
+                if (response.isSuccessful()) {
+                    mBus.post(new EventEarningPresentationsResponse(response));
+                } else {
+                    mBus.post(new ApiErrorEvent(response.code(), response.message(), false));
+                }
+            }
+            @Override
+            public void onFailure(Call<ArrayList<ReportObject>> call, Throwable t) {
+                Log.d(TAG, "ON FAilure");
+                mBus.post(new ApiErrorEvent());
+            }
+        });
+    }
+
+    @Subscribe
+    public void onLoadPages(final EventPagesRequest event) {
+        pagesRestApi.getPage(event.getPageNumber()).enqueue(new Callback<PagesObject>() {
+            @Override
+            public void onResponse(Call<PagesObject> call, Response<PagesObject> response) {
+                Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
+                if (response.isSuccessful()) {
+                    mBus.post(new EventPagesResponse(response));
+                } else {
+                    mBus.post(new ApiErrorEvent(response.code(), response.message(), false));
+                }
+            }
+            @Override
+            public void onFailure(Call<PagesObject> call, Throwable t) {
                 Log.d(TAG, "ON FAilure");
                 mBus.post(new ApiErrorEvent());
             }

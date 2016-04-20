@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/reportLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="@color/white"
+    android:paddingTop="10dp"
+    android:paddingBottom="@dimen/activity_horizontal_margin">
+
+    <ImageView
+        android:id="@+id/pdfIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="5dp"
+        android:layout_marginTop="8dp"
+        android:paddingRight="14dp"
+        android:paddingTop="15dp"
+        android:src="@drawable/investor_relations_presentation_icon"
+        android:paddingBottom="32dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin" />
+
+    <TextView
+        android:id="@+id/reportDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/pdfIcon"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/greyish_brown"
+        android:paddingTop="7dp"
+        android:paddingBottom="12dp"
+        android:paddingRight="10dp"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/viewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/reportDescription"
+        android:layout_below="@+id/reportDescription"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="15dp"
+        android:text="@string/Button_ViewDetails"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="@color/tomato" />
+
+
+</RelativeLayout>

@@ -12,10 +12,30 @@
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_marginTop="?actionBarSize"
-        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:paddingTop="30dp"
         android:layout_height="match_parent">
-
     </WebView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/htmlTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="?actionBarSize"
+                android:layout_alignParentTop="true"
+                android:paddingTop="30dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/greyish_brown"
+                android:textSize="17dp" />
+        </RelativeLayout>
+    </ScrollView>
+
+
 
     <com.joanzapata.pdfview.PDFView
         android:id="@+id/pdfview"

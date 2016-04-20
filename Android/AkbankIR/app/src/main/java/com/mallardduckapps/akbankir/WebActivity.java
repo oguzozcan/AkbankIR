@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.joanzapata.pdfview.PDFView;
@@ -39,10 +41,11 @@ public class WebActivity extends BaseActivity {
         View contentView = inflater.inflate(R.layout.activity_web, null, false);
         mContent.addView(contentView, 0);
         WebView webView = (WebView) contentView.findViewById(R.id.webView);
+        TextView textView = (TextView) contentView.findViewById(R.id.htmlTitle);
         PDFView pdfView = (PDFView) contentView.findViewById(R.id.pdfview);
         //pdfView.
         webView.getSettings().setBuiltInZoomControls(true);
-        webView.setInitialScale(150);
+        webView.setInitialScale(124);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -51,6 +54,7 @@ public class WebActivity extends BaseActivity {
         String uri = getIntent().getStringExtra("uri");
         String title = getIntent().getStringExtra("title");
         String type = getIntent().getStringExtra("type");
+        int position = getIntent().getIntExtra("position", 0);
         if(title != null){
             TAG = title;
         }
@@ -60,73 +64,84 @@ public class WebActivity extends BaseActivity {
             //StringEscapeUtils.unescapeJson(comment.getComment()
             boolean isLocalHtml = false;
             String html = "";
-            switch (title){
-                case "Corporate Governance":
+            switch (position){
+                case 0:
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_CORPORATE_GOVERNANCE);
                     Log.d(TAG, "HTML: " + html);
                     isLocalHtml = true;
                     break;
-                case "Articles of Association":
+                case 1:
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_ARTICLES_OF_ASSOCIATION);
                     isLocalHtml = true;
                     break;
-                case "Annual General Meeting":
+                case 3:
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_ANNUAL_GENERAL_MEETING_DOCUMENTS);
                     isLocalHtml = true;
                     break;
-                case "About Suzan Sabancı":
+                case 4:
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_ABOUT_SUZAN_SABANCI);
                     isLocalHtml = true;
                     break;
-                case "Capital and Trade Registry":
+                case 5:
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_CAPITAL_TRADE_REGISTRY_INFORMATION);
                     isLocalHtml = true;
                     break;
-                case "Ethnical Principles":
+                case 6:
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_ETHICAL_PRINCIPLES);
                     isLocalHtml = true;
                     break;
-                case "Compliance":
+                case 7:
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_COMPLIANCE);
                     isLocalHtml = true;
                     break;
-                case "Compensation Policy":
+                case 8:
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_COMPANSATION);
                     isLocalHtml = true;
                     break;
-                case "Donation":
+                case 9:
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_DONATION_CONTRUBUTION);
                     isLocalHtml = true;
                     break;
-                case "Disclosure Policy":
+                case 10:
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_DISCLOSURE_POLICY);
                     isLocalHtml = true;
                     break;
-                case "Divident Policy":
+                case 11:
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_DIVIDENT_POLICY);
                     isLocalHtml = true;
                     break;
             }
             //webView.loadData(html,"text/html", "UTF-8");
             if(isLocalHtml){
-                webView.loadDataWithBaseURL("", html, "text/html", "UTF-8", "");
+                Spanned htmlAsSpanned = Html.fromHtml(html);
+                textView.setText(htmlAsSpanned);
+                webView.setVisibility(View.GONE);
+                textView.setVisibility(View.VISIBLE);
+                //webView.loadDataWithBaseURL("", html, "text/html", "UTF-8", "");
             }else{
+                textView.setVisibility(View.GONE);
+                webView.setVisibility(View.VISIBLE);
                 webView.loadUrl("http://docs.google.com/gview?embedded=true&url=http://akbank.steelkiwi.com" + fileName);
                 Log.d(TAG, "URL: " + "http://akbank.steelkiwi.com" + fileName);
             }
 
             pdfView.setVisibility(View.GONE);
-            webView.setVisibility(View.VISIBLE);
+
         }else if(type.equals("pdf")){
             webView.setVisibility(View.GONE);
             pdfView.setVisibility(View.VISIBLE);
+            //pdfView.setCameraDistance(20f);
+
             //webView.loadUrl("http://akbank.steelkiwi.com/media/reports/anti-bribery-anti-corruption-policy.pdf");
             if(fileName != null){
+                pdfView.zoomTo(2f);
+                pdfView.toCurrentScale(1.4f);
                 pdfView.fromAsset(fileName)
                         //.pages(0, 2, 1, 3, 3, 3)
                         .defaultPage(1)
                         .showMinimap(false)
                         .enableSwipe(true)
+                        .swipeVertical(true)
                                 //.onDraw(onDrawListener)
                                 //.onLoad(onLoadCompleteListener)
                                 //.onPageChange(onPageChangeListener)
@@ -134,13 +149,14 @@ public class WebActivity extends BaseActivity {
             }else{
 //                File direct = new File(Environment.getExternalStorageDirectory()
 //                        + "/akbank_files");
-
-
+                pdfView.toCurrentScale(1.4f);
+                pdfView.zoomTo(2f);
                 pdfView.fromFile(new File(Uri.parse(uri).getPath()))
                         //.pages(0, 2, 1, 3, 3, 3)
                         .defaultPage(1)
                         .showMinimap(false)
                         .enableSwipe(true)
+                        .swipeVertical(true)
                                 //.onDraw(onDrawListener)
                                 //.onLoad(onLoadCompleteListener)
                                 //.onPageChange(onPageChangeListener)

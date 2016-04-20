@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/reportLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:background="@color/calendarRowBackground"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp">
+
+        <ImageView
+            android:id="@+id/pdfIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:src="@drawable/investor_relations_presentation_icon" />
+
+        <TextView
+            android:id="@+id/reportDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@id/pdfIcon"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/reportDescription"
+            android:layout_below="@+id/reportDescription"
+            android:layout_marginRight="32dp"
+            android:text="@string/Save"
+            android:textSize="15dp"
+            android:drawableLeft="@drawable/save_icon"
+            android:textColor="@color/tomato"
+            android:drawablePadding="11dp" />
+
+        <TextView
+            android:id="@+id/viewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/tomato"
+            android:text="@string/View"
+            android:textSize="15dp"
+            android:layout_below="@+id/reportDescription"
+            android:layout_toRightOf="@id/saveButton"
+            android:drawableLeft="@drawable/view_icon"
+            android:drawablePadding="11dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

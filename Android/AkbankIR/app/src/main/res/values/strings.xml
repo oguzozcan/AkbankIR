@@ -33,11 +33,17 @@
     <string name="View">Görüntüle</string>
     <string name="Listen">Dinle</string>
     <string name="Save">Kaydet</string>
+    <string name="Downloading">İndiriliyor</string>
+    <string name="Opening">Açılıyor</string>
+    <string name="Saving">Kaydediliyor</string>
     <string name="InvestorRelationsCalendar">Takvim</string>
     <string name="Ratings">Rating Notları</string>
     <string name="Next">Sonraki</string>
     <string name="Previous">Önceki</string>
     <string name="ContactUs">Bize Ulaşın</string>
+
+    <string name="no_mail_app">E-mail uygulaması mevcut değil.</string>
+    <string name="send_mail">E-mail Yolla …</string>
 
     <!-- Menu -->
     <string name="Menu_Menu">Menü</string>
@@ -73,6 +79,8 @@
     <string name="Sub_Menu_2_Disclosure">Disclosure Policy</string>
     <string name="Sub_Menu_2_Anti_Bribery">Anti Bribery &amp; Anti Corruption Policy</string>
     <string name="Sub_Menu_2_Divident_Policy">Divident Policy</string>
+
+    <string name="Terms_of_Services">Kullanım Koşulları</string>
 
     <!-- Screen titles -->
     <string name="ScreenTitle_AnnouncementsAndNews">Duyurular ve Haberler</string>
@@ -138,4 +146,7 @@
     <string name="title_activity_calendar">CalendarActivity</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_irteam">IRTeamActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

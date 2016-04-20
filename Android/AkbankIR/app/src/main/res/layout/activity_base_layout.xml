@@ -46,25 +46,88 @@
         </android.support.v7.widget.Toolbar>
     </FrameLayout>
     <!-- Right drawer -->
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/right_drawer"
-        android:layout_width="235dp"
+        android:layout_width="260dp"
         android:layout_height="match_parent"
-        android:layout_marginTop="?actionBarSize"
         android:layout_gravity="right"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:background="@color/white">
 
         <TextView
+            android:id="@+id/menuTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Menü"
+            android:text="@string/Menu_Menu"
             android:paddingTop="8dp"
             android:layout_margin="15dp"
             android:layout_gravity="center_vertical|end"
-            android:layout_marginRight="35dp"
-            android:textColor="@color/red"
-            android:textSize="16dp" />
+            android:gravity="right"
+            android:textStyle="bold"
+            android:layout_marginRight="75dp"
+            android:layout_alignParentTop="true"
+            android:textColor="@color/tomato"
+            android:textSize="17dp" />
+        <LinearLayout
+            android:id="@+id/contactMainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:gravity="bottom"
+            android:layout_alignParentBottom="true"
+            android:weightSum="10">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"></View>
+            <LinearLayout
+                android:id="@+id/contactLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/fbIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:padding="10dp"
+                    android:src="@drawable/facebook_icon"/>
+                <ImageView
+                    android:id="@+id/twitterIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:padding="10dp"
+                    android:src="@drawable/twitter_icon"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"></View>
+
+            <LinearLayout
+                android:id="@+id/contactLayout2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/menuLanguageIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:padding="12dp"
+                    android:src="@drawable/menu_language_icon"/>
+                <ImageView
+                    android:id="@+id/menuEmailIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:src="@drawable/menu_email_icon"/>
+            </LinearLayout>
+        </LinearLayout>
 
         <ExpandableListView
             android:id="@+id/drawer_menu"
@@ -74,7 +137,11 @@
             android:dividerHeight="0dp"
             android:divider="@color/white"
             android:groupIndicator="@null"
+
+            android:layout_below="@+id/menuTitle"
+            android:layout_above="@+id/contactMainLayout"
             android:choiceMode="singleChoice" />
-    </LinearLayout>
+
+    </RelativeLayout>
 
 </android.support.v4.widget.DrawerLayout>

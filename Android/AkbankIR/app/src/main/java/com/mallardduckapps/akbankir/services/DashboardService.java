@@ -34,8 +34,6 @@ import retrofit2.Response;
  * Created by oguzemreozcan on 20/03/16.
  */
 public class DashboardService {
-
-
     private final Bus mBus;
     private final DashboardRestApi dashboardRest;
     private final RatingsRestApi ratingsRestApi;

@@ -1,36 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/loading_gray"
+    android:background="@color/white"
+    android:padding="@dimen/activity_horizontal_margin"
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_above="@+id/fileName"
+        android:id="@+id/statusText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
+        android:gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:textSize="17dp"
         android:padding="12dp"
-        android:textColor="@color/red"
+        android:textColor="@color/tomato"
+        android:textStyle="bold"
         android:text="@string/SavingFile"/>
 
     <TextView
         android:id="@+id/fileName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
+        android:gravity="center_horizontal"
+        android:textSize="15dp"
         android:padding="12dp"
-        android:textColor="@color/white"
+        android:textColor="@color/tomato"
+        android:textStyle="bold"
         android:layout_centerInParent="true"
+        android:layout_below="@+id/statusText"
         android:text="File Name"/>
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:id="@+id/progress"
         android:layout_below="@+id/fileName"
+        android:progressTint="@color/tomato"
         android:padding="20dp"
         android:max="100"
-        android:progress="1"/>
+        android:progress="10"/>
+
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progress"
+        android:layout_marginTop="20dp"
+        android:padding="14dp"
+        android:textSize="20dp"
+        android:textAllCaps="true"
+        android:textColor="@color/tomato"
+        android:background="@android:color/transparent"
+        android:text="@string/Confirm"
+        android:visibility="gone"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"/>
+    
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progress"
+        android:layout_marginTop="20dp"
+        android:padding="14dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/tomato"
+        android:background="@android:color/transparent"
+        android:text="@string/Cancel"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"/>
 
 </RelativeLayout>

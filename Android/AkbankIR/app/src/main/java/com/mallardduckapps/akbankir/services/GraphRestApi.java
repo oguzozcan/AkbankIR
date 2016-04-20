@@ -6,6 +6,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -20,7 +21,7 @@ public interface GraphRestApi {
             "Authorization: YWtiYW5rLXlhdGlyaW06YTI0Y0JzIXpY"
     })
     @GET("historical-service/compare/intraday/delay/15/period/{period}/from/{from}/to/{to}")
-    Call<ComparableStockData> getComparableGraphData(@Path("period") int period, @Path("from") String from, @Path("to") String to, @Query("c") List<String> comparableIds);
+    Call<ComparableStockData> getComparableGraphData(@Header("Accept-Language") String language,@Path("period") int period, @Path("from") String from, @Path("to") String to, @Query("c") List<String> comparableIds);
 }
 
 

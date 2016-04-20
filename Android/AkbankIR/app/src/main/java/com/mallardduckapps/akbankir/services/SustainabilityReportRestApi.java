@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 
 /**
  * Created by oguzemreozcan on 16/04/16.
@@ -13,5 +14,5 @@ import retrofit2.http.GET;
 public interface SustainabilityReportRestApi {
 
     @GET("sustainabilityReports/")
-    Call<ArrayList<ReportObject>> getSustainabilityReports();
+    Call<ArrayList<ReportObject>> getSustainabilityReports(@Header("Accept-Language") String language);
 }

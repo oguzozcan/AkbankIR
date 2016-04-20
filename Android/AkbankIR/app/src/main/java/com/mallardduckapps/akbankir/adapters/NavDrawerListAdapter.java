@@ -20,22 +20,19 @@ import java.util.ArrayList;
  * Created by oguzemreozcan on 15/02/16.
  */
 public class NavDrawerListAdapter extends BaseExpandableListAdapter {
-    //private final Activity context;
+
     private final String[] names;
     private final Integer[] imageId;
-    //private final AkbankApp app;
     private final ArrayList<Object> subMenus;
     private final LayoutInflater inflater;
 
     public NavDrawerListAdapter(Activity context,
                                 String[] names, Integer[] imageId, ArrayList<Object> subMenus) {
         //super(context, R.layout.row_navigation_drawer, names);
-        //this.context = context;
         this.names = names;
         this.imageId = imageId;
         this.subMenus = subMenus;
         inflater = context.getLayoutInflater();
-        //app = (AkbankApp) context.getApplication();
     }
 
     @Override
@@ -109,13 +106,6 @@ public class NavDrawerListAdapter extends BaseExpandableListAdapter {
 
         TextView text = (TextView)view;
         text.setText(child);
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(context, child,
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//        });
         view.setTag(child);
         return view;
     }

@@ -30,7 +30,7 @@
     <string name="SavingSuccessed">Saved Successfully</string>
     <string name="SavingFailed">Failed Saving</string>
     <string name="DataAddedToCRM">New data was added to crm</string>
-    <string name="SureWantToDelete">Are you sure you want to delete:</string>
+    <string name="SureWantToDelete">Are you sure you want to delete?</string>
     <string name="DeleteSuccess">It has been deleted successfully</string>
     <!-- Labels -->
     <string name="SavingFile">Saving File:</string>
@@ -38,12 +38,18 @@
     <string name="Local">Local</string>
     <string name="View">View</string>
     <string name="Save">Save</string>
+    <string name="Downloading">Downloading</string>
+    <string name="Opening">Opening</string>
+    <string name="Saving">Saving</string>
     <string name="Listen">Listen</string>
     <string name="InvestorRelationsCalendar">Calendar</string>
     <string name="Ratings">Ratings</string>
     <string name="Next">Next</string>
     <string name="Previous">Previous</string>
     <string name="ContactUs">Contact us</string>
+
+    <string name="no_mail_app">No e-mail application is present.</string>
+    <string name="send_mail">Send E-mail</string>
     <!-- Menu -->
     <string name="Menu_Menu">Menu</string>
     <string name="Menu_Dashboard">Dashboard</string>
@@ -78,6 +84,8 @@
     <string name="Sub_Menu_2_Disclosure">Disclosure Policy</string>
     <string name="Sub_Menu_2_Anti_Bribery">Anti Bribery &amp; Anti Corruption Policy</string>
     <string name="Sub_Menu_2_Divident_Policy">Divident Policy</string>
+
+    <string name="Terms_of_Services">Terms of Services</string>
 
     <!-- Screen titles -->
     <string name="ScreenTitle_AnnouncementsAndNews">Announcements and News</string>

@@ -4,23 +4,23 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.mallardduckapps.akbankir.adapters.NavDrawerListAdapter;
 import com.mallardduckapps.akbankir.fragments.BaseFragment;
-import com.mallardduckapps.akbankir.fragments.ItemDetailFragment;
+import com.mallardduckapps.akbankir.utils.Constants;
+import com.mallardduckapps.akbankir.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -32,7 +32,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public abstract class BaseActivity extends AppCompatActivity implements BaseFragment.OnFragmentInteractionListener {
 
     private DrawerLayout mDrawerLayout;
-    private LinearLayout mDrawerLinearLayout;
+    private RelativeLayout mDrawerLinearLayout;
     protected FrameLayout mContent;
     private ActionBarDrawerToggle mDrawerToggle;
     protected AkbankApp app;
@@ -49,7 +49,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
         mContent = (FrameLayout) findViewById(R.id.content);
         app = (AkbankApp) getApplication();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerLinearLayout = (LinearLayout) findViewById(R.id.right_drawer);
+        mDrawerLinearLayout = (RelativeLayout) findViewById(R.id.right_drawer);
         final ExpandableListView mDrawerList = (ExpandableListView) findViewById(R.id.drawer_menu);
         //TODO
         mDrawerList.setChildIndicator(null);
@@ -59,7 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
                  /* nav drawer icon to replace 'Up' caret */  //R.drawable.menu_icon,
                 R.string.Cancel,  /* "open drawer" description */
                 R.string.Ok  /* "close drawer" description */
-        ){
+        ) {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -123,16 +123,16 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int position, int childPosition, long l) {
                 Log.d(TAG, "ON GROUP CLICK: " + position + "- childPosition: " + childPosition);
-                if(position == 6){
+                if (position == 6) {
                     Intent intent = new Intent(BaseActivity.this, WebActivity.class);
-                    switch (childPosition){
+                    switch (childPosition) {
                         case 0:
                             intent.putExtra("file_name", "corporate_governance.html");
                             intent.putExtra("title", getString(R.string.Sub_Menu_2_Corparate));
                             intent.putExtra("type", "web");
                             break;
                         case 1:
-                            intent.putExtra("file_name", "corporate_governance.html");
+                            intent.putExtra("file_name", "articles_of_association.html");
                             intent.putExtra("title", getString(R.string.Sub_Menu_2_Articles));
                             intent.putExtra("type", "web");
                             break;
@@ -184,12 +184,21 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
                             break;
 
                     }
+                    intent.putExtra("position", childPosition);
                     BaseActivity.this.startActivity(intent);
-                }else if(position == 1){
-                    switch (childPosition){
+                } else if (position == 1) {
+                    switch (childPosition) {
+                        case 0:
+                            Intent earningIntent = new Intent(BaseActivity.this, EarningPresentationActivity.class);
+                            BaseActivity.this.startActivity(earningIntent);
+                            break;
                         case 1:
                             Intent investorIndent = new Intent(BaseActivity.this, InvestorPresentationActivity.class);
                             BaseActivity.this.startActivity(investorIndent);
+                            break;
+                        case 2:
+                            Intent daysIndent = new Intent(BaseActivity.this, InvestorDaysActivity.class);
+                            BaseActivity.this.startActivity(daysIndent);
                             break;
                         case 3:
                             Intent aReportIntent = new Intent(BaseActivity.this, AnnualReportsActivity.class);
@@ -206,6 +215,39 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
                     }
                 }
                 return false;
+            }
+        });
+
+        ImageView contactEmail = (ImageView) findViewById(R.id.menuEmailIcon);
+        contactEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utils.sendMail("", Constants.CONTACT_MAIL, getString(R.string.ContactUs), null, BaseActivity.this);
+            }
+        });
+        ImageView fbButton = (ImageView) findViewById(R.id.fbIcon);
+        fbButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.FB_LINK));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView twitterButton = (ImageView) findViewById(R.id.twitterIcon);
+        twitterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TWITTER_LINK));
+                startActivity(browserIntent);
+            }
+        });
+
+        ImageView languageButton = (ImageView) findViewById(R.id.menuLanguageIcon);
+        languageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent termsIntent = new Intent(BaseActivity.this, TermsActivity.class);
+                BaseActivity.this.startActivity(termsIntent);
             }
         });
     }
@@ -234,9 +276,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
         mDrawerToggle.syncState();
     }
 
-    public void drawerButtonHandler(View view){
+    public void drawerButtonHandler(View view) {
         Log.d("BASE ACTIVITY", "DRAWER BUTTON CLICKED");
-        if(mDrawerLayout.isDrawerOpen(mDrawerLinearLayout)) {
+        if (mDrawerLayout.isDrawerOpen(mDrawerLinearLayout)) {
             mDrawerLayout.closeDrawer(mDrawerLinearLayout);
         } else {
             // open the drawer
@@ -252,7 +294,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
 
     @Override
     public void onTitleTextChange(String text) {
-        toolbarTitle.setText(text);
+        if(toolbarTitle != null)
+            toolbarTitle.setText(text);
     }
 
 //    private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -269,14 +312,16 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
 
     private void selectItem(int position, ExpandableListView mListView) {
         // Highlight the selected item, update the title, and close the drawer
-        switch (position){
+        switch (position) {
             case 0:
+                Intent dashboardIntent = new Intent(BaseActivity.this, ItemListActivity.class);
+                BaseActivity.this.startActivity(dashboardIntent);
                 break;
             case 1:
             case 6:
-                if(mListView.isGroupExpanded(position)){
+                if (mListView.isGroupExpanded(position)) {
                     mListView.collapseGroup(position);
-                }else{
+                } else {
                     mListView.expandGroup(position, true);
                 }
                 break;
@@ -312,6 +357,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
                 Intent intentIR = new Intent(this, IRTeamActivity.class);
                 this.startActivity(intentIR);
                 break;
+            case 9:
+                mDrawerLayout.closeDrawer(mDrawerLinearLayout);
+                Intent intentSD = new Intent(this, SavedDocumentsActivity.class);
+                this.startActivity(intentSD);
+                break;
 
 
         }
@@ -326,7 +376,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    private ArrayList<Object> getSubMenuItems(){
+    private ArrayList<Object> getSubMenuItems() {
         ArrayList<Object> childItems = new ArrayList<>();
         String[] emptyArray = new String[0];
         childItems.add(emptyArray);

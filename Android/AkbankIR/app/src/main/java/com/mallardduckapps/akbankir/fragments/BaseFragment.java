@@ -15,7 +15,7 @@ public abstract class BaseFragment extends Fragment {
     protected String TAG = "BaseFragment";
     public AkbankApp app;
     public boolean attached;
-    private OnFragmentInteractionListener mListener;
+    public OnFragmentInteractionListener mListener;
 
 
     public BaseFragment() {

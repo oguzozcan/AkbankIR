@@ -149,7 +149,7 @@ public class ItemDetailFragment extends BaseFragment {
         helper = new GraphHelper(getActivity(), graphView, barGraphView);
         helper.setPopupPanel((LinearLayout) rootView.findViewById(R.id.popupPanel));
         //send request imm. to draw main graph
-        GridView snapshotGridView = (GridView) rootView.findViewById(R.id.snapshotGridView);
+        final GridView snapshotGridView = (GridView) rootView.findViewById(R.id.snapshotGridView);
         CompareButton bist30Button = (CompareButton) rootView.findViewById(R.id.bist30Button);
         CompareButton bistBankaButton = (CompareButton) rootView.findViewById(R.id.bistBankaButton);
         CompareButton usdButton = (CompareButton) rootView.findViewById(R.id.usdButton);
@@ -177,7 +177,11 @@ public class ItemDetailFragment extends BaseFragment {
                     } else {
                         comparables.remove(button.tag);
                     }
-                    drawComparableGraph(app, comparables, sDateView.getFormatConvertedDateText(), eDateView.getFormatConvertedDateText(), period);
+                    if(comparables.size() <= 1){
+                        drawMainGraph(app, sDateView.getFormatConvertedDateText(), eDateView.getFormatConvertedDateText(),snapshotGridView, period);
+                    }else{
+                        drawComparableGraph(app, comparables, sDateView.getFormatConvertedDateText(), eDateView.getFormatConvertedDateText(), period);
+                    }
                 }
             }
         };
@@ -190,7 +194,7 @@ public class ItemDetailFragment extends BaseFragment {
         return rootView;
     }
 
-    private void drawMainGraph(AkbankApp app, String startDate, String endDate,GridView gridView, int period) {
+    private void drawMainGraph(AkbankApp app, String startDate, String endDate, GridView gridView, int period) {
         helper.cleanGraph();
         helper.cleanBarGraph();
         loadingLayout.setVisibility(View.VISIBLE);
