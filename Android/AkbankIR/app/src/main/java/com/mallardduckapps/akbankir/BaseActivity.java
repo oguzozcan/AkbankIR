@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.mallardduckapps.akbankir.adapters.NavDrawerListAdapter;
 import com.mallardduckapps.akbankir.fragments.BaseFragment;
 import com.mallardduckapps.akbankir.utils.Constants;
+import com.mallardduckapps.akbankir.utils.DataSaver;
 import com.mallardduckapps.akbankir.utils.Utils;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
     protected FrameLayout mContent;
     private ActionBarDrawerToggle mDrawerToggle;
     protected AkbankApp app;
+    protected DataSaver ds;
     protected TextView toolbarTitle;
     protected String TAG = "BaseActivity";
 
@@ -48,6 +50,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
         setTag();
         mContent = (FrameLayout) findViewById(R.id.content);
         app = (AkbankApp) getApplication();
+        ds = app.getDataSaver();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLinearLayout = (RelativeLayout) findViewById(R.id.right_drawer);
         final ExpandableListView mDrawerList = (ExpandableListView) findViewById(R.id.drawer_menu);
@@ -283,6 +286,19 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
         } else {
             // open the drawer
             mDrawerLayout.openDrawer(mDrawerLinearLayout);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mDrawerLayout != null){
+            if (mDrawerLayout.isDrawerOpen(mDrawerLinearLayout)) {
+                mDrawerLayout.closeDrawer(mDrawerLinearLayout);
+            } else {
+                super.onBackPressed();
+            }
+        }else{
+            super.onBackPressed();
         }
     }
 

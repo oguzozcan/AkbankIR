@@ -19,6 +19,7 @@ import com.mallardduckapps.akbankir.busevents.EventSustainabilityReportsRequest;
 import com.mallardduckapps.akbankir.fragments.DownloadDialogFragment;
 import com.mallardduckapps.akbankir.objects.ApiErrorEvent;
 import com.mallardduckapps.akbankir.objects.ReportObject;
+import com.mallardduckapps.akbankir.utils.Constants;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -39,7 +40,6 @@ public class AnnualReportsActivity extends BaseActivity {
         contentView = inflater.inflate(R.layout.activity_sustainability_report, null, false);
         mContent.addView(contentView, 0);
         reportsList = (RecyclerView) findViewById(R.id.reportsList);
-        onTitleTextChange(getString(R.string.Sub_Menu_1_Annual_Reports));
     }
 
     @Override
@@ -48,10 +48,16 @@ public class AnnualReportsActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        onTitleTextChange(getString(R.string.Sub_Menu_1_Annual_Reports));
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         app.getBus().register(this);
-        app.getBus().post(new EventAnnualReportsRequest());
+        app.getBus().post(new EventAnnualReportsRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY)));
     }
 
     @Override

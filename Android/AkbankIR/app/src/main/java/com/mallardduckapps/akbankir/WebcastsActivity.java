@@ -15,6 +15,7 @@ import com.mallardduckapps.akbankir.busevents.EventWebcastsRequest;
 import com.mallardduckapps.akbankir.busevents.EventWebcastsResponse;
 import com.mallardduckapps.akbankir.objects.ApiErrorEvent;
 import com.mallardduckapps.akbankir.objects.WebcastObject;
+import com.mallardduckapps.akbankir.utils.Constants;
 import com.mallardduckapps.akbankir.utils.TimeUtil;
 import com.squareup.otto.Subscribe;
 
@@ -35,7 +36,6 @@ public class WebcastsActivity extends BaseActivity {
         contentView = inflater.inflate(R.layout.activity_webcasts, null, false);
         mContent.addView(contentView, 0);
         webcastList = (RecyclerView) findViewById(R.id.webcastList);
-        onTitleTextChange(getString(R.string.Sub_Menu_1_Webcasts));
     }
 
     @Override
@@ -44,10 +44,16 @@ public class WebcastsActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        onTitleTextChange(getString(R.string.Sub_Menu_1_Webcasts));
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         app.getBus().register(this);
-        app.getBus().post(new EventWebcastsRequest());
+        app.getBus().post(new EventWebcastsRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY)));
     }
 
     @Override

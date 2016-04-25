@@ -2,6 +2,8 @@ package com.mallardduckapps.akbankir.utils;
 
 import android.util.Log;
 
+import com.mallardduckapps.akbankir.AkbankApp;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
@@ -18,13 +20,13 @@ import java.util.Locale;
  */
 public class TimeUtil {
 
-    public final static Locale localeTr = new Locale("tr");
-    public final static Locale localeEn = new Locale("en");
-    public final static DateTimeFormatter dtfOut = DateTimeFormat.forPattern("dd MMMM yyyy HH:mm").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
-    public final static DateTimeFormatter dtfOutWeekday = DateTimeFormat.forPattern("EEEE").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
+    public static Locale localeTr = new Locale("tr");
+    //public static Locale localeEn = new Locale("en");
+    public static DateTimeFormatter dtfOut = DateTimeFormat.forPattern("dd MMMM yyyy HH:mm").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
+    public static DateTimeFormatter dtfOutWeekday = DateTimeFormat.forPattern("EEEE").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
     public final static DateTimeFormatter dtfOutWeekdayShort = DateTimeFormat.forPattern("EEE").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
-    public final static DateTimeFormatter dtfOutWOTimeShort = DateTimeFormat.forPattern("dd MMM yyyy").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
-    public final static DateTimeFormatter dtfOutWOTime = DateTimeFormat.forPattern("dd MMMM yyyy").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
+    public static DateTimeFormatter dtfOutWOTimeShort = DateTimeFormat.forPattern("dd MMM yyyy").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
+    public static DateTimeFormatter dtfOutWOTime = DateTimeFormat.forPattern("dd MMMM yyyy").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
     public final static DateTimeFormatter updateDateFormat = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
     public final static DateTimeFormatter updateDateFormatWOTime = DateTimeFormat.forPattern("dd.MM.yyyy").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
     private final static DateTimeFormatter dtfSimple = DateTimeFormat.forPattern("dd.MM.yyyy HH.mm").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
@@ -32,7 +34,7 @@ public class TimeUtil {
     private final static DateTimeFormatter dtfForex = DateTimeFormat.forPattern("yyyyMMddHHmmss").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
     public static final DateTimeFormatter dfISO = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'").withChronology(ISOChronology.getInstanceUTC());//.withLocale(TimeUtil.localeTr)
     public final static DateTimeFormatter dtfBarGraph = DateTimeFormat.forPattern("dd.MM").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
-    public final static DateTimeFormatter dtfApiFormat = DateTimeFormat.forPattern("yyyy-MM-dd").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
+    public static DateTimeFormatter dtfApiFormat = DateTimeFormat.forPattern("yyyy-MM-dd").withLocale(localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
     //"20121201000000"
     private static final String TAG = "TimeUtil";
 
@@ -50,6 +52,29 @@ public class TimeUtil {
         }else{
             return updateDateFormatWOTime.print(dt);
         }
+    }
+
+    public static void changeLocale(Locale locale){
+        localeTr = locale;
+        AkbankApp.localeTr = locale;
+        //dtfOut.withLocale(locale);
+        //dtfOutWeekday.withLocale(locale);
+        dtfOut = DateTimeFormat.forPattern("dd MMMM yyyy HH:mm").withLocale(locale).withZone(DateTimeZone.forID("Europe/Istanbul"));
+        dtfOutWeekday = DateTimeFormat.forPattern("EEEE").withLocale(locale).withZone(DateTimeZone.forID("Europe/Istanbul"));
+        dtfOutWOTimeShort = DateTimeFormat.forPattern("dd MMM yyyy").withLocale(locale).withZone(DateTimeZone.forID("Europe/Istanbul"));
+        dtfOutWOTime = DateTimeFormat.forPattern("dd MMMM yyyy").withLocale(locale).withZone(DateTimeZone.forID("Europe/Istanbul"));
+        dtfApiFormat = DateTimeFormat.forPattern("yyyy-MM-dd").withLocale(locale).withZone(DateTimeZone.forID("Europe/Istanbul"));
+        //dtfOutWOTimeShort.withLocale(locale);
+        //dtfOutWOTime.withLocale(locale);
+
+
+//        updateDateFormat.withLocale(locale);
+//        updateDateFormatWOTime.withLocale(locale);
+//        dtfSimple.withLocale(locale);
+//        dtfSimpleWOTime.withLocale(locale);
+//        dtfBarGraph.withLocale(locale);
+//        dfISO.withLocale(locale);
+
     }
 
     public static String getTodayJoda( DateTimeFormatter format) {
@@ -169,6 +194,4 @@ public class TimeUtil {
             return date;
         }
     }
-
-
 }

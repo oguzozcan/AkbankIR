@@ -1,32 +1,35 @@
 package com.mallardduckapps.akbankir.fragments;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mallardduckapps.akbankir.ItemListActivity;
 import com.mallardduckapps.akbankir.R;
-import com.mallardduckapps.akbankir.busevents.EventDeviceRegisterRequest;
 import com.mallardduckapps.akbankir.busevents.EventDeviceRegisterResponse;
 import com.mallardduckapps.akbankir.busevents.EventPagesRequest;
 import com.mallardduckapps.akbankir.busevents.EventPagesResponse;
 import com.mallardduckapps.akbankir.objects.ApiErrorEvent;
 import com.mallardduckapps.akbankir.objects.PagesObject;
 import com.mallardduckapps.akbankir.utils.Constants;
-import com.mallardduckapps.akbankir.utils.DataSaver;
-import com.mallardduckapps.akbankir.utils.Utils;
+import com.mallardduckapps.akbankir.utils.TimeUtil;
 import com.squareup.otto.Subscribe;
+
+import java.util.Locale;
 
 import retrofit2.Response;
 
@@ -51,11 +54,10 @@ public class TermsFragment extends BaseFragment {
     @Override
     protected void setTag() {
         try{
-            TAG = "";//getString(R.string.Terms_of_Services);
+            TAG = "TERMS FRAGMENT";//getString(R.string.Terms_of_Services);
         }catch(Exception e){
             e.printStackTrace();
         }
-
     }
 
     public TermsFragment() {
@@ -78,6 +80,40 @@ public class TermsFragment extends BaseFragment {
         //setTag();
     }
 
+    public void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Log.d(TAG, "SET LOCALE: " + lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        TimeUtil.changeLocale(myLocale);
+
+//        Intent intent = getActivity().getBaseContext().getPackageManager()
+//                .getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        getActivity().startActivity(intent);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent refresh = new Intent(getActivity(), ItemListActivity.class);
+                refresh.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                getActivity().startActivity(refresh);
+                getActivity().finish();
+            }
+        }, 150);
+//        getActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//
+//            }
+//        });
+    }
+
     boolean notFirstEntrance;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,38 +125,43 @@ public class TermsFragment extends BaseFragment {
         loadingBar.setVisibility(View.VISIBLE);
 //        final String android_id = Settings.Secure.getString(getContext().getContentResolver(),
 //                Settings.Secure.ANDROID_ID);
-        final String android_id = Utils.getDeviceId(getActivity());
-        Log.d(TAG, "DEVICE ID : " + android_id);
+//        final String android_id = Utils.getDeviceId(getActivity());
+//        Log.d(TAG, "DEVICE ID : " + android_id);
         confirmButton.setText(pageIndex == 1 ? "Onayla" : "Confirm");
-        if(mListener != null){
-            mListener.onTitleTextChange(pageIndex == 1 ? "Kullanım Koşulları" : "Terms of Services");
-        }
-        if(pageIndex == 1){
-            Spanned htmlAsSpanned = Html.fromHtml(Constants.HTML_TERMS_OF_SERVICE_TR);
-            textView.setText(htmlAsSpanned);
-        }
+//        if(mListener != null){
+//            mListener.onTitleTextChange(pageIndex == 1 ? "Kullanım Koşulları" : "Terms of Services");
+//        }
+//        if(pageIndex == 1){
+//            Spanned htmlAsSpanned = Html.fromHtml(Constants.HTML_TERMS_OF_SERVICE_TR);
+//            textView.setText(htmlAsSpanned);
+//        }
+
+        Locale current = getResources().getConfiguration().locale;
+        Log.d(TAG, "CURRENT LOCALE terms fragment: " + current.toString());
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(TAG, "CONFIRM BUTTTON CLICKED");
                 //app.getBus().post(new EventDeviceRegisterRequest(android_id,true, pageIndex == 1 ? "tr": "en"));
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        getActivity().finish();
-                    }
-                });
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+                        ds.putString(Constants.SELECTED_LANGUAGE_KEY, pageIndex == 1 ? Constants.TURKISH : Constants.ENGLISH);
+                        ds.save();
+                        Log.d(TAG, "CALL SET LOCALE: " + pageIndex);
+                        setLocale(pageIndex == 1 ? Constants.TURKISH_LOCALE_CODE : Constants.ENGLISH_LOCALE_CODE);
+                        //getActivity().finish();
+//                    }
+//                });
             }
         });
-
-
-        DataSaver ds = app.getDataSaver();
         notFirstEntrance = ds.getBoolean("N_FIRST_ENTRANCE");
         if(notFirstEntrance){
             textView.setVisibility(View.GONE);
             loadingBar.setVisibility(View.GONE);
         }else{
             textView.setVisibility(View.VISIBLE);
-            app.getBus().post(new EventPagesRequest(pageIndex));
+            app.getBus().post(new EventPagesRequest(pageIndex == 1 ? Constants.TURKISH : Constants.ENGLISH, pageIndex));
         }
         return view;
     }
@@ -154,7 +195,7 @@ public class TermsFragment extends BaseFragment {
         Log.d(TAG, "RESPONSE : " + response.body().toString());
         loadingBar.setVisibility(View.GONE);
         //loadingLayout.setVisibility(View.GONE);
-        if (response.isSuccessful() && pageIndex == 2) {
+        if (response.isSuccessful()) {
             PagesObject pagesObject = response.body();
             Spanned htmlAsSpanned = Html.fromHtml(pagesObject.getText());
             textView.setText(htmlAsSpanned);

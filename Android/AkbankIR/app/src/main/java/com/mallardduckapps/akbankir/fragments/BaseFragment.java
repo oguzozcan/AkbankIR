@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import com.mallardduckapps.akbankir.AkbankApp;
+import com.mallardduckapps.akbankir.utils.DataSaver;
 
 /**
  * Created by oguzemreozcan on 03/03/16.
@@ -16,6 +17,7 @@ public abstract class BaseFragment extends Fragment {
     public AkbankApp app;
     public boolean attached;
     public OnFragmentInteractionListener mListener;
+    public DataSaver ds;
 
 
     public BaseFragment() {
@@ -26,6 +28,7 @@ public abstract class BaseFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         app = (AkbankApp) getActivity().getApplication();
+        ds = app.getDataSaver();
     }
 
     @Override
@@ -45,6 +48,9 @@ public abstract class BaseFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
         if(mListener != null){
+            if(this instanceof TermsFragment){
+                return;
+            }
             mListener.onTitleTextChange(TAG);
         }
     }

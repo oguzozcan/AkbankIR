@@ -51,7 +51,7 @@ public class DashboardService {
 
     @Subscribe
     public void onLoadDashboardData(final EventDashboardRequest event) {
-        dashboardRest.getDashboardItems().enqueue(new Callback<DashboardContainerObject>() {
+        dashboardRest.getDashboardItems(event.getLangHeader()).enqueue(new Callback<DashboardContainerObject>() {
             @Override
             public void onResponse(Call<DashboardContainerObject> call, Response<DashboardContainerObject> response) {
                 Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
@@ -71,7 +71,7 @@ public class DashboardService {
 
     @Subscribe
     public void onLoadRatingsData(final EventRatingRequest event) {
-        ratingsRestApi.getRatings().enqueue(new Callback<ArrayList<Rating>>() {
+        ratingsRestApi.getRatings(event.getLangHeader()).enqueue(new Callback<ArrayList<Rating>>() {
             @Override
             public void onResponse(Call<ArrayList<Rating>> call, Response<ArrayList<Rating>> response) {
                 Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
@@ -91,7 +91,7 @@ public class DashboardService {
 
     @Subscribe
     public void onLoadAboutTurkey(final EventAboutTurkeyRequest event) {
-        aboutTurkeyRestApi.getAboutTurkey().enqueue(new Callback<AboutTurkeyObject>() {
+        aboutTurkeyRestApi.getAboutTurkey(event.getLangHeader()).enqueue(new Callback<AboutTurkeyObject>() {
             @Override
             public void onResponse(Call<AboutTurkeyObject> call, Response<AboutTurkeyObject> response) {
                 Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());

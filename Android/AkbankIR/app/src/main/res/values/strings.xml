@@ -28,6 +28,7 @@
 
     <!-- Labels -->
     <string name="SavingFile">Dosya Kaydediliyor</string>
+    <string name="NotSavingFile">Dosya daha önce kaydedilmiş</string>
     <string name="International">Uluslararası</string>
     <string name="Local">Yerel</string>
     <string name="View">Görüntüle</string>

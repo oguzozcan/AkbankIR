@@ -8,10 +8,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.mallardduckapps.akbankir.fragments.TermsFragment;
+import com.mallardduckapps.akbankir.utils.Constants;
+
+import java.util.Locale;
 
 public class TermsActivity extends BaseActivity {
     View contentView;
@@ -23,8 +27,8 @@ public class TermsActivity extends BaseActivity {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         contentView = inflater.inflate(R.layout.activity_terms, null, false);
         mContent.addView(contentView, 0);
-
         final ViewPager mViewPager = (ViewPager) contentView.findViewById(R.id.pager);
+        onTitleTextChange(getString(R.string.Terms_of_Services));
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -37,24 +41,41 @@ public class TermsActivity extends BaseActivity {
             @Override
             public void run() {
                 tabLayout.setupWithViewPager(mViewPager);
+                tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager)  {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        super.onTabSelected(tab);
+                        if(tab.getPosition() == 0){
+                            onTitleTextChange("Kullanım Koşulları");
+                        }else if(tab.getPosition() == 1){
+                            onTitleTextChange("Terms of Services");
+                        }
+                    }
+                });
                 for (int i = 0; i < tabLayout.getTabCount(); i++) {
                     if(i == 0){
                         tabLayout.getTabAt(i).setIcon(R.drawable.turkey_flag);
                     }else{
                         tabLayout.getTabAt(i).setIcon(R.drawable.us_flag);
                     }
-
+                }
+                Locale current = getResources().getConfiguration().locale;
+                Log.d(TAG, "CURRENT LOCALE: " + current.toString());
+                if(current.toString().equalsIgnoreCase("en") ){
+                    tabLayout.getTabAt(1).select();
+                }else{
+                    tabLayout.getTabAt(0).select();
                 }
             }
         });
+
         mViewPager.setOffscreenPageLimit(1);
 
-        onTitleTextChange(getString(R.string.Terms_of_Services));
     }
 
     @Override
     protected void setTag() {
-        TAG = "AnalystCovarageActivity";
+        TAG = "TermsActivity";
     }
 
 //    @Override

@@ -16,6 +16,7 @@ import com.mallardduckapps.akbankir.busevents.EventInvestorDaysRequest;
 import com.mallardduckapps.akbankir.busevents.EventInvestorDaysResponse;
 import com.mallardduckapps.akbankir.objects.ApiErrorEvent;
 import com.mallardduckapps.akbankir.objects.InvestorDaysObject;
+import com.mallardduckapps.akbankir.utils.Constants;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ public class InvestorDaysActivity extends BaseActivity {
         contentView = inflater.inflate(R.layout.activity_investor_days, null, false);
         mContent.addView(contentView, 0);
         reportsList = (RecyclerView) findViewById(R.id.reportsList);
-        onTitleTextChange(getString(R.string.Sub_Menu_1_Akbank_Analyst));
     }
 
     @Override
@@ -47,7 +47,13 @@ public class InvestorDaysActivity extends BaseActivity {
     public void onStart() {
         super.onStart();
         app.getBus().register(this);
-        app.getBus().post(new EventInvestorDaysRequest());
+        app.getBus().post(new EventInvestorDaysRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY)));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onTitleTextChange(getString(R.string.Sub_Menu_1_Akbank_Analyst));
     }
 
     @Override

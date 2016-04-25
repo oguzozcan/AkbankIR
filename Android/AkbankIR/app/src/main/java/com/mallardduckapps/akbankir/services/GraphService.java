@@ -41,7 +41,7 @@ public class GraphService {
 
     @Subscribe
     public void onLoadMainGraphData(final EventMainGraphRequest event) {
-        mainGraphApi.getMainGraphData(event.getPeriod(), event.getStartDate(), event.getEndDate()).enqueue(new Callback<ArrayList<MainGraphDot>>() {
+        mainGraphApi.getMainGraphData(event.getLangHeader(),event.getPeriod(), event.getStartDate(), event.getEndDate()).enqueue(new Callback<ArrayList<MainGraphDot>>() {
             @Override
             public void onResponse(Call<ArrayList<MainGraphDot>> call,Response<ArrayList<MainGraphDot>> response) {
                 Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
@@ -79,7 +79,7 @@ public class GraphService {
                 Log.d(TAG, t.getMessage());
             }
         };
-        snapshotApi.getSnapShotData().enqueue(snapShotCallback);
+        snapshotApi.getSnapShotData(event.getLangHeader()).enqueue(snapShotCallback);
     }
 
     @Subscribe
@@ -101,6 +101,6 @@ public class GraphService {
             }
         };
 //        GraphRestApi graphRestApi = app.retrofitForex.create(GraphRestApi.class);
-        graphRestApi.getComparableGraphData(request.getPeriod(), request.getStartDate(), request.getEndDate(), request.getComparables()).enqueue(comparableCallback);
+        graphRestApi.getComparableGraphData(request.getLangHeader(),request.getPeriod(), request.getStartDate(), request.getEndDate(), request.getComparables()).enqueue(comparableCallback);
     }
 }

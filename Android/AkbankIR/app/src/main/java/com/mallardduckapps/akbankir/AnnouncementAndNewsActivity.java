@@ -13,6 +13,7 @@ import com.mallardduckapps.akbankir.busevents.EventNewsRequest;
 import com.mallardduckapps.akbankir.busevents.EventNewsResponse;
 import com.mallardduckapps.akbankir.objects.ApiErrorEvent;
 import com.mallardduckapps.akbankir.objects.NewsObject;
+import com.mallardduckapps.akbankir.utils.Constants;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ public class AnnouncementAndNewsActivity extends BaseActivity {
         contentView = inflater.inflate(R.layout.activity_announcement_and_news, null, false);
         mContent.addView(contentView, 0);
         newsList = (RecyclerView) findViewById(R.id.newsRecyclerView);
-        onTitleTextChange(getString(R.string.Menu_AnnouncementsAndNews));
     }
 
     @Override
@@ -44,13 +44,19 @@ public class AnnouncementAndNewsActivity extends BaseActivity {
     public void onStart() {
         super.onStart();
         app.getBus().register(this);
-        app.getBus().post(new EventNewsRequest());
+        app.getBus().post(new EventNewsRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY)));
     }
 
     @Override
     public void onStop() {
         super.onStop();
         app.getBus().unregister(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onTitleTextChange(getString(R.string.Menu_AnnouncementsAndNews));
     }
 
     @Subscribe

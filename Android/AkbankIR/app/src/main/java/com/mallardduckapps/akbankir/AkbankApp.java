@@ -36,6 +36,7 @@ import com.mallardduckapps.akbankir.services.SustainabilityReportRestApi;
 import com.mallardduckapps.akbankir.services.WebcastsRestApi;
 import com.mallardduckapps.akbankir.services.WebcastsService;
 import com.mallardduckapps.akbankir.utils.DataSaver;
+import com.mallardduckapps.akbankir.utils.TimeUtil;
 import com.squareup.okhttp.Cache;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -44,6 +45,7 @@ import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.Locale;
 
 import okhttp3.OkHttpClient;
 import retrofit2.GsonConverterFactory;
@@ -59,6 +61,7 @@ public class AkbankApp extends Application {
     public final static String ROOT_URL = "http://akbank.steelkiwi.com/";
     public final static String ROOT_URL_1 = "http://akbank.steelkiwi.com";
     private static Bus mBus;
+    public static Locale localeTr = new Locale("tr");
     private DataSaver dataSaver;
 
     @Override
@@ -118,6 +121,8 @@ public class AkbankApp extends Application {
 //                        .addCustomStyle(TextField.class, R.attr.textFieldStyle)
                         .build()
         );
+        localeTr = getResources().getConfiguration().locale;
+        TimeUtil.changeLocale(localeTr);
 
         registerBusEvents(retrofitForex, retrofit, retrofit1);
     }

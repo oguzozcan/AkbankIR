@@ -18,6 +18,7 @@ import com.mallardduckapps.akbankir.busevents.EventEarningPresentationsResponse;
 import com.mallardduckapps.akbankir.fragments.DownloadDialogFragment;
 import com.mallardduckapps.akbankir.objects.ApiErrorEvent;
 import com.mallardduckapps.akbankir.objects.ReportObject;
+import com.mallardduckapps.akbankir.utils.Constants;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -38,7 +39,6 @@ public class EarningPresentationActivity extends BaseActivity {
         contentView = inflater.inflate(R.layout.activity_earning_presentation, null, false);
         mContent.addView(contentView, 0);
         reportsList = (RecyclerView) findViewById(R.id.reportsList);
-        onTitleTextChange(getString(R.string.Sub_Menu_1_Financial));
     }
 
     @Override
@@ -50,13 +50,19 @@ public class EarningPresentationActivity extends BaseActivity {
     public void onStart() {
         super.onStart();
         app.getBus().register(this);
-        app.getBus().post(new EventEarningPresentationsRequest());
+        app.getBus().post(new EventEarningPresentationsRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY)));
     }
 
     @Override
     public void onStop() {
         super.onStop();
         app.getBus().unregister(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onTitleTextChange(getString(R.string.Sub_Menu_1_Financial));
     }
 
     @Subscribe

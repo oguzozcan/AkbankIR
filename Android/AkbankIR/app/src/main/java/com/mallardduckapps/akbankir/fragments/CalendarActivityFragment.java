@@ -11,12 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mallardduckapps.akbankir.AkbankApp;
 import com.mallardduckapps.akbankir.R;
 import com.mallardduckapps.akbankir.adapters.EventsCalendarAdapter;
 import com.mallardduckapps.akbankir.busevents.EventCalendarRequest;
 import com.mallardduckapps.akbankir.busevents.EventCalendarResponse;
 import com.mallardduckapps.akbankir.objects.ApiErrorEvent;
 import com.mallardduckapps.akbankir.objects.CalendarEvent;
+import com.mallardduckapps.akbankir.utils.Constants;
+import com.mallardduckapps.akbankir.utils.DataSaver;
 import com.mallardduckapps.akbankir.utils.EventDecorator;
 import com.mallardduckapps.akbankir.utils.TimeUtil;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -109,7 +112,8 @@ public class CalendarActivityFragment extends BaseFragment {
         });
         fromDate = DateTime.now();//TimeUtil.getTodayJoda(TimeUtil.dtfApiFormat);
         calendarView.setDateSelected(new Date(System.currentTimeMillis()), true);
-        app.getBus().post(new EventCalendarRequest());
+        DataSaver ds = app.getDataSaver();
+        app.getBus().post(new EventCalendarRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY)));
         return view;
     }
 
@@ -139,7 +143,8 @@ public class CalendarActivityFragment extends BaseFragment {
             if(TimeUtil.getDaysInBetween(fromDate, TimeUtil.getDateTime(ce.getEventDate(), TimeUtil.dtfApiFormat)) >= 0){
                 Date date;
                 try {
-                    date = new SimpleDateFormat("yyyy-MM-dd", TimeUtil.localeTr).parse(ce.getEventDate());
+                    //TODO locale
+                    date = new SimpleDateFormat("yyyy-MM-dd", AkbankApp.localeTr).parse(ce.getEventDate()); //TimeUtil.localeTr)
                     calendar.setTime(date);
                     CalendarDay calendarDay = CalendarDay.from(calendar);
                     if(ce.getType().equals(EventsCalendarAdapter.MAJOR)){

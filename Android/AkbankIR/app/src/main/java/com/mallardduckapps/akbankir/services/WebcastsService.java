@@ -30,7 +30,7 @@ public class WebcastsService {
 
     @Subscribe
     public void onLoadWebcasts(final EventWebcastsRequest event) {
-        webcastsRestApi.getWebcasts().enqueue(new Callback<ArrayList<WebcastObject>>() {
+        webcastsRestApi.getWebcasts(event.getLangHeader()).enqueue(new Callback<ArrayList<WebcastObject>>() {
             @Override
             public void onResponse(Call<ArrayList<WebcastObject>> call, Response<ArrayList<WebcastObject>> response) {
                 Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());

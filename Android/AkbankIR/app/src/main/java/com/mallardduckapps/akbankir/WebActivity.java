@@ -32,6 +32,8 @@ public class WebActivity extends BaseActivity {
         TAG = "WebActivity";
     }
 
+    String title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
@@ -52,7 +54,7 @@ public class WebActivity extends BaseActivity {
         webView.getSettings().setPluginState(WebSettings.PluginState.ON);
         String fileName = getIntent().getStringExtra("file_name");
         String uri = getIntent().getStringExtra("uri");
-        String title = getIntent().getStringExtra("title");
+        title = getIntent().getStringExtra("title");
         String type = getIntent().getStringExtra("type");
         int position = getIntent().getIntExtra("position", 0);
         if(title != null){
@@ -181,10 +183,8 @@ public class WebActivity extends BaseActivity {
         });
 
         //webView.getSettings().setPluginsEnabled(true);
-        toolbarTitle.setText(title);
 
         //String url = getIntent().getStringExtra("URL");
-
 /*        Toolbar mainToolbar = (Toolbar) findViewById(R.id.mainToolbar);
         setSupportActionBar(mainToolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -198,20 +198,26 @@ public class WebActivity extends BaseActivity {
         //webView.loadUrl(url);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        toolbarTitle.setText(title);
+    }
+
     public String stripHtml(String html) {
         return Html.fromHtml(html).toString();
     }
 
-    private class HelloWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
-        }
-        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-            Toast.makeText(WebActivity.this, "Oh no! " + description, Toast.LENGTH_SHORT).show();
-        }
-    }
+//    private class HelloWebViewClient extends WebViewClient {
+//        @Override
+//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//            view.loadUrl(url);
+//            return true;
+//        }
+//        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+//            Toast.makeText(WebActivity.this, "Oh no! " + description, Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
   //  @Override
    // public boolean onCreateOptionsMenu(Menu menu) {

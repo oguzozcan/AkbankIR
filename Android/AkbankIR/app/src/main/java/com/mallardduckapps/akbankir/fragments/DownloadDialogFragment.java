@@ -23,6 +23,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mallardduckapps.akbankir.AkbankApp;
 import com.mallardduckapps.akbankir.BaseActivity;
@@ -135,6 +136,7 @@ public class DownloadDialogFragment extends DialogFragment {
                 @Override
                 public void run() {
                     dismiss();
+                    Toast.makeText(getActivity(), getString(R.string.NotSavingFile), Toast.LENGTH_SHORT).show();
                 }
             }, 400);
         } else{

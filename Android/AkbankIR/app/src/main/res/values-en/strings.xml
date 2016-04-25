@@ -33,7 +33,8 @@
     <string name="SureWantToDelete">Are you sure you want to delete?</string>
     <string name="DeleteSuccess">It has been deleted successfully</string>
     <!-- Labels -->
-    <string name="SavingFile">Saving File:</string>
+    <string name="SavingFile">Saving File</string>
+    <string name="NotSavingFile">File already saved before</string>
     <string name="International">International</string>
     <string name="Local">Local</string>
     <string name="View">View</string>

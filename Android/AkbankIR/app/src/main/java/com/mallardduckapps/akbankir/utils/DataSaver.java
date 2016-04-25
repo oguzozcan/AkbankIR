@@ -38,6 +38,10 @@ public class DataSaver {
         return saveArea.getInt(key, 0);
     }
 
+    public String getLangString(final String key) {
+        return saveArea.getString(key, "en");
+    }
+
     public String getString(final String key) {
         return saveArea.getString(key, "");
     }

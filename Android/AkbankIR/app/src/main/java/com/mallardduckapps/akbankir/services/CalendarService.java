@@ -31,7 +31,7 @@ public class CalendarService {
 
     @Subscribe
     public void onLoadCalendarData(final EventCalendarRequest event) {
-        calendarRestApi.getCalendarEvents().enqueue(new Callback<ArrayList<CalendarEvent>>() {
+        calendarRestApi.getCalendarEvents(event.getLangHeader()).enqueue(new Callback<ArrayList<CalendarEvent>>() {
             @Override
             public void onResponse(Call<ArrayList<CalendarEvent>> call, Response<ArrayList<CalendarEvent>> response) {
                 Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());

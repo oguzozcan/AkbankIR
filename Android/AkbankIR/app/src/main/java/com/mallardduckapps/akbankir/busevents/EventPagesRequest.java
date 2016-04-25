@@ -3,10 +3,11 @@ package com.mallardduckapps.akbankir.busevents;
 /**
  * Created by oguzemreozcan on 19/04/16.
  */
-public class EventPagesRequest {
+public class EventPagesRequest extends EventRequestParent {
     int pageNumber;
 
-    public EventPagesRequest(int pageNumber){
+    public EventPagesRequest(String langHeader, int pageNumber){
+        super(langHeader);
         this.pageNumber = pageNumber;
     }
 

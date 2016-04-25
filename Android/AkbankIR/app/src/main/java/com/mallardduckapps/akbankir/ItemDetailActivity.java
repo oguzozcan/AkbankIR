@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,8 +26,6 @@ public class ItemDetailActivity extends BaseActivity {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_item_detail, null, false);
         mContent.addView(contentView, 0);
-
-
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
@@ -53,7 +50,6 @@ public class ItemDetailActivity extends BaseActivity {
         // In this case, the fragment will automatically be re-added
         // to its container so we don't need to manually add it.
         // For more information, see the Fragments API guide at:
-        //
         // http://developer.android.com/guide/components/fragments.html
         //
         if (savedInstanceState == null) {

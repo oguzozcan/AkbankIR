@@ -14,6 +14,7 @@ import com.mallardduckapps.akbankir.busevents.EventAboutTurkeyRequest;
 import com.mallardduckapps.akbankir.busevents.EventAboutTurkeyResponse;
 import com.mallardduckapps.akbankir.objects.AboutTurkeyObject;
 import com.mallardduckapps.akbankir.objects.ApiErrorEvent;
+import com.mallardduckapps.akbankir.utils.Constants;
 import com.squareup.otto.Subscribe;
 
 import retrofit2.Response;
@@ -31,15 +32,20 @@ public class AboutTurkeyActivity extends BaseActivity {
         contentView = inflater.inflate(R.layout.activity_about_turkey, null, false);
         mContent.addView(contentView, 0);
         //irTeamList = (RecyclerView) findViewById(R.id.irTeamList);
-        onTitleTextChange(getString(R.string.Menu_AboutTurkey));
         aboutTurkeyView = (RelativeLayout) contentView.findViewById(R.id.aboutTurkeyLayout);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onTitleTextChange(getString(R.string.Menu_AboutTurkey));
     }
 
     @Override
     public void onStart() {
         super.onStart();
         app.getBus().register(this);
-        app.getBus().post(new EventAboutTurkeyRequest());
+        app.getBus().post(new EventAboutTurkeyRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY)));
     }
 
     @Override

@@ -21,6 +21,7 @@ import com.mallardduckapps.akbankir.busevents.EventSustainabilityReportsRequest;
 import com.mallardduckapps.akbankir.busevents.EventSustainabilityReportsResponse;
 import com.mallardduckapps.akbankir.objects.ApiErrorEvent;
 import com.mallardduckapps.akbankir.objects.ReportObject;
+import com.mallardduckapps.akbankir.utils.Constants;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -39,7 +40,6 @@ public class InvestorPresentationActivity extends BaseActivity {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         contentView = inflater.inflate(R.layout.activity_investor_presentation, null, false);
         mContent.addView(contentView, 0);
-        onTitleTextChange(getString(R.string.Sub_Menu_1_Investor));
     }
 
     @Override
@@ -51,13 +51,19 @@ public class InvestorPresentationActivity extends BaseActivity {
     public void onStart() {
         super.onStart();
         app.getBus().register(this);
-        app.getBus().post(new EventInvestorPresentationRequest());
+        app.getBus().post(new EventInvestorPresentationRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY)));
     }
 
     @Override
     public void onStop() {
         super.onStop();
         app.getBus().unregister(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onTitleTextChange(getString(R.string.Sub_Menu_1_Investor));
     }
 
     @Subscribe

@@ -191,6 +191,8 @@ public class ItemDetailFragment extends BaseFragment {
         usdButton.setOnClickListener(compareButtonListener);
         eurButton.setOnClickListener(compareButtonListener);
         //useLoader();
+        if(mListener != null)
+            mListener.onTitleTextChange(getString(R.string.Menu_Stocks));
         return rootView;
     }
 
@@ -198,16 +200,17 @@ public class ItemDetailFragment extends BaseFragment {
         helper.cleanGraph();
         helper.cleanBarGraph();
         loadingLayout.setVisibility(View.VISIBLE);
+
         Log.d(TAG, "START DATE: " + startDate + " - endDate: " + endDate + " - period: " + period);
         if(gridView != null){
-            app.getBus().post(new EventSnapshotRequest(gridView));
+            app.getBus().post(new EventSnapshotRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY),gridView));
         }
-        app.getBus().post(new EventMainGraphRequest(startDate, endDate, period));
+        app.getBus().post(new EventMainGraphRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY),startDate, endDate, period));
         //mainGraphRestApi.getMainGraphData(period, startDate, endDate).enqueue(ItemDetailFragment.this);
     }
 
     private void drawComparableGraph(AkbankApp app, ArrayList<String> comparables, String startDate, String endDate, int period) {
-        app.getBus().post(new EventComparableGraphRequest(comparables,startDate, endDate, period));
+        app.getBus().post(new EventComparableGraphRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY),comparables,startDate, endDate, period));
     }
 
     @Subscribe

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class SavedDocumentsActivity extends BaseActivity {
 
-    View contentView;
+    private View contentView;
     private RecyclerView reportsList;
 
     @Override
@@ -30,12 +30,15 @@ public class SavedDocumentsActivity extends BaseActivity {
         contentView = inflater.inflate(R.layout.activity_saved_documents, null, false);
         mContent.addView(contentView, 0);
         reportsList = (RecyclerView) findViewById(R.id.reportsList);
-        onTitleTextChange(getString(R.string.Menu_SavedDocuments));
-
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         reportsList.setLayoutManager(mLayoutManager);
         reportsList.setAdapter(new SavedDocumentsAdapter(this, listFiles()));
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onTitleTextChange(getString(R.string.Menu_SavedDocuments));
     }
 
     private ArrayList<SavedDocumentObject> listFiles(){

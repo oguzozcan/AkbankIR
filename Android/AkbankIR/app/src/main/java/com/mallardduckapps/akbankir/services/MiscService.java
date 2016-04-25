@@ -73,7 +73,7 @@ public class MiscService {
 
     @Subscribe
     public void onLoadIRTeam(final EventIRTeamRequest event) {
-        irTeamApi.getIrTeam().enqueue(new Callback<ArrayList<Person>>() {
+        irTeamApi.getIrTeam(event.getLangHeader()).enqueue(new Callback<ArrayList<Person>>() {
             @Override
             public void onResponse(Call<ArrayList<Person>> call, Response<ArrayList<Person>> response) {
                 Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
@@ -93,7 +93,7 @@ public class MiscService {
 
     @Subscribe
     public void onLoadNewsAndAnnouncements(final EventNewsRequest event) {
-        newsRestApi.getNewsAndAnnouncements().enqueue(new Callback<ArrayList<NewsObject>>() {
+        newsRestApi.getNewsAndAnnouncements(event.getLangHeader()).enqueue(new Callback<ArrayList<NewsObject>>() {
             @Override
             public void onResponse(Call<ArrayList<NewsObject>> call, Response<ArrayList<NewsObject>> response) {
                 Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
@@ -113,7 +113,7 @@ public class MiscService {
 
     @Subscribe
     public void onLoadAnalystCovarage(final EventAnalystCovarageRequest event) {
-        analystRestApi.getAnalystCovarageList().enqueue(new Callback<ArrayList<AnalystCovarageObject>>() {
+        analystRestApi.getAnalystCovarageList(event.getLangHeader()).enqueue(new Callback<ArrayList<AnalystCovarageObject>>() {
             @Override
             public void onResponse(Call<ArrayList<AnalystCovarageObject>> call, Response<ArrayList<AnalystCovarageObject>> response) {
                 Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
@@ -154,7 +154,7 @@ public class MiscService {
 
     @Subscribe
     public void onLoadInvestorPresentations(final EventInvestorPresentationRequest event) {
-        iRestApi.getInvestorPresentations().enqueue(new Callback<ArrayList<ReportObject>>() {
+        iRestApi.getInvestorPresentations(event.getLangHeader()).enqueue(new Callback<ArrayList<ReportObject>>() {
             @Override
             public void onResponse(Call<ArrayList<ReportObject>> call, Response<ArrayList<ReportObject>> response) {
                 Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
@@ -174,7 +174,7 @@ public class MiscService {
 
     @Subscribe
     public void onLoadInvestorDays(final EventInvestorDaysRequest event) {
-        daysRestApi.getInvestorDays().enqueue(new Callback<ArrayList<InvestorDaysObject>>() {
+        daysRestApi.getInvestorDays(event.getLangHeader()).enqueue(new Callback<ArrayList<InvestorDaysObject>>() {
             @Override
             public void onResponse(Call<ArrayList<InvestorDaysObject>> call, Response<ArrayList<InvestorDaysObject>> response) {
                 Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
@@ -194,7 +194,7 @@ public class MiscService {
 
     @Subscribe
     public void onLoadSustainabilityReports(final EventSustainabilityReportsRequest event) {
-        sRestApi.getSustainabilityReports().enqueue(new Callback<ArrayList<ReportObject>>() {
+        sRestApi.getSustainabilityReports(event.getLangHeader()).enqueue(new Callback<ArrayList<ReportObject>>() {
             @Override
             public void onResponse(Call<ArrayList<ReportObject>> call, Response<ArrayList<ReportObject>> response) {
                 Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
@@ -214,7 +214,7 @@ public class MiscService {
 
     @Subscribe
     public void onLoadAnnualReports(final EventAnnualReportsRequest event) {
-        aRestApi.getAnnualReports().enqueue(new Callback<ArrayList<ReportObject>>() {
+        aRestApi.getAnnualReports(event.getLangHeader()).enqueue(new Callback<ArrayList<ReportObject>>() {
             @Override
             public void onResponse(Call<ArrayList<ReportObject>> call, Response<ArrayList<ReportObject>> response) {
                 Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
@@ -234,7 +234,7 @@ public class MiscService {
 
     @Subscribe
     public void onLoadEarningPresentations(final EventEarningPresentationsRequest event) {
-        eRestApi.getEarningPresentations().enqueue(new Callback<ArrayList<ReportObject>>() {
+        eRestApi.getEarningPresentations(event.getLangHeader()).enqueue(new Callback<ArrayList<ReportObject>>() {
             @Override
             public void onResponse(Call<ArrayList<ReportObject>> call, Response<ArrayList<ReportObject>> response) {
                 Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
@@ -254,7 +254,7 @@ public class MiscService {
 
     @Subscribe
     public void onLoadPages(final EventPagesRequest event) {
-        pagesRestApi.getPage(event.getPageNumber()).enqueue(new Callback<PagesObject>() {
+        pagesRestApi.getPage(event.getLangHeader(),event.getPageNumber()).enqueue(new Callback<PagesObject>() {
             @Override
             public void onResponse(Call<PagesObject> call, Response<PagesObject> response) {
                 Log.d(TAG, "ON RESPONSE : " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());

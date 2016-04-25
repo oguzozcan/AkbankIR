@@ -5,14 +5,15 @@ import java.util.ArrayList;
 /**
  * Created by oguzemreozcan on 04/03/16.
  */
-public class EventComparableGraphRequest {
+public class EventComparableGraphRequest extends EventRequestParent {
 
     final private ArrayList<String> comparables;
     final private String startDate;
     final private String endDate;
     final private int period;
 
-    public EventComparableGraphRequest(ArrayList<String> comparables, String startDate, String endDate, int period){
+    public EventComparableGraphRequest(String header, ArrayList<String> comparables, String startDate, String endDate, int period){
+        super(header);
         this.comparables = comparables;
         this.startDate = startDate;
         this.endDate = endDate;

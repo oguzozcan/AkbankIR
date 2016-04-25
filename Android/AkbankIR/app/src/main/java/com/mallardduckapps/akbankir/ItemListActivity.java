@@ -1,16 +1,10 @@
 package com.mallardduckapps.akbankir;
 
-import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.Cursor;
-import android.net.Uri;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -50,13 +44,13 @@ import com.mallardduckapps.akbankir.objects.NewsObject;
 import com.mallardduckapps.akbankir.objects.Rating;
 import com.mallardduckapps.akbankir.objects.WebcastObject;
 import com.mallardduckapps.akbankir.services.GraphHelper;
+import com.mallardduckapps.akbankir.utils.Constants;
 import com.mallardduckapps.akbankir.utils.DataSaver;
 import com.mallardduckapps.akbankir.utils.TimeUtil;
 import com.squareup.okhttp.ResponseBody;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -98,6 +92,7 @@ public class ItemListActivity extends BaseActivity {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_item_list, null, false);
         mContent.addView(contentView, 0);
+        TimeUtil.changeLocale(getResources().getConfiguration().locale);
         StaggeredGridLayoutManager lm = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         ratingsGridView = (RecyclerView) contentView.findViewById(R.id.ratingsGridView);
         ratingsGridView.setLayoutManager(lm);
@@ -153,6 +148,7 @@ public class ItemListActivity extends BaseActivity {
         }
     }
 
+
     @Override
     protected void setTag() {
         TAG = "ItemListActivity";
@@ -162,6 +158,27 @@ public class ItemListActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         onTitleTextChange("");
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.d(TAG, "ON NEW INTENT: loc : " + getResources().getConfiguration().locale.toString());
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ItemListActivity.this.recreate();
+            }
+        }, 5);
+    }
+
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Log.d(TAG, "ON CONF CHANGED: loc" + getResources().getConfiguration().locale.toString() );
     }
 
     @Override
@@ -170,9 +187,9 @@ public class ItemListActivity extends BaseActivity {
         app.getBus().register(this);
         //TODO these dates need to be fixed
         drawMainGraph(app, TimeUtil.getDateBeforeOrAfterToday(-30, true, false), TimeUtil.getDateBeforeOrAfterToday(0, true, false), 1440);
-        app.getBus().post(new EventDashboardRequest());
-        app.getBus().post(new EventRatingRequest());
-        app.getBus().post(new EventAboutTurkeyRequest());
+        app.getBus().post(new EventDashboardRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY)));
+        app.getBus().post(new EventRatingRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY)));
+        app.getBus().post(new EventAboutTurkeyRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY)));
 //        registerReceiver(receiver, new IntentFilter(
 //                DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
@@ -334,7 +351,7 @@ public class ItemListActivity extends BaseActivity {
         }
         //loadingLayout.setVisibility(View.VISIBLE);
         Log.d(TAG, "START DATE: " + startDate + " - endDate: " + endDate);
-        app.getBus().post(new EventMainGraphRequest(TimeUtil.getDateTxtForForex(startDate), TimeUtil.getDateTxtForForex(endDate), period));
+        app.getBus().post(new EventMainGraphRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY),TimeUtil.getDateTxtForForex(startDate), TimeUtil.getDateTxtForForex(endDate), period));
         //mainGraphRestApi.getMainGraphData(period, startDate, endDate).enqueue(ItemDetailFragment.this);
     }
 
@@ -471,7 +488,8 @@ public class ItemListActivity extends BaseActivity {
         annualReportsTitleLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent annualReports = new Intent(ItemListActivity.this, AnnualReportsActivity.class);
+                ItemListActivity.this.startActivity(annualReports);
             }
         });
         webCastsTitleLayout.setOnClickListener(new View.OnClickListener() {
@@ -491,7 +509,7 @@ public class ItemListActivity extends BaseActivity {
         ratingsTitleLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //TODO eksik kalmıs
             }
         });
     }
@@ -589,30 +607,6 @@ public class ItemListActivity extends BaseActivity {
         });
     }
 
-//    private void startFileDownload(String fileName, String title, boolean shouldShownAfterDownload) {
-//        progressBarLayout.setVisibility(View.VISIBLE);
-//        File direct = new File(Environment.getExternalStorageDirectory()
-//                + "/akbank_files");
-//
-//        if (!direct.exists()) {
-//            direct.mkdirs();
-//        }
-//        DownloadManager dm = (DownloadManager) getSystemService(BaseActivity.DOWNLOAD_SERVICE);
-//
-//        DownloadManager.Request request = new DownloadManager.Request(
-//                Uri.parse((AkbankApp.ROOT_URL_1 + fileName))); //"http://www.vogella.de/img/lars/LarsVogelArticle7.png"
-//        request.setAllowedNetworkTypes(
-//                DownloadManager.Request.NETWORK_WIFI
-//                        | DownloadManager.Request.NETWORK_MOBILE)
-//                .setAllowedOverRoaming(false)
-//                .setTitle(title)
-//                .setDescription(shouldShownAfterDownload ? "view" : "download")
-//                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-//                .setDestinationInExternalPublicDir("/akbank_files", title)
-//                .allowScanningByMediaScanner();
-//        long enqueue = dm.enqueue(request);
-//    }
-
     private void setAboutTurkeyLayout(final AboutTurkeyObject aboutTurkeyObject) {
         TextView aboutTurkeyPdfName = (TextView) aboutTurkeyView.findViewById(R.id.aboutTurkeyDescription);
         aboutTurkeyPdfName.setText(aboutTurkeyObject.getPdfTitle());
@@ -631,8 +625,6 @@ public class ItemListActivity extends BaseActivity {
                 newFragment.setArguments(b);
                 newFragment.show(fm, getString(R.string.Downloading));
                 //startFileDownload(aboutTurkeyObject.getPdf(), aboutTurkeyObject.getTitle(), false);
-
-
             }
         });
         TextView viewButton = (TextView) aboutTurkeyView.findViewById(R.id.viewButton);
@@ -696,14 +688,23 @@ public class ItemListActivity extends BaseActivity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View itemView = mLayoutInflater.inflate(R.layout.news_pager_item, container, false);
-
+            final NewsObject newsObject = newsObjectArrayList.get(position);
             ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
             TextView textView = (TextView) itemView.findViewById(R.id.textView);
             //imageView.setImageResource();
-            textView.setText(newsObjectArrayList.get(position).getTitle());
+            textView.setText(newsObject.getTitle());
             Picasso.with(getApplicationContext()).load(AkbankApp.ROOT_URL + newsObjectArrayList.get(position).getImage()).placeholder(R.drawable.page_1).into(imageView);
 
             container.addView(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(ItemListActivity.this, NewsDetailActivity.class);
+                    intent.putExtra("title", newsObject.getTitle());
+                    intent.putExtra("description", newsObject.getText());
+                    ItemListActivity.this.startActivity(intent);
+                }
+            });
 
             return itemView;
         }
