@@ -2,13 +2,16 @@ package com.mallardduckapps.akbankir.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mallardduckapps.akbankir.R;
+import com.mallardduckapps.akbankir.WebcastPlayerActivity;
 import com.mallardduckapps.akbankir.objects.WebcastObject;
 import com.mallardduckapps.akbankir.utils.TimeUtil;
 
@@ -28,6 +31,7 @@ public class WebcastsAdapter extends RecyclerView.Adapter<WebcastsAdapter.DataOb
         final TextView dateTv;
         final TextView listenButton;
         final Activity activity;
+        final RelativeLayout parent;
 
         public DataObjectHolder(View itemView, Activity activity) {
             super(itemView);
@@ -36,6 +40,7 @@ public class WebcastsAdapter extends RecyclerView.Adapter<WebcastsAdapter.DataOb
             titleTv = (TextView) itemView.findViewById(R.id.webcastsTitle);
             dateTv = (TextView) itemView.findViewById(R.id.dateText);
             listenButton = (TextView) itemView.findViewById(R.id.listenButton);
+            parent = (RelativeLayout) itemView.findViewById(R.id.webcastLayout);
         }
     }
 
@@ -50,7 +55,7 @@ public class WebcastsAdapter extends RecyclerView.Adapter<WebcastsAdapter.DataOb
         inflater = (LayoutInflater) act
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (events != null) {
-            events.remove(0);
+            //events.remove(0);
             data = new ArrayList<>(events);
         }
     }
@@ -75,7 +80,7 @@ public class WebcastsAdapter extends RecyclerView.Adapter<WebcastsAdapter.DataOb
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
-        WebcastObject webcast = getItem(position);
+        final WebcastObject webcast = getItem(position);
         holder.titleTv.setText(webcast.getTitle());
         holder.dateTv.setText(webcast.getCreatedDate());
         String date = TimeUtil.getDateTime(webcast.getDate(), TimeUtil.dfISO, TimeUtil.dtfOutWOTimeShort);
@@ -83,7 +88,22 @@ public class WebcastsAdapter extends RecyclerView.Adapter<WebcastsAdapter.DataOb
         holder.listenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(activity, WebcastPlayerActivity.class);
+                intent.putExtra("name", webcast.getTitle());
+                intent.putExtra("date", webcast.getDate());
+                intent.putExtra("postfix", webcast.getAudioUrl());
+                activity.startActivity(intent);
+            }
+        });
 
+        holder.parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, WebcastPlayerActivity.class);
+                intent.putExtra("name", webcast.getTitle());
+                intent.putExtra("date", webcast.getDate());
+                intent.putExtra("postfix", webcast.getAudioUrl());
+                activity.startActivity(intent);
             }
         });
     }

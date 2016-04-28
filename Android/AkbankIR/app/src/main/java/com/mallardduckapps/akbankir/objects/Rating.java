@@ -1,11 +1,14 @@
 package com.mallardduckapps.akbankir.objects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by oguzemreozcan on 21/03/16.
  */
-public class Rating {
+public class Rating implements Parcelable {
 
     @SerializedName("id")
     private int id;
@@ -47,4 +50,39 @@ public class Rating {
     public void setFitch(String fitch) {
         this.fitch = fitch;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.moody);
+        dest.writeString(this.fitch);
+    }
+
+    public Rating() {
+    }
+
+    protected Rating(Parcel in) {
+        this.id = in.readInt();
+        this.title = in.readString();
+        this.moody = in.readString();
+        this.fitch = in.readString();
+    }
+
+    public static final Parcelable.Creator<Rating> CREATOR = new Parcelable.Creator<Rating>() {
+        @Override
+        public Rating createFromParcel(Parcel source) {
+            return new Rating(source);
+        }
+
+        @Override
+        public Rating[] newArray(int size) {
+            return new Rating[size];
+        }
+    };
 }

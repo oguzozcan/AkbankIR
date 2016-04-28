@@ -43,7 +43,9 @@ import retrofit2.Response;
  */
 public class TermsFragment extends BaseFragment {
     private static final String PAGE_PARAM = "PAGE";
+    private static final String AUTO_OPEN_PARAM = "automatic";
     private int pageIndex;
+    private boolean automatic;
     private TextView textView;
 //    private Button confirmButton;
     private RelativeLayout loadingBar;
@@ -63,10 +65,11 @@ public class TermsFragment extends BaseFragment {
     public TermsFragment() {
     }
 
-    public static TermsFragment newInstance(int pageIndex) {
+    public static TermsFragment newInstance(int pageIndex, boolean automatic) {
         TermsFragment fragment = new TermsFragment();
         Bundle args = new Bundle();
         args.putInt(PAGE_PARAM, pageIndex);
+        args.putBoolean(AUTO_OPEN_PARAM, automatic);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,6 +79,7 @@ public class TermsFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             pageIndex = getArguments().getInt(PAGE_PARAM, 1);
+            automatic = getArguments().getBoolean(AUTO_OPEN_PARAM, false);
         }
         //setTag();
     }
@@ -155,8 +159,8 @@ public class TermsFragment extends BaseFragment {
 //                });
             }
         });
-        notFirstEntrance = ds.getBoolean("N_FIRST_ENTRANCE");
-        if(notFirstEntrance){
+        notFirstEntrance = ds.getBoolean(Constants.FIRST_ENTRANCE_KEY);
+        if(!automatic){ // notFirstEntrance
             textView.setVisibility(View.GONE);
             loadingBar.setVisibility(View.GONE);
         }else{
@@ -201,8 +205,6 @@ public class TermsFragment extends BaseFragment {
             textView.setText(htmlAsSpanned);
             //setWebcastsLayout(webcasts.get(0));
             //eventsListView.setHasFixedSize(true);
-
-
         }else{
             app.getBus().post(new ApiErrorEvent(response.code(), response.message(),true));
         }

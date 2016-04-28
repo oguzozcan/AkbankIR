@@ -103,7 +103,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
                 R.drawable.menu_saved_documents_icon
         };
         init();
-
+        final String lang = ds.getLangString(Constants.SELECTED_LANGUAGE_KEY);
         NavDrawerListAdapter adapter = new NavDrawerListAdapter(this, menuItems, imageId, getSubMenuItems());
         mDrawerList.setAdapter(adapter); //new ArrayAdapter<String>(this,         R.layout.row_navigation_drawer, menuItems)
         //mDrawerList.setOnItemClickListener(new DrawerItemClickListener(mDrawerList));
@@ -140,7 +140,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
                             intent.putExtra("type", "web");
                             break;
                         case 2:
-                            intent.putExtra("file_name", "renumeration-policy.pdf");
+                            intent.putExtra("file_name", lang.equalsIgnoreCase(Constants.TURKISH) ? "renumeration-policy-tr.pdf" : "renumeration-policy.pdf");
                             intent.putExtra("title", getString(R.string.Sub_Menu_2_Renumuration));
                             intent.putExtra("type", "pdf");
                             break;
@@ -181,7 +181,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
                             intent.putExtra("type", "web");
                             break;
                         case 11:
-                            intent.putExtra("file_name", "anti-bribery-anti-corruption-policy.pdf");
+                            intent.putExtra("file_name", lang.equalsIgnoreCase(Constants.TURKISH) ? "anti-bribery-anti-corruption-policy-tr" :"anti-bribery-anti-corruption-policy.pdf");
                             intent.putExtra("title", getString(R.string.Sub_Menu_2_Anti_Bribery));
                             intent.putExtra("type", "pdf");
                             break;

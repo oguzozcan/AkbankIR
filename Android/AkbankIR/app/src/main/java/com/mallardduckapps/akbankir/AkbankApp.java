@@ -183,6 +183,8 @@ public class AkbankApp extends Application {
             } else {
                 Toast.makeText(getApplicationContext(), "İnternetinizi kontrol edin ve tekrar deneyin.", Toast.LENGTH_LONG);
             }
+        }else{
+            Toast.makeText(getApplicationContext(), "İnternetinizi kontrol edin ve tekrar deneyin.", Toast.LENGTH_LONG);
         }
         //Log.e("ReaderApp", event.getErrorMessage());
     }

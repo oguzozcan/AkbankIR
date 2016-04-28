@@ -1,11 +1,11 @@
 package com.mallardduckapps.akbankir;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
@@ -56,6 +56,8 @@ import java.util.ArrayList;
 
 import retrofit2.Response;
 
+//import android.support.v4.app.FragmentManager;
+
 /**
  * An activity representing a list of Items. This activity
  * has different presentations for handset and tablet-size devices. On
@@ -84,13 +86,13 @@ public class ItemListActivity extends BaseActivity {
     private Handler handler;
     private static final long ANIM_VIEWPAGER_DELAY = 5000;
     private static final long ANIM_VIEWPAGER_DELAY_USER_VIEW = 10000;
-
+    View contentView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View contentView = inflater.inflate(R.layout.activity_item_list, null, false);
+        contentView = inflater.inflate(R.layout.activity_item_list, null, false);
         mContent.addView(contentView, 0);
         TimeUtil.changeLocale(getResources().getConfiguration().locale);
         StaggeredGridLayoutManager lm = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
@@ -140,8 +142,9 @@ public class ItemListActivity extends BaseActivity {
                 @Override
                 public void run() {
                     Intent termsIntent = new Intent(ItemListActivity.this, TermsActivity.class);
+                    termsIntent.putExtra("automatic", true);
                     ItemListActivity.this.startActivity(termsIntent);
-                    ds.putBoolean("N_FIRST_ENTRANCE", true);
+                    ds.putBoolean(Constants.FIRST_ENTRANCE_KEY, true);
                     ds.save();
                 }
             }, 300);
@@ -267,9 +270,9 @@ public class ItemListActivity extends BaseActivity {
         Log.d(TAG, "RESPONSE ratings: " + response.body().toString());
         //loadingLayout.setVisibility(View.GONE);
         if (response.isSuccessful()) {
-            ArrayList<Rating> ratings = response.body();
+            final ArrayList<Rating> ratings = response.body();
             Log.d(TAG, "RATINGs size: " + ratings.size());
-            ArrayList<String> ratingsArray = new ArrayList();
+            final ArrayList<String> ratingsArray = new ArrayList();
             ratingsArray.add("");
             ratingsArray.add("Moody's");
             ratingsArray.add("Fitch");
@@ -285,9 +288,22 @@ public class ItemListActivity extends BaseActivity {
             ratingsGridView.setLayoutManager(lm);
             ratingsGridView.setAdapter(new RatingsGridViewAdapter(this, ratingsArray));
 
+            RelativeLayout ratingsTitleLayout = (RelativeLayout) contentView.findViewById(R.id.ratingsTitleLayout);
+            ratingsTitleLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent ratings = new Intent(ItemListActivity.this, RatingsActivity.class);
+                    ratings.putExtra("ratings", ratingsArray);
+                    ItemListActivity.this.startActivity(ratings);
+                }
+            });
+
+
         } else {
             app.getBus().post(new ApiErrorEvent(response.code(), response.message(), true));
         }
+
+
     }
 
     @Subscribe
@@ -462,7 +478,7 @@ public class ItemListActivity extends BaseActivity {
         RelativeLayout annualReportsTitleLayout = (RelativeLayout) contentView.findViewById(R.id.annualReportsTitleLayout);
         RelativeLayout webCastsTitleLayout = (RelativeLayout) contentView.findViewById(R.id.webcastsTitleLayout);
         RelativeLayout aboutTurkeyTitleLayout = (RelativeLayout) contentView.findViewById(R.id.aboutTurkeyTitleLayout);
-        RelativeLayout ratingsTitleLayout = (RelativeLayout) contentView.findViewById(R.id.ratingsTitleLayout);
+
         newsTitleLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -506,12 +522,7 @@ public class ItemListActivity extends BaseActivity {
                 ItemListActivity.this.startActivity(intentAboutTurkey);
             }
         });
-        ratingsTitleLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO eksik kalmıs
-            }
-        });
+
     }
 
     private void setCalendarLayout(DashboardContainerObject dashboardContainerObject) {
@@ -558,6 +569,22 @@ public class ItemListActivity extends BaseActivity {
                         view.setBackgroundResource(R.drawable.calendar_ircalendar_background);
                     }
                 });
+
+                descriptionTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intentCalendar = new Intent(ItemListActivity.this, CalendarActivity.class);
+                        ItemListActivity.this.startActivity(intentCalendar);
+                    }
+                });
+
+                dateTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intentCalendar = new Intent(ItemListActivity.this, CalendarActivity.class);
+                        ItemListActivity.this.startActivity(intentCalendar);
+                    }
+                });
             }
         }
     }
@@ -579,7 +606,7 @@ public class ItemListActivity extends BaseActivity {
             public void onClick(View view) {
                 //app.getBus().post(new EventFileDownloadRequest(ItemListActivity.this, AkbankApp.ROOT_URL_1, annualReportObject.getPdfUrl()));
                 Log.d(TAG, "Download STARTED annualReport");
-                FragmentManager fm = getSupportFragmentManager();
+                FragmentManager fm = getFragmentManager();//getSupportFragmentManager();
                 DownloadDialogFragment newFragment = new DownloadDialogFragment();
                 Bundle b = new Bundle();
                 b.putString("title", annualReportObject.getTitle());
@@ -594,7 +621,7 @@ public class ItemListActivity extends BaseActivity {
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fm = getSupportFragmentManager();
+                FragmentManager fm = getFragmentManager();//getSupportFragmentManager();
                 DownloadDialogFragment newFragment = new DownloadDialogFragment();
                 Bundle b = new Bundle();
                 b.putString("title", annualReportObject.getTitle());
@@ -616,7 +643,7 @@ public class ItemListActivity extends BaseActivity {
             public void onClick(View view) {
                 //app.getBus().post(new EventFileDownloadRequest(ItemListActivity.this,AkbankApp.ROOT_URL_1, aboutTurkeyObject.getPdf()));
                 Log.d(TAG, "Download STARTED about Turkey");
-                FragmentManager fm = getSupportFragmentManager();
+                FragmentManager fm = getFragmentManager();//getSupportFragmentManager();
                 DownloadDialogFragment newFragment = new DownloadDialogFragment();
                 Bundle b = new Bundle();
                 b.putString("title", aboutTurkeyObject.getTitle());
@@ -632,7 +659,7 @@ public class ItemListActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Download STARTED about Turkey");
-                FragmentManager fm = getSupportFragmentManager();
+                FragmentManager fm = getFragmentManager();//getSupportFragmentManager();
                 DownloadDialogFragment newFragment = new DownloadDialogFragment();
                 Bundle b = new Bundle();
                 b.putString("title", aboutTurkeyObject.getTitle());
@@ -658,7 +685,8 @@ public class ItemListActivity extends BaseActivity {
         listenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent webcasts = new Intent(ItemListActivity.this, WebcastsActivity.class);
+                ItemListActivity.this.startActivity(webcasts);
             }
         });
     }
@@ -714,50 +742,4 @@ public class ItemListActivity extends BaseActivity {
             container.removeView((RelativeLayout) object);
         }
     }
-
-//    BroadcastReceiver receiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            String action = intent.getAction();
-//            Log.d(TAG, "ACTION : " + action);
-//            if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
-//                Log.d(TAG, "Download Completed");
-//                progressBarLayout.setVisibility(View.GONE);
-//                long downloadId = intent.getLongExtra(
-//                        DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-//                Log.d(TAG, "Download Completed id: " + downloadId);
-//                DownloadManager.Query query = new DownloadManager.Query();
-//                query.setFilterById(downloadId);
-//                Cursor c = ((DownloadManager) getSystemService(BaseActivity.DOWNLOAD_SERVICE)).query(query);
-//                if (c.moveToFirst()) {
-//                    int columnIndex = c
-//                            .getColumnIndex(DownloadManager.COLUMN_STATUS);
-//                    if (DownloadManager.STATUS_SUCCESSFUL == c
-//                            .getInt(columnIndex)) {
-//                        String uriString = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
-//                        String description = c.getString(c.getColumnIndex(DownloadManager.COLUMN_DESCRIPTION));
-//                        String title = c.getString(c.getColumnIndex(DownloadManager.COLUMN_TITLE));
-//                        //Log.d(TAG, "DOWNLOAD COMPLETED: " + uriString);
-//                        Log.d(TAG, "DOWNLOAD COMPLETED: " + Uri.parse(uriString));
-//                        Log.d(TAG, "DOWNLOAD DESCRIPTION: " + description);
-//                        if(description.equals("view")){
-//                            Intent intentPdf = new Intent(ItemListActivity.this, WebActivity.class);
-//                            intentPdf.putExtra("uri", uriString);
-//                            intentPdf.putExtra("title", title);
-//                            intentPdf.putExtra("type", "pdf");
-//                            ItemListActivity.this.startActivity(intentPdf);
-//                        }else{
-//                            Log.d(TAG, "ONLY DOWNLOAD: " + description);
-//                        }
-//
-//                    }
-//                    int columnDownloadedBytes = c
-//                            .getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR);
-//                    Log.d(TAG, "DOWNLOADED BYTES: " + c.getInt(columnDownloadedBytes));
-//
-//                }
-//            }
-//        }
-//    };
-
 }

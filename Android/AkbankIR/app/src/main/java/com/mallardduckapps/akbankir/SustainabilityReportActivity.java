@@ -1,10 +1,11 @@
 package com.mallardduckapps.akbankir;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.FragmentManager;
+//import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -97,7 +98,7 @@ public class SustainabilityReportActivity extends BaseActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fm = getSupportFragmentManager();
+                FragmentManager fm = getFragmentManager();//getSupportFragmentManager();
                 DownloadDialogFragment newFragment = new DownloadDialogFragment();
                 Bundle b = new Bundle();
                 b.putString("title", reportObject.getTitle());
@@ -111,7 +112,7 @@ public class SustainabilityReportActivity extends BaseActivity {
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fm = getSupportFragmentManager();
+                FragmentManager fm = getFragmentManager();//getSupportFragmentManager();
                 DownloadDialogFragment newFragment = new DownloadDialogFragment();
                 Bundle b = new Bundle();
                 b.putString("title", reportObject.getTitle());

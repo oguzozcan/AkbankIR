@@ -25,7 +25,8 @@ import java.util.ArrayList;
 import retrofit2.Response;
 
 public class AnalystCovarageActivity extends BaseActivity {
-    View contentView;
+
+    private View contentView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,9 +107,9 @@ public class AnalystCovarageActivity extends BaseActivity {
             localList = new ArrayList<>();
             internationalList = new ArrayList<>();
             for(AnalystCovarageObject aco : covarageList){
-                if(aco.getType().equals("l")){
+                if(aco.getType().equalsIgnoreCase("l")){
                     localList.add(aco);
-                }else if(aco.getType().equals("i")){
+                }else if(aco.getType().equalsIgnoreCase("i")){
                     internationalList.add(aco);
                 }
             }

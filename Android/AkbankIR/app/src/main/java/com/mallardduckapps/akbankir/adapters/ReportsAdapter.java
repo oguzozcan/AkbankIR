@@ -1,7 +1,9 @@
 package com.mallardduckapps.akbankir.adapters;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.mallardduckapps.akbankir.AkbankApp;
 import com.mallardduckapps.akbankir.R;
+import com.mallardduckapps.akbankir.fragments.DownloadDialogFragment;
 import com.mallardduckapps.akbankir.objects.ReportObject;
 import com.squareup.picasso.Picasso;
 
@@ -78,17 +81,38 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.DataObje
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
-        ReportObject report = getItem(position);
+        final ReportObject report = getItem(position);
         holder.titleTv.setText(report.getTitle());
         Picasso.with(activity).load(AkbankApp.ROOT_URL + report.getImage()).placeholder(R.drawable.group_copy_4).into(holder.pdfIcon);
 
         //holder.saveTv.setText(webcast.getCreatedDate());
         //String date = TimeUtil.getDateTime(webcast.getDate(), TimeUtil.dfISO, TimeUtil.dtfOutWOTimeShort);
         //holder.dateTv.setText(date);
+        holder.saveTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = activity.getFragmentManager();//getSupportFragmentManager();
+                DownloadDialogFragment newFragment = new DownloadDialogFragment();
+                Bundle b = new Bundle();
+                b.putString("title", report.getTitle());
+                b.putString("url", report.getPdfUrl());
+                b.putBoolean("shouldShowAfterDownload", false);
+                newFragment.setArguments(b);
+                newFragment.show(fm, activity.getString(R.string.Downloading));
+            }
+        });
+
         holder.viewTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                FragmentManager fm = activity.getFragmentManager();//getSupportFragmentManager();
+                DownloadDialogFragment newFragment = new DownloadDialogFragment();
+                Bundle b = new Bundle();
+                b.putString("title", report.getTitle());
+                b.putString("url", report.getPdfUrl());
+                b.putBoolean("shouldShowAfterDownload", true);
+                newFragment.setArguments(b);
+                newFragment.show(fm, activity.getString(R.string.Opening));
             }
         });
     }

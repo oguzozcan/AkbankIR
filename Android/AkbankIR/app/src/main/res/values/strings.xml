@@ -60,26 +60,27 @@
     <string name="Menu_SavedDocuments">Kayıtlı Dökümanlar</string>
 
     <!--SubMenus-->
-    <string name="Sub_Menu_1_Financial">Financial Results &amp; Earning Presentation</string>
+    <string name="Sub_Menu_1_Financial">Finansal Bilgiler</string>
     <string name="Sub_Menu_1_Investor">Investor Presentation</string>
-    <string name="Sub_Menu_1_Akbank_Analyst">Akbank Analyst and Investor Days</string>
-    <string name="Sub_Menu_1_Annual_Reports">Annual Reports</string>
+    <!-- <string name="Sub_Menu_1_Investor">BU TURKCEDE GÖZUKMEYECEK</string> -->
+    <string name="Sub_Menu_1_Akbank_Analyst">Akbank Analist ve Yatırımcı Günleri</string>
+    <string name="Sub_Menu_1_Annual_Reports">Faaliyet Raporları</string>
     <string name="Sub_Menu_1_Webcasts">Webcasts</string>
-    <string name="Sub_Menu_1_Sustainability">Sustainability Report</string>
+    <string name="Sub_Menu_1_Sustainability">Sürdürülebilirlik Raporları</string>
 
-    <string name="Sub_Menu_2_Corparate">Corporate Governance</string>
-    <string name="Sub_Menu_2_Articles">Articles of Association</string>
-    <string name="Sub_Menu_2_Renumuration">Renumeration Policy</string>
-    <string name="Sub_Menu_2_Annual">Annual General Meeting Documents</string>
-    <string name="Sub_Menu_2_About">About Suzan Sabancı Dinçer</string>
-    <string name="Sub_Menu_2_Capital">Capital and Trade Registry Information</string>
-    <string name="Sub_Menu_2_Ethnical">Ethical Principles</string>
-    <string name="Sub_Menu_2_Compliance">Compliance</string>
-    <string name="Sub_Menu_2_Compensation">Compensation Policy</string>
-    <string name="Sub_Menu_2_Donation">Donation &amp; Contribution Policy</string>
-    <string name="Sub_Menu_2_Disclosure">Disclosure Policy</string>
-    <string name="Sub_Menu_2_Anti_Bribery">Anti Bribery &amp; Anti Corruption Policy</string>
-    <string name="Sub_Menu_2_Divident_Policy">Divident Policy</string>
+    <string name="Sub_Menu_2_Corparate">Kurumsal Yönetim</string>
+    <string name="Sub_Menu_2_Articles">Ana Sözleşme</string>
+    <string name="Sub_Menu_2_Renumuration">Ücretlendirme Politikası</string>
+    <string name="Sub_Menu_2_Annual">Genel Kurul Dökümanları</string>
+    <string name="Sub_Menu_2_About">Suzan Sabancı Dinçer</string>
+    <string name="Sub_Menu_2_Capital">Sermaye ve Ticaret Sicil Belgeleri</string>
+    <string name="Sub_Menu_2_Ethnical">Etik İlkeler</string>
+    <string name="Sub_Menu_2_Compliance">MASAK Uyum Politikası</string>
+    <string name="Sub_Menu_2_Compensation">Personel Tazminat Politikası</string>
+    <string name="Sub_Menu_2_Donation">Bağış ve Yardım Politikası</string>
+    <string name="Sub_Menu_2_Disclosure">Bilgilendirme Politikası</string>
+    <string name="Sub_Menu_2_Anti_Bribery">Rüşvet ve Yolsuzlukla Mücadele Politikası</string>
+    <string name="Sub_Menu_2_Divident_Policy">Kar Dağıtım Politikası</string>
 
     <string name="Terms_of_Services">Kullanım Koşulları</string>
 

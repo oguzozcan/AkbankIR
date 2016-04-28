@@ -60,7 +60,7 @@ public class AnnouncementAndNewsActivity extends BaseActivity {
     }
 
     @Subscribe
-    public void onLoadWebcasts(EventNewsResponse event){
+    public void onLoadNews(EventNewsResponse event){
         Response<ArrayList<NewsObject>> response = event.getResponse();
         Log.d(TAG, "ON RESPONSE - responsecode: " + response.code() + " - response:" + response.raw());
         Log.d(TAG, "RESPONSE : " + response.body().toString());

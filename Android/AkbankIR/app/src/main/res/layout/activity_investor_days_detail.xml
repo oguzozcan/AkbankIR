@@ -20,15 +20,16 @@
     <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/youtubeView"
         android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/detailItem"
         ></com.google.android.youtube.player.YouTubePlayerView>
-    <!--android:layout_above="@+id/detailItem"-->
-    <!--<include-->
-        <!--android:id="@+id/detailItem"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--layout="@layout/row_investor_days_detail_item"-->
-        <!--&gt;</include>-->
+    <!---->
+    <include
+        android:id="@+id/detailItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/row_investor_days_detail_item"
+        ></include>
 </RelativeLayout>

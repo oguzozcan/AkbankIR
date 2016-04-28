@@ -18,10 +18,13 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:descendantFocusability="afterDescendants"
+        android:scrollbars="none">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:descendantFocusability="afterDescendants">
             <TextView
                 android:id="@+id/htmlTitle"
                 android:layout_width="match_parent"
@@ -31,7 +34,7 @@
                 android:paddingTop="30dp"
                 android:paddingBottom="5dp"
                 android:textColor="@color/greyish_brown"
-                android:textSize="17dp" />
+                android:textSize="16dp" />
         </RelativeLayout>
     </ScrollView>
 

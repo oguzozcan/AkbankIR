@@ -89,9 +89,9 @@ public class InvestorDaysActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent detail = new Intent(InvestorDaysActivity.this, InvestorDaysDetailActivity.class);
                 detail.putExtra("postfix", daysObject.getVideo());
+                detail.putExtra("investor_days", daysObject);
                 InvestorDaysActivity.this.startActivity(detail);
             }
         });
-
     }
 }

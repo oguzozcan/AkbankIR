@@ -1,8 +1,9 @@
 package com.mallardduckapps.akbankir;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+//import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,7 +29,7 @@ import retrofit2.Response;
 
 public class EarningPresentationActivity extends BaseActivity {
 
-    View contentView;
+    private View contentView;
     private RecyclerView reportsList;
 
     @Override
@@ -94,7 +95,7 @@ public class EarningPresentationActivity extends BaseActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fm = getSupportFragmentManager();
+                FragmentManager fm = getFragmentManager();//getSupportFragmentManager();
                 DownloadDialogFragment newFragment = new DownloadDialogFragment();
                 Bundle b = new Bundle();
                 b.putString("title", reportObject.getTitle());
@@ -108,7 +109,7 @@ public class EarningPresentationActivity extends BaseActivity {
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fm = getSupportFragmentManager();
+                FragmentManager fm = getFragmentManager();//getSupportFragmentManager();
                 DownloadDialogFragment newFragment = new DownloadDialogFragment();
                 Bundle b = new Bundle();
                 b.putString("title", reportObject.getTitle());

@@ -1,8 +1,9 @@
 package com.mallardduckapps.akbankir;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,7 +16,6 @@ import android.widget.TextView;
 import com.mallardduckapps.akbankir.adapters.ReportsAdapter;
 import com.mallardduckapps.akbankir.busevents.EventAnnualReportsRequest;
 import com.mallardduckapps.akbankir.busevents.EventAnnualReportsResponse;
-import com.mallardduckapps.akbankir.busevents.EventSustainabilityReportsRequest;
 import com.mallardduckapps.akbankir.fragments.DownloadDialogFragment;
 import com.mallardduckapps.akbankir.objects.ApiErrorEvent;
 import com.mallardduckapps.akbankir.objects.ReportObject;
@@ -25,11 +25,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+//import android.support.v4.app.FragmentManager;
+
 import retrofit2.Response;
 
 public class AnnualReportsActivity extends BaseActivity {
 
-    View contentView;
+    private View contentView;
     private RecyclerView reportsList;
 
     @Override
@@ -95,7 +97,7 @@ public class AnnualReportsActivity extends BaseActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fm = getSupportFragmentManager();
+                FragmentManager fm = getFragmentManager();//getSupportFragmentManager();
                 DownloadDialogFragment newFragment = new DownloadDialogFragment();
                 Bundle b = new Bundle();
                 b.putString("title", reportObject.getTitle());
@@ -109,7 +111,7 @@ public class AnnualReportsActivity extends BaseActivity {
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fm = getSupportFragmentManager();
+                FragmentManager fm = getFragmentManager();//getSupportFragmentManager();
                 DownloadDialogFragment newFragment = new DownloadDialogFragment();
                 Bundle b = new Bundle();
                 b.putString("title", reportObject.getTitle());

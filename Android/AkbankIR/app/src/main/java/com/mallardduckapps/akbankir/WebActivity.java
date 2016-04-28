@@ -1,11 +1,19 @@
 package com.mallardduckapps.akbankir;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LevelListDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,8 +32,13 @@ import com.mallardduckapps.akbankir.utils.Constants;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-public class WebActivity extends BaseActivity {
+public class WebActivity extends BaseActivity implements Html.ImageGetter {
 
     @Override
     protected void setTag() {
@@ -33,6 +46,7 @@ public class WebActivity extends BaseActivity {
     }
 
     String title;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +57,10 @@ public class WebActivity extends BaseActivity {
         View contentView = inflater.inflate(R.layout.activity_web, null, false);
         mContent.addView(contentView, 0);
         WebView webView = (WebView) contentView.findViewById(R.id.webView);
-        TextView textView = (TextView) contentView.findViewById(R.id.htmlTitle);
+        textView = (TextView) contentView.findViewById(R.id.htmlTitle);
+
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+
         PDFView pdfView = (PDFView) contentView.findViewById(R.id.pdfview);
         //pdfView.
         webView.getSettings().setBuiltInZoomControls(true);
@@ -60,7 +77,6 @@ public class WebActivity extends BaseActivity {
         if(title != null){
             TAG = title;
         }
-
         if(type.equals("web")){
             //webView.loadUrl("file:///android_asset/html/"+fileName);
             //StringEscapeUtils.unescapeJson(comment.getComment()
@@ -108,14 +124,14 @@ public class WebActivity extends BaseActivity {
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_DISCLOSURE_POLICY);
                     isLocalHtml = true;
                     break;
-                case 11:
+                case 12:
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_DIVIDENT_POLICY);
                     isLocalHtml = true;
                     break;
             }
             //webView.loadData(html,"text/html", "UTF-8");
             if(isLocalHtml){
-                Spanned htmlAsSpanned = Html.fromHtml(html);
+                Spanned htmlAsSpanned = Html.fromHtml(html, this, null);
                 textView.setText(htmlAsSpanned);
                 webView.setVisibility(View.GONE);
                 textView.setVisibility(View.VISIBLE);
@@ -133,8 +149,6 @@ public class WebActivity extends BaseActivity {
             webView.setVisibility(View.GONE);
             pdfView.setVisibility(View.VISIBLE);
             //pdfView.setCameraDistance(20f);
-
-            //webView.loadUrl("http://akbank.steelkiwi.com/media/reports/anti-bribery-anti-corruption-policy.pdf");
             if(fileName != null){
                 pdfView.zoomTo(2f);
                 pdfView.toCurrentScale(1.4f);
@@ -242,4 +256,54 @@ public class WebActivity extends BaseActivity {
         finish();
         //MainActivity.setBackwardsTranslateAnimation(this);
     }
+
+    @Override
+    public Drawable getDrawable(String source) {
+        LevelListDrawable d = new LevelListDrawable();
+        Drawable empty = ContextCompat.getDrawable(this,R.drawable.avatar);
+        d.addLevel(0, 0, empty);
+        d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight());
+        new LoadImage().execute(source, d);
+        return d;
+    }
+
+    class LoadImage extends AsyncTask<Object, Void, Bitmap> {
+
+        private LevelListDrawable mDrawable;
+
+        @Override
+        protected Bitmap doInBackground(Object... params) {
+            String source = (String) params[0];
+            mDrawable = (LevelListDrawable) params[1];
+            Log.d(TAG, "doInBackground " + source);
+            try {
+                InputStream is = new URL(source).openStream();
+                return BitmapFactory.decodeStream(is);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            Log.d(TAG, "onPostExecute drawable " + mDrawable);
+            Log.d(TAG, "onPostExecute bitmap " + bitmap);
+            if (bitmap != null) {
+                BitmapDrawable d = new BitmapDrawable(bitmap);
+                mDrawable.addLevel(1, 1, d);
+                mDrawable.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
+                mDrawable.setLevel(1);
+                // i don't know yet a better way to refresh TextView
+                // mTv.invalidate() doesn't work as expected
+                CharSequence t = textView.getText();
+                textView.setText(t);
+            }
+        }
+    }
+
 }

@@ -2,20 +2,16 @@ package com.mallardduckapps.akbankir.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mallardduckapps.akbankir.AkbankApp;
 import com.mallardduckapps.akbankir.R;
-import com.mallardduckapps.akbankir.objects.CalendarEvent;
 import com.mallardduckapps.akbankir.objects.Person;
-import com.mallardduckapps.akbankir.utils.TimeUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -30,7 +26,7 @@ public class IRTeamAdapter extends RecyclerView.Adapter<IRTeamAdapter.DataObject
     private ArrayList<Person> data;
     private LayoutInflater inflater = null;
     private final String TAG = "IR_TEAM_ADAPTER";
-   // private final AssetManager manager;
+    // private final AssetManager manager;
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder {
         final TextView nameTv;
@@ -45,7 +41,7 @@ public class IRTeamAdapter extends RecyclerView.Adapter<IRTeamAdapter.DataObject
             this.activity = activity;
             //imageView = (ImageView) itemView.findViewById(R.id.imageView);
             nameTv = (TextView) itemView.findViewById(R.id.nameTv);
-            phoneTv= (TextView) itemView.findViewById(R.id.phoneTv);
+            phoneTv = (TextView) itemView.findViewById(R.id.phoneTv);
             emailTv = (TextView) itemView.findViewById(R.id.emailTv);
             portraitImage = (CircleImageView) itemView.findViewById(R.id.portraitImage);
             positionTv = (TextView) itemView.findViewById(R.id.positionTv);
@@ -88,7 +84,7 @@ public class IRTeamAdapter extends RecyclerView.Adapter<IRTeamAdapter.DataObject
         notifyDataSetChanged();
     }
 
-    public void remove(CalendarEvent item) {
+    public void remove(Person item) {
         int position = data.indexOf(item);
         data.remove(position);
         notifyItemRemoved(position);
@@ -97,8 +93,8 @@ public class IRTeamAdapter extends RecyclerView.Adapter<IRTeamAdapter.DataObject
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
         Person person = getItem(position);
-       // String eventDate = TimeUtil.getDateTime(event.getEventDate(), TimeUtil.dtfApiFormat, TimeUtil.dtfOutWOTime);
-       //String weekDay = TimeUtil.getDateTime(event.getEventDate(), TimeUtil.dtfApiFormat, TimeUtil.dtfOutWeekday);
+        // String eventDate = TimeUtil.getDateTime(event.getEventDate(), TimeUtil.dtfApiFormat, TimeUtil.dtfOutWOTime);
+        //String weekDay = TimeUtil.getDateTime(event.getEventDate(), TimeUtil.dtfApiFormat, TimeUtil.dtfOutWeekday);
         Log.d(TAG, "IMAGE PATH : " + AkbankApp.ROOT_URL + person.getPortait());
         Picasso.with(activity).load(AkbankApp.ROOT_URL + person.getPortait()).placeholder(R.drawable.avatar).into(holder.portraitImage);
         holder.nameTv.setText(person.getName());

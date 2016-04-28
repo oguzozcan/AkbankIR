@@ -1,22 +1,29 @@
 package com.mallardduckapps.akbankir;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.mallardduckapps.akbankir.fragments.DownloadDialogFragment;
+import com.mallardduckapps.akbankir.objects.InvestorDaysObject;
 import com.mallardduckapps.akbankir.utils.Constants;
 
 public class InvestorDaysDetailActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener  {
 
     //private View contentView;
+    private String postFix;
 
-    String postFix;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +39,8 @@ public class InvestorDaysDetailActivity extends YouTubeBaseActivity implements Y
         setContentView(R.layout.activity_investor_days_detail);
 
         postFix = getIntent().getStringExtra("postfix");
+        InvestorDaysObject investorDaysObject = getIntent().getParcelableExtra("investor_days");
+        setReportObject(investorDaysObject);
   /*      WebView webView = (WebView) findViewById(R.id.webView);
         String urlPostFix = getIntent().getStringExtra("postfix");
         // set webview properties
@@ -48,15 +57,52 @@ public class InvestorDaysDetailActivity extends YouTubeBaseActivity implements Y
         */
 
         YouTubePlayerView youTubeView = (YouTubePlayerView) findViewById(R.id.youtubeView);
+
         // Initializing video player with developer key
         youTubeView.initialize(Constants.DEVELOPER_KEY, this);
 
     }
 
-//    @Override
-//    protected void setTag() {
-//        TAG = "InvestorDasyDetailActivity";
-//    }
+    private void setReportObject(final InvestorDaysObject daysObject ) {
+
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.detailItem);
+        //RelativeLayout webcastLayout = (RelativeLayout) layout.findViewById(R.id.reportLayout);
+        TextView description = (TextView) layout.findViewById(R.id.reportDescription);
+        if(daysObject == null){
+            layout.setVisibility(View.GONE);
+            return;
+        }
+        description.setText(daysObject.getTitle());
+        TextView viewButton = (TextView) layout.findViewById(R.id.viewButton);
+        TextView saveButton = (TextView) layout.findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getFragmentManager();
+                DownloadDialogFragment newFragment = new DownloadDialogFragment();
+                Bundle b = new Bundle();
+                b.putString("title", daysObject.getTitle());
+                b.putString("url", daysObject.getPdf());
+                b.putBoolean("shouldShowAfterDownload", false);
+                newFragment.setArguments(b);
+                newFragment.show(fm, getString(R.string.Downloading));
+            }
+        });
+
+        viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getFragmentManager();
+                DownloadDialogFragment newFragment = new DownloadDialogFragment();
+                Bundle b = new Bundle();
+                b.putString("title", daysObject.getTitle());
+                b.putString("url", daysObject.getPdf());
+                b.putBoolean("shouldShowAfterDownload", true);
+                newFragment.setArguments(b);
+                newFragment.show(fm, getString(R.string.Opening));
+            }
+        });
+    }
 
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider,
@@ -66,7 +112,6 @@ public class InvestorDaysDetailActivity extends YouTubeBaseActivity implements Y
             // loadVideo() will auto play video
             // Use cueVideo() method, if you don't want to play it automatically
             player.loadVideo(postFix);
-
             // Hiding player controls CHROMELESS
             player.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
         }

@@ -1,6 +1,7 @@
 package com.mallardduckapps.akbankir;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -80,7 +81,7 @@ public class WebcastsActivity extends BaseActivity {
         }
     }
 
-    private void setWebcastsLayout(WebcastObject webcastObject ) {
+    private void setWebcastsLayout(final WebcastObject webcastObject ) {
         RelativeLayout webcastLayout = (RelativeLayout) contentView.findViewById(R.id.latestReport);
         TextView webcastTitle = (TextView) webcastLayout.findViewById(R.id.webcastsTitle);
         webcastTitle.setText(webcastObject.getTitle());
@@ -91,7 +92,23 @@ public class WebcastsActivity extends BaseActivity {
         listenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //WebcastPlayerActivity
+                Intent intent = new Intent(WebcastsActivity.this, WebcastPlayerActivity.class);
+                intent.putExtra("name", webcastObject.getTitle());
+                intent.putExtra("date", webcastObject.getDate());
+                intent.putExtra("postfix", webcastObject.getAudioUrl());
+                WebcastsActivity.this.startActivity(intent);
+            }
+        });
 
+        webcastLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(WebcastsActivity.this, WebcastPlayerActivity.class);
+                intent.putExtra("name", webcastObject.getTitle());
+                intent.putExtra("date", webcastObject.getDate());
+                intent.putExtra("postfix", webcastObject.getAudioUrl());
+                WebcastsActivity.this.startActivity(intent);
             }
         });
     }

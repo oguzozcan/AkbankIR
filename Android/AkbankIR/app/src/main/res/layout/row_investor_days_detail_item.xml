@@ -48,6 +48,7 @@
             android:layout_marginRight="32dp"
             android:text="@string/Save"
             android:textSize="15dp"
+            android:paddingBottom="8dp"
             android:drawableLeft="@drawable/save_icon"
             android:textColor="@color/tomato"
             android:drawablePadding="11dp" />
@@ -60,6 +61,7 @@
             android:textColor="@color/tomato"
             android:text="@string/View"
             android:textSize="15dp"
+            android:paddingBottom="8dp"
             android:layout_below="@+id/reportDescription"
             android:layout_toRightOf="@id/saveButton"
             android:drawableLeft="@drawable/view_icon"

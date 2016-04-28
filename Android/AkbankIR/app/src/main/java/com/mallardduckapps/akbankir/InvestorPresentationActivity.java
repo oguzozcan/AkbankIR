@@ -1,5 +1,6 @@
 package com.mallardduckapps.akbankir;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.mallardduckapps.akbankir.busevents.EventInvestorPresentationRequest;
 import com.mallardduckapps.akbankir.busevents.EventInvestorPresentationsResponse;
 import com.mallardduckapps.akbankir.busevents.EventSustainabilityReportsRequest;
 import com.mallardduckapps.akbankir.busevents.EventSustainabilityReportsResponse;
+import com.mallardduckapps.akbankir.fragments.DownloadDialogFragment;
 import com.mallardduckapps.akbankir.objects.ApiErrorEvent;
 import com.mallardduckapps.akbankir.objects.ReportObject;
 import com.mallardduckapps.akbankir.utils.Constants;
@@ -83,7 +85,7 @@ public class InvestorPresentationActivity extends BaseActivity {
         }
     }
 
-    private void setReportObject(ReportObject reportObject ) {
+    private void setReportObject(final ReportObject reportObject ) {
         RelativeLayout webcastLayout = (RelativeLayout) contentView.findViewById(R.id.latestReport);
         TextView description = (TextView) webcastLayout.findViewById(R.id.reportDescription);
         TextView description2 = (TextView) webcastLayout.findViewById(R.id.reportDescription2);
@@ -102,14 +104,28 @@ public class InvestorPresentationActivity extends BaseActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                FragmentManager fm = getFragmentManager();//getSupportFragmentManager();
+                DownloadDialogFragment newFragment = new DownloadDialogFragment();
+                Bundle b = new Bundle();
+                b.putString("title", reportObject.getTitle());
+                b.putString("url", reportObject.getPdfUrl());
+                b.putBoolean("shouldShowAfterDownload", false);
+                newFragment.setArguments(b);
+                newFragment.show(fm, getString(R.string.Downloading));
             }
         });
 
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                FragmentManager fm = getFragmentManager();//getSupportFragmentManager();
+                DownloadDialogFragment newFragment = new DownloadDialogFragment();
+                Bundle b = new Bundle();
+                b.putString("title", reportObject.getTitle());
+                b.putString("url", reportObject.getPdfUrl());
+                b.putBoolean("shouldShowAfterDownload", true);
+                newFragment.setArguments(b);
+                newFragment.show(fm, getString(R.string.Opening));
             }
         });
     }

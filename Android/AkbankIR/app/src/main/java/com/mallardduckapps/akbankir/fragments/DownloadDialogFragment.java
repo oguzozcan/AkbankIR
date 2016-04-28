@@ -1,6 +1,7 @@
 package com.mallardduckapps.akbankir.fragments;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,7 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,12 +36,14 @@ import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
+//import android.support.v4.app.DialogFragment;
+
 /**
  * Created by oguzemreozcan on 18/04/16.
  */
 public class DownloadDialogFragment extends DialogFragment {
 
-    private CancelDownloadCallback callback;
+    //private CancelDownloadCallback callback;
     private Activity activity;
     private final String TAG = "DownloadDialog";
     String title;
@@ -94,10 +97,10 @@ public class DownloadDialogFragment extends DialogFragment {
 
     private boolean isFilePresent(String title) {
         String path = Environment.getExternalStorageDirectory().toString() + SavedDocumentObject.FOLDER_PATH;//"/akbank_files";
-        Log.d("Files", "Path: " + path);
+
         File f = new File(path);
         File file[] = f.listFiles();
-        Log.d("Files", "Size: " + file.length);
+        Log.d("Files", "Path: " + path + "Size: " + file.length);
         for (int i = 0; i < file.length; i++) {
             Log.d("Files", "FileName:" + file[i].getName());
             if (title.equals(file[i].getName()) ){
@@ -220,7 +223,6 @@ public class DownloadDialogFragment extends DialogFragment {
     public interface CancelDownloadCallback {
         void cancelDownload(boolean cancel);
     }
-
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override

@@ -19,6 +19,7 @@ import java.util.Locale;
 
 public class TermsActivity extends BaseActivity {
     View contentView;
+    boolean automatic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class TermsActivity extends BaseActivity {
         onTitleTextChange(getString(R.string.Terms_of_Services));
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
+        automatic = getIntent().getBooleanExtra("automatic", false);
         final TabLayout tabLayout = (TabLayout) contentView.findViewById(R.id.tabLayout);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
@@ -68,9 +69,7 @@ public class TermsActivity extends BaseActivity {
                 }
             }
         });
-
         mViewPager.setOffscreenPageLimit(1);
-
     }
 
     @Override
@@ -137,7 +136,7 @@ public class TermsActivity extends BaseActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return TermsFragment.newInstance(position+1);
+            return TermsFragment.newInstance(position+1, automatic);
         }
 
         @Override
