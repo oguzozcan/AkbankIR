@@ -20,7 +20,6 @@
             android:paddingTop="8dp">
 
             <TextView
-                android:id="@+id/latestNewsTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -51,6 +50,48 @@
         </RelativeLayout>
 
 
+
+
+        <RelativeLayout
+            android:id="@+id/investorPresentationTitleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#e6e6e6"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="@string/DashboardHeader_InvestorPresentation"
+                android:textColor="@color/tomato" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:src="@drawable/investor_relations_homepage_icons" />
+        </RelativeLayout>
+
+
+
+        <include
+            android:id="@+id/latestPresentation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingBottom="7dp"
+            layout="@layout/row_big_report_item" />
+
+
         <RelativeLayout
             android:id="@+id/stocksTitleLayout"
             android:layout_width="match_parent"
@@ -60,7 +101,6 @@
             android:paddingTop="8dp">
 
             <TextView
-                android:id="@+id/stocksTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -80,18 +120,135 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:src="@drawable/stocks_dashboard_mini_icon" />
         </RelativeLayout>
+        
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <com.jjoe64.graphview.GraphView
-            android:id="@+id/graph"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginBottom="5dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:visibility="visible"
-            app:seriesColor="#ee0000"
-            app:seriesType="line" />
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graph"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="5dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:visibility="visible"
+                app:seriesColor="#ee0000"
+                app:seriesType="line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/topPanel"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/popupPanel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="70dp"
+                    android:minWidth="100dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/popup_background"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/timeTv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:padding="1dp"
+                            android:paddingRight="4dp"
+                            android:text="Time : 09.58"
+                            android:textColor="@color/red"
+                            android:textSize="9dp" />
+
+                        <TextView
+                            android:id="@+id/volumeTv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:padding="1dp"
+                            android:paddingRight="4dp"
+                            android:text="Volume : "
+                            android:textColor="@color/red"
+                            android:textSize="9dp" />
+
+                        <TextView
+                            android:id="@+id/akbankTv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:padding="1dp"
+                            android:paddingRight="4dp"
+                            android:text="Akbank : "
+                            android:textColor="@color/red"
+                            android:textSize="9dp" />
+
+                        <TextView
+                            android:id="@+id/bist30Tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:padding="1dp"
+                            android:paddingRight="4dp"
+                            android:text="BIST30 : "
+                            android:textColor="@color/red"
+                            android:textSize="9dp" />
+
+                        <TextView
+                            android:id="@+id/bistBankTv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:padding="1dp"
+                            android:paddingRight="4dp"
+                            android:text="BIST BANK : "
+                            android:textColor="@color/red"
+                            android:textSize="9dp" />
+
+                        <TextView
+                            android:id="@+id/usdTv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:padding="1dp"
+                            android:paddingRight="4dp"
+                            android:text="USD : "
+                            android:textColor="@color/red"
+                            android:textSize="9dp" />
+
+                        <TextView
+                            android:id="@+id/eurTv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:padding="1dp"
+                            android:paddingRight="4dp"
+                            android:text="EUR : "
+                            android:textColor="@color/red"
+                            android:textSize="9dp" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/dot"
+                    android:layout_width="3dp"
+                    android:layout_height="3dp"
+                    android:visibility="gone"
+                    android:src="@drawable/red_circle_shape" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+
 
 
         <RelativeLayout
@@ -103,7 +260,6 @@
             android:paddingTop="8dp">
 
             <TextView
-                android:id="@+id/calendarTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -136,7 +292,6 @@
             android:paddingTop="8dp">
 
             <TextView
-                android:id="@+id/annualReportsTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -201,7 +356,6 @@
             android:paddingTop="8dp">
 
             <TextView
-                android:id="@+id/aboutTurkeyTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -233,7 +387,6 @@
             android:paddingTop="8dp">
 
             <TextView
-                android:id="@+id/ratingsTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"

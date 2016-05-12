@@ -1,30 +1,14 @@
 <resources>
-    <string name="app_name">AkbankIR</string>
+    <string name="app_name">Investor Relations</string>
     <string name="title_item_detail">Item Detail</string>
     <!-- Buttons -->
     <string name="Ok">Tamam</string>
     <string name="Cancel">İptal</string>
     <string name="Confirm">Onayla</string>
-    <string name="Button_Agree">Kabul Et &amp; Devam Et</string>
-    <string name="Button_Save">KAYDET</string>
-    <string name="Button_View">GÖRÜNTÜLE</string>
-    <string name="Button_SaveDocument">Dökümanı Kaydet</string>
-    <string name="Button_Watch">İzle</string>
-    <string name="Button_Listen">Dinle</string>
     <string name="Button_Delete">SİL</string>
-    <string name="Button_Done">Tamam</string>
     <string name="Button_ViewDetails">Detayları görüntüle</string>
 
     <!-- Alerts -->
-    <string name="Error">Hata</string>
-    <string name="Notification">Bildirim</string>
-    <string name="NoInternetConnection">Internet Bağlantısı Yok</string>
-    <string name="AccessDenied">Yetkisiz Giriş</string>
-    <string name="SavedEvent">Etkinliği Kaydet</string>
-    <string name="SavingSuccessed">Başarıyla Kaydedildi</string>
-    <string name="DataAddedToCRM">CRM Paneline Yeni Veri Girişi</string>
-    <string name="SureWantToDelete">Silmek istediğinize emin misiniz?</string>
-    <string name="DeleteSuccess">Başarıyla silindi</string>
 
     <!-- Labels -->
     <string name="SavingFile">Dosya Kaydediliyor</string>
@@ -36,11 +20,6 @@
     <string name="Save">Kaydet</string>
     <string name="Downloading">İndiriliyor</string>
     <string name="Opening">Açılıyor</string>
-    <string name="Saving">Kaydediliyor</string>
-    <string name="InvestorRelationsCalendar">Takvim</string>
-    <string name="Ratings">Rating Notları</string>
-    <string name="Next">Sonraki</string>
-    <string name="Previous">Önceki</string>
     <string name="ContactUs">Bize Ulaşın</string>
 
     <string name="no_mail_app">E-mail uygulaması mevcut değil.</string>
@@ -65,6 +44,7 @@
     <!-- <string name="Sub_Menu_1_Investor">BU TURKCEDE GÖZUKMEYECEK</string> -->
     <string name="Sub_Menu_1_Akbank_Analyst">Akbank Analist ve Yatırımcı Günleri</string>
     <string name="Sub_Menu_1_Annual_Reports">Faaliyet Raporları</string>
+
     <string name="Sub_Menu_1_Webcasts">Webcasts</string>
     <string name="Sub_Menu_1_Sustainability">Sürdürülebilirlik Raporları</string>
 
@@ -85,15 +65,6 @@
     <string name="Terms_of_Services">Kullanım Koşulları</string>
 
     <!-- Screen titles -->
-    <string name="ScreenTitle_AnnouncementsAndNews">Duyurular ve Haberler</string>
-    <string name="ScreenTitle_Calendar">Takvim</string>
-    <string name="ScreenTitle_AnalystCoverage">Analistler</string>
-    <string name="ScreenTitle_Stock">Hisse Değeri</string>
-    <string name="ScreenTitle_About">Türkiye Hakkında</string>
-    <string name="ScreenTitle_SavedDocuments">Kayıtlı Dökümanlar</string>
-    <string name="ScreenTitle_InvestorPresentation">Yatırımcı Sunumu</string>
-    <string name="ScreenTitle_SustainabilityReports">Sürdürülebilirlik Raporları</string>
-    <string name="ScreenTitle_AnnualReport">Faaliyet Raporları</string>
 
     <!-- Dashboard cell headers -->
     <string name="DashboardHeader_News">Son Haberler</string>
@@ -102,7 +73,6 @@
     <string name="DashboardHeader_AboutTurkey">Türkiye Hakkında</string>
     <string name="DashboardHeader_Webcasts">Webcasts</string>
     <string name="DashboardHeader_Calendar">Takvim</string>
-    <string name="DashboardHeader_SustainabilityReports">Sürdürülebilirlik Raporları</string>
     <string name="DashboardHeader_AnnualReports">Faaliyet Raporları</string>
     <string name="DashboardHeader_Ratings">Rating Notları</string>
 
@@ -113,17 +83,8 @@
     <string name="InvestorDay_LatestInvDays">Son Yatırımcı Günü</string>
     <string name="InvestorDay_PrevInvDays">Önceki yatırımcı günleri</string>
     <!-- Webcasts headers -->
-    <string name="WebcastHeader_Previous">Önceki webcast\'ler</string>
     <!-- Presentations headers -->
-    <string name="PresentationsHeader_Latest">Son Sunum</string>
-    <string name="PresentationsHeader_Previous">Önceki Sunumlar</string>
     <!-- Investor Toolkit Subitems -->
-    <string name="InvestorToolkit_FinancialResultsPresentations">Finansal Veriler</string>
-    <string name="InvestorToolkit_InvestorPresentation">Yatırımcı Sunumu</string>
-    <string name="InvestorToolkit_AnalystAndInvestorDays">Akbank Analist ve Yatırımcı Günleri</string>
-    <string name="InvestorToolkit_AnnualReports">Faaliyet Raporları</string>
-    <string name="InvestorToolkit_WebAndAudiocasts">Webcasts</string>
-    <string name="InvestorToolkit_SustainabilityReport">Sürdürülebilirlik Raporları</string>
     <!-- Calendar screen -->
     <string name="Calendar_Event_IR">Yatırımcı İlişkileri Takvimi</string>
     <string name="Calendar_Event_Major">TR Ekonomik Takvim</string>
@@ -134,7 +95,6 @@
     <string name="Stock_ThreeMonth">3 AY</string>
     <string name="Stock_SixMonth">6 AY</string>
     <string name="Stock_Year">1 YIL</string>
-    <string name="Stock_RotateDevice">PARAMETRELERİ DEĞİŞTİRMEK İÇİN CİHAZI DİKEY KONUMA GETİREBİLİRSİNİZ</string>
     <string name="Stock_StockName">Hisse Senedi</string>
     <string name="Stock_Change">%Değişim</string>
     <string name="Stock_Last">Son</string>
@@ -143,12 +103,7 @@
     <string name="Stock_HighestLowest">En Yüksek - En Düşük</string>
     <string name="Stock_MarketCapital">Piyasa Değeri</string>
     <!-- Ratings screen -->
-    <string name="RatingsScreen_SelectStartDate">Başlangıç Tarihi</string>
-    <string name="RatingsScreen_SelectEndDate">Bitiş Tarihi</string>
-    <string name="title_activity_calendar">CalendarActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_irteam">IRTeamActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_irteam">IRTeamActivity</string>
+    <string name="title_activity_calendar">CalendarActivity</string>
 </resources>

@@ -19,17 +19,12 @@
 <resources>
     <color name="tomato">#ee3124</color>
     <color name="title_background">#C4261E</color>
-    <color name="coral">#ff5a47</color>
-    <color name="pinkish_grey">#d1d1d1</color>
     <color name="warm_grey">#9b9b9b</color>
-    <color name="loading_gray">#909090</color>
     <color name="coral_two">#ff523a</color>
+    <color name="popup_background">#F0F0F0</color>
     <color name="greyish_brown">#4a4a4a</color>
-    <color name="colorPrimary">#ee3124</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#92000000</color>
     <color name="calendarRowBackground">#f9f9f9</color>
-
     <color name="euroColor">#808080</color>
     <color name="dolarColor">#0005F9</color>
     <color name="bistBankColor">#85007D</color>

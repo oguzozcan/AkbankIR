@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="com.mallardduckapps.akbankir.AnalystCovarageActivity">
+    tools:context=".AnalystCovarageActivity">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_marginTop="?actionBarSize"
-        tools:context="com.mallardduckapps.akbankir.AnalystCovarageActivity" />
+        tools:context=".AnalystCovarageActivity" />
 
 
     <LinearLayout
@@ -21,9 +21,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="?actionBarSize"
         android:orientation="vertical">
-        <View
-            android:id="@+id/divider"
-            style="@style/Divider"/>
+        <View style="@style/Divider"/>
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
@@ -32,7 +30,6 @@
             android:visibility="visible" />
 
         <FrameLayout
-            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?actionBarSize">

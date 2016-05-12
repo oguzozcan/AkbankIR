@@ -37,7 +37,6 @@
         android:src="@drawable/news_detail_arrow_icon" />
 
     <View
-        android:id="@+id/divider"
         style="@style/Divider"
         android:layout_alignParentBottom="true"
         android:background="@color/warm_grey" />

@@ -18,12 +18,11 @@
         android:id="@+id/subTitle"
         android:layout_width="wrap_content"
         android:textColor="@color/tomato"
-        android:textSize="14dp"
+        android:textSize="13dp"
         android:layout_marginBottom="5dp"
         android:layout_height="wrap_content" />
 
    <View
-       android:id="@+id/divider"
        style="@style/Divider"
        android:layout_centerVertical="true"
        android:background="@color/warm_grey" />

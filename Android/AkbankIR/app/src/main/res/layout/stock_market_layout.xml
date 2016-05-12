@@ -6,10 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?actionBarSize"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
+    android:background="@color/white"
     android:descendantFocusability="beforeDescendants"
-    android:background="@color/white">
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,14 +29,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:focusable="true"
                 android:layout_marginBottom="3dp"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
+                android:focusable="true"
                 android:orientation="horizontal"
                 android:weightSum="5">
 
-                <com.mallardduckapps.akbankir.components.IntervalButton
+                <com.akbank.investorrelations.components.IntervalButton
                     android:id="@+id/interdayButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -44,12 +44,12 @@
                     android:padding="5dp"
                     android:text="@string/Stock_Current"
                     android:textColor="@color/warm_grey"
-                    android:textSize="12dp"
+                    android:textSize="11dp"
                     app:buttonSelected="true"
                     app:interval="interday"
-                    app:period="60" />
+                    app:period="1" />
 
-                <com.mallardduckapps.akbankir.components.IntervalButton
+                <com.akbank.investorrelations.components.IntervalButton
                     android:id="@+id/oneMonthButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -57,11 +57,11 @@
                     android:padding="5dp"
                     android:text="@string/Stock_OneMonth"
                     android:textColor="@color/warm_grey"
-                    android:textSize="12dp"
+                    android:textSize="11dp"
                     app:interval="onemonth"
                     app:period="1440" />
 
-                <com.mallardduckapps.akbankir.components.IntervalButton
+                <com.akbank.investorrelations.components.IntervalButton
                     android:id="@+id/threeMonthButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -69,11 +69,11 @@
                     android:padding="5dp"
                     android:text="@string/Stock_ThreeMonth"
                     android:textColor="@color/warm_grey"
-                    android:textSize="12dp"
+                    android:textSize="11dp"
                     app:interval="threemonth"
                     app:period="1440" />
 
-                <com.mallardduckapps.akbankir.components.IntervalButton
+                <com.akbank.investorrelations.components.IntervalButton
                     android:id="@+id/sixMonthButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -81,11 +81,11 @@
                     android:padding="5dp"
                     android:text="@string/Stock_SixMonth"
                     android:textColor="@color/warm_grey"
-                    android:textSize="12dp"
+                    android:textSize="11dp"
                     app:interval="sixmonth"
                     app:period="1440" />
 
-                <com.mallardduckapps.akbankir.components.IntervalButton
+                <com.akbank.investorrelations.components.IntervalButton
                     android:id="@+id/oneYearButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                     android:padding="5dp"
                     android:text="@string/Stock_Year"
                     android:textColor="@color/warm_grey"
-                    android:textSize="12dp"
+                    android:textSize="11dp"
                     app:interval="oneyear"
                     app:period="1440" />
 
@@ -105,9 +105,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/intervalLayout"
                 android:descendantFocusability="afterDescendants"
+                android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:paddingBottom="10dp"
                 android:weightSum="2">
 
                 <LinearLayout
@@ -118,14 +118,13 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <com.mallardduckapps.akbankir.components.DateTextView
+                    <com.akbank.investorrelations.components.DateTextView
                         android:id="@+id/startingDateView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:isStartDate="true" />
 
                     <View
-                        android:id="@+id/sDateDivider"
                         style="@style/Divider"
                         android:background="@color/warm_grey" />
 
@@ -139,14 +138,13 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <com.mallardduckapps.akbankir.components.DateTextView
+                    <com.akbank.investorrelations.components.DateTextView
                         android:id="@+id/endingDateView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:isStartDate="false" />
 
                     <View
-                        android:id="@+id/eDateDivider"
                         style="@style/Divider"
                         android:background="@color/warm_grey" />
 
@@ -155,14 +153,13 @@
 
 
             <LinearLayout
-                android:id="@+id/buttonsPanel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dateLayout"
                 android:orientation="horizontal"
                 android:weightSum="4">
 
-                <com.mallardduckapps.akbankir.components.CompareButton
+                <com.akbank.investorrelations.components.CompareButton
                     android:id="@+id/bist30Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -176,108 +173,208 @@
                     app:underline_color="@color/bist30Color" />
 
 
-                <com.mallardduckapps.akbankir.components.CompareButton
+                <com.akbank.investorrelations.components.CompareButton
                     android:id="@+id/bistBankaButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/big_text_area_selected_shape"
+                    app:tag="XBANK.I.BIST"
                     app:text="BIST BANK"
                     app:textSize="12dp"
-                    app:tag="XBANK.I.BIST"
                     app:underline_color="@color/bistBankColor" />
 
-                <com.mallardduckapps.akbankir.components.CompareButton
+                <com.akbank.investorrelations.components.CompareButton
                     android:id="@+id/usdButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/big_text_area_selected_shape"
+                    app:tag="SUSD"
                     app:text="USD"
                     app:textSize="12dp"
-                    app:tag="SUSD"
                     app:underline_color="@color/dolarColor" />
 
-                <com.mallardduckapps.akbankir.components.CompareButton
+                <com.akbank.investorrelations.components.CompareButton
                     android:id="@+id/eurButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/big_text_area_selected_shape"
+                    app:tag="SEUR"
                     app:text="EUR"
                     app:textSize="12dp"
-                    app:tag="SEUR"
                     app:underline_color="@color/euroColor" />
 
             </LinearLayout>
         </RelativeLayout>
+
         <com.jjoe64.graphview.GraphView
             android:id="@+id/graph"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_below="@+id/topPanel"
             android:layout_marginBottom="5dp"
+            android:descendantFocusability="afterDescendants"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:descendantFocusability="afterDescendants"
             android:visibility="visible"
             app:seriesColor="#ee0000"
             app:seriesType="line"
-            tools:context=".fragments.ItemDetailFragment" />
-
-        <LinearLayout
-            android:id="@+id/popupPanel"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:orientation="vertical"
-            android:layout_below="@+id/topPanel"
-            android:layout_marginBottom="5dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:background="@color/warm_grey"
-            android:visibility="gone">
-
-        </LinearLayout>
+            tools:context=".fragments.StockDetailFragment" />
 
 
         <TextView
             android:id="@+id/graphTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_below="@+id/graph"
             android:layout_marginLeft="10dp"
-            android:textSize="12dp"
-            android:layout_alignParentLeft="true"
-            android:text="@string/Stock_Volume_TL"/>
+            android:text="@string/Stock_Volume_TL"
+            android:textSize="12dp" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_below="@+id/graph"
             android:layout_marginRight="10dp"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/beyaz_zemin"/>
+            android:src="@drawable/beyaz_zemin" />
 
         <com.jjoe64.graphview.GraphView
             android:id="@+id/barGraph"
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:layout_below="@+id/graphTitle"
+            android:layout_marginRight="20dp"
             android:visibility="visible"
             app:seriesColor="#ee0000"
             app:seriesType="bar"
-            tools:context=".fragments.ItemDetailFragment" />
+            tools:context=".fragments.StockDetailFragment" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/topPanel"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/popupPanel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="70dp"
+                android:minWidth="100dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/popup_background"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/timeTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:padding="1dp"
+                        android:paddingRight="4dp"
+                        android:text="Time : 09.58"
+                        android:textColor="@color/red"
+                        android:textSize="9dp" />
+
+                    <TextView
+                        android:id="@+id/volumeTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:padding="1dp"
+                        android:paddingRight="4dp"
+                        android:text="Volume : "
+                        android:textColor="@color/red"
+                        android:textSize="9dp" />
+
+                    <TextView
+                        android:id="@+id/akbankTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:padding="1dp"
+                        android:paddingRight="4dp"
+                        android:text="Akbank : "
+                        android:textColor="@color/red"
+                        android:textSize="9dp" />
+
+                    <TextView
+                        android:id="@+id/bist30Tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:padding="1dp"
+                        android:paddingRight="4dp"
+                        android:text="BIST30 : "
+                        android:textColor="@color/red"
+                        android:textSize="9dp" />
+
+                    <TextView
+                        android:id="@+id/bistBankTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:padding="1dp"
+                        android:paddingRight="4dp"
+                        android:text="BIST BANK : "
+                        android:textColor="@color/red"
+                        android:textSize="9dp" />
+
+                    <TextView
+                        android:id="@+id/usdTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:padding="1dp"
+                        android:paddingRight="4dp"
+                        android:text="USD : "
+                        android:textColor="@color/red"
+                        android:textSize="9dp" />
+
+                    <TextView
+                        android:id="@+id/eurTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:padding="1dp"
+                        android:paddingRight="4dp"
+                        android:text="EUR : "
+                        android:textColor="@color/red"
+                        android:textSize="9dp" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/dot"
+                android:layout_width="3dp"
+                android:layout_height="3dp"
+                android:visibility="gone"
+                android:src="@drawable/red_circle_shape" />
+        </RelativeLayout>
+
+
 
         <RelativeLayout
             android:id="@+id/loadingLayout"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:visibility="visible"
             android:layout_below="@+id/topPanel"
-            android:background="@android:color/white">
+            android:background="@android:color/white"
+            android:visibility="visible">
 
             <ProgressBar
                 android:id="@+id/progressBar1"

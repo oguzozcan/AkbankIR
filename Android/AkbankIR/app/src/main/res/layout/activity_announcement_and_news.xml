@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:fitsSystemWindows="true"
 
-    tools:context="com.mallardduckapps.akbankir.AnnouncementAndNewsActivity">
+    tools:context=".AnnouncementAndNewsActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/newsRecyclerView"
