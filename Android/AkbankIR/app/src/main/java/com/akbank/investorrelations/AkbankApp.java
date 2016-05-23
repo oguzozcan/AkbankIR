@@ -51,6 +51,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by oguzemreozcan on 28/01/16.
@@ -107,7 +108,7 @@ public class AkbankApp extends Application {
         getDataSaver();
         com.squareup.okhttp.OkHttpClient okHttpClient = new com.squareup.okhttp.OkHttpClient();
         File customCacheDirectory = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + "/AkbankIRCache");
-        okHttpClient.setCache(new Cache(customCacheDirectory, 32 * 1024 * 1024)); // Cache = 32MB
+        okHttpClient.setCache(new Cache(customCacheDirectory, 128 * 1024 * 1024)); // Cache = 128MB
         OkHttpDownloader okHttpDownloader = new OkHttpDownloader(okHttpClient);
         Picasso picasso = new Picasso.Builder(getApplicationContext()).downloader(okHttpDownloader).build();
         // picasso.setIndicatorsEnabled(true);
@@ -125,6 +126,11 @@ public class AkbankApp extends Application {
         TimeUtil.changeLocale(localeTr);
 
         registerBusEvents(retrofitForex, retrofit, retrofit1);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private Retrofit createRetrofitObject(String url){

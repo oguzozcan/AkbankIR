@@ -114,7 +114,7 @@ public class GraphHelper {
             dot.setVisibility(View.GONE);
         }
     }
-
+//    String.format(Locale.CANADA, "%.2f", d)
     private void setMainGraph(final ArrayList<MainGraphDot> graphDots){
         if(graphDots != null){
             mainGraphDots = graphDots;
@@ -131,19 +131,19 @@ public class GraphHelper {
             double min = 0;
 
             for(MainGraphDot gd :  graphDots){
-                double y = gd.getCloseValue();
-                dataPoints[i] = new DataPoint(i, y);
+                double y = gd.getCloseValue() ;
+                dataPoints[i] = new DataPoint(i, round(y,2));
                 dataPoints2[i] = new DataPoint(i,1);
                 //dateDataPoints[i] = new DataPoint(i, gd.getDate());
                 dates[i] = TimeUtil.getDateTxtAccordingToMillis(gd.getDate(), isInterday ? TimeUtil.dtfBarGraphTime : TimeUtil.dtfBarGraph);
-                Log.d(TAG, "DATES: " + dates[i] + "- date : "  + gd.getDate());
+                //Log.d(TAG, "DATES: " + dates[i] + "- date : "  + gd.getDate());
                 //dateArray[i] = gd.getDate();
                 volumeDataPoints[i] = new DataPoint(i, new BigDecimal(gd.getV()).longValue());
-                Log.d(TAG, "VOLUME DATA: "+ i + "VALUE: " + new BigDecimal(gd.getV()).longValue());
+                //Log.d(TAG, "VOLUME DATA: "+ i + "VALUE: " + new BigDecimal(gd.getV()).longValue());
                 //Log.d("TAg", "DATE: " + TimeUtil.getDateTxtAccordingToMillis(gd.getDate(), null) + " - date: " + TimeUtil.getDate(gd.getDate()).toString());
                 //Log.d(TAG, "DATE AS date format: " +dates[i]);
-                Log.d("TAg", "Y: " + y );
-                Log.d("TAg", "VOLUME: " + new BigDecimal(gd.getV()) + " - rounded: " + round(gd.getV(),2) );
+               // Log.d("TAg", "Y: " + y );
+               // Log.d("TAg", "VOLUME: " + new BigDecimal(gd.getV()) + " - rounded: " + round(gd.getV(),2) );
                 if(i == 0){
                     max = y;
                     min = y;
@@ -301,18 +301,18 @@ public class GraphHelper {
         int size = dates.length;
         //String[] datesClon = Arrays.copyOf(dates, dates.length);//new String[dates.length];
         if(isInterday){
-//            String[] newDates = new String[9];
-//            newDates[0] = dates[0];
-//            int period = size / 9;
-//            Log.d(TAG, "PERIOD: " + period + "size: " + size);
-//            int lastIndex = period;
-//            for(int i = 1 ; i < 8; i++){
-//                newDates[i] = dates[lastIndex];
-//                Log.d(TAG, "DATES: " + dates[i]);
-//                lastIndex+=period;
-//            }
-//            newDates[8] = dates[dates.length -1];
-            return new String[] {"09.30", "10.30", "11.30", "12.30", "13.30", "14.30", "15.30", "16.30", "17.39"};
+            String[] newDates = new String[9];
+            newDates[0] = dates[0];
+            int period = size / 9;
+            Log.d(TAG, "PERIOD: " + period + "size: " + size);
+            int lastIndex = period;
+            for(int i = 1 ; i < 8; i++){
+                newDates[i] = dates[lastIndex];
+                Log.d(TAG, "DATES: " + dates[i]);
+                lastIndex+=period;
+            }
+            newDates[8] = dates[dates.length -1];
+            return newDates;//new String[] {"09.30", "10.30", "11.30", "12.30", "13.30", "14.30", "15.30", "16.30", "17.39"};
         }else{
             String[] newDates;
             int period;
@@ -331,17 +331,20 @@ public class GraphHelper {
                     newDates[3] = dates[size -1];
                     return newDates;
                 case 90:
-                    newDates = new String[6];
-                    newDates[0] = dates[0];
+                    String[] newDates1 = new String[6];
+                    newDates1[0] = dates[0];
+                    Log.d(TAG, "DATES 0: " + newDates1[0]);
                     period = size / 6;
                     Log.d(TAG, "PERIOD: " + period + "size: " + size);
                     lastIndex = period;
-                    for(int i = 1 ; i < 5; i++){
-                        newDates[i] = dates[lastIndex];
+                    for(int j = 1 ; j < 5; j++){
+                        newDates1[j] = dates[lastIndex];
+                        Log.d(TAG, "DATES: " + newDates1[j]);
                         lastIndex+=period;
                     }
-                    newDates[5] = dates[size -1];
-                    return newDates;
+                    newDates1[5] = dates[size -1];
+                    Log.d(TAG, "DATES 5: " + newDates1[5]);
+                    return newDates1;
                 case 180:
                     newDates = new String[3];
                     newDates[0] = dates[0];
@@ -374,7 +377,7 @@ public class GraphHelper {
     }
 
     public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
+        if (places < 0) return value;
 
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
@@ -461,8 +464,13 @@ public class GraphHelper {
                 @Override
                 public void onTap(Series series, DataPointInterface dataPoint) {
                     //Toast.makeText(activity, "Series1: On Data Point clicked: x:" + dataPoint.getX(), Toast.LENGTH_SHORT).show();
-                    if(mainGraphDots != null)
-                        graphDotOnClick(dataPoint, (MyLineGraphSeries) series,mainGraphDots, comparableData);
+                    if(mainGraphDots != null){
+                        try{
+                            graphDotOnClick(dataPoint, (MyLineGraphSeries) series,mainGraphDots, comparableData);
+                        }catch(Exception e){
+                            e.printStackTrace();
+                        }
+                    }
                 }
             });
 

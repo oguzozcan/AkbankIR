@@ -46,9 +46,9 @@ public class TermsActivity extends BaseActivity {
                     public void onTabSelected(TabLayout.Tab tab) {
                         super.onTabSelected(tab);
                         if(tab.getPosition() == 0){
-                            onTitleTextChange("Kullanım Koşulları");
+                            onTitleTextChange("");//Kullanım Koşulları");
                         }else if(tab.getPosition() == 1){
-                            onTitleTextChange("Terms of Services");
+                            onTitleTextChange("");//Terms of Services");
                         }
                     }
                 });

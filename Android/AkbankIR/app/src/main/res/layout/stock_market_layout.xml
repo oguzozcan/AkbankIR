@@ -29,7 +29,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginBottom="3dp"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
                 android:focusable="true"
@@ -217,7 +216,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_below="@+id/topPanel"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="2dp"
             android:descendantFocusability="afterDescendants"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
@@ -226,13 +225,21 @@
             app:seriesType="line"
             tools:context=".fragments.StockDetailFragment" />
 
-
+        <TextView
+            android:id="@+id/percentIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/graph"
+            android:layout_marginRight="16dp"
+            android:text="%"
+            android:textSize="11dp" />
         <TextView
             android:id="@+id/graphTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/graph"
+            android:layout_below="@+id/percentIndicator"
             android:layout_marginLeft="10dp"
             android:text="@string/Stock_Volume_TL"
             android:textSize="12dp" />
@@ -241,7 +248,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/graph"
+            android:layout_below="@+id/percentIndicator"
             android:layout_marginRight="10dp"
             android:src="@drawable/beyaz_zemin" />
 
@@ -388,7 +395,7 @@
         <GridView
             android:id="@+id/snapshotGridView"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="185dp"
             android:layout_below="@+id/barGraph"
             android:layout_marginLeft="12dp"
             android:background="@color/white"

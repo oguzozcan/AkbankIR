@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.akbank.investorrelations.AkbankApp;
 import com.akbank.investorrelations.ItemDetailActivity;
@@ -58,6 +59,7 @@ public class StockDetailFragment extends BaseFragment {
     private RelativeLayout loadingLayout;
     private int period = 1;
     private ScrollView sc;
+    private TextView percentIndicator;
 //    private boolean daysAdjusted;
 //    private String tmpStartDate;
 //    private String tmpEndDate;
@@ -70,7 +72,8 @@ public class StockDetailFragment extends BaseFragment {
         TAG = "Stock";
     }
 
-    public int daysBetween = 1;
+    public int daysBetween = 0;
+    DateTextView sDateView;
 //    public boolean isIntervalButtonSelected;
 
     private void initIntervalLayout(View rootView, final DateTextView sDateView, final DateTextView eDateView, final CompareButton usdButton, final CompareButton eurButton) {
@@ -87,7 +90,6 @@ public class StockDetailFragment extends BaseFragment {
                     IntervalButton button = (IntervalButton) view;
                     for (IntervalButton b : buttons) {
                         if (button.equals(b)) {
-
                             period = b.getPeriod();
                             String dateBefore;
                             usdButton.setVisibility(View.VISIBLE);
@@ -112,7 +114,7 @@ public class StockDetailFragment extends BaseFragment {
                                 case 1:
                                 default:
                                     daysBetween = 1;
-                                    dateBefore = TimeUtil.getDateBeforeOrAfterToday(-1, true, false);
+                                    dateBefore = TimeUtil.getDateBeforeOrAfterToday(0, true, false);
                                     usdButton.setVisibility(View.INVISIBLE);
                                     eurButton.setVisibility(View.INVISIBLE);
                                     break;
@@ -147,11 +149,14 @@ public class StockDetailFragment extends BaseFragment {
         final GraphView graphView = (GraphView) rootView.findViewById(R.id.graph);
         GraphView barGraphView = (GraphView) rootView.findViewById(R.id.barGraph);
         loadingLayout = (RelativeLayout) rootView.findViewById(R.id.loadingLayout);
+        percentIndicator = (TextView) rootView.findViewById(R.id.percentIndicator);
+        percentIndicator.setVisibility(View.INVISIBLE);
         final ArrayList<String> comparables = new ArrayList<>();
         comparables.add(Constants.AKBANK);
         final AkbankApp app = (AkbankApp) (getActivity().getApplication());
         helper = new GraphHelper(getActivity(), graphView, barGraphView);
 
+/*
         final ViewTreeObserver vto = graphView.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -161,6 +166,7 @@ public class StockDetailFragment extends BaseFragment {
                 Log.d(TAG, "GRAPH POS: x: " + pos[0] + "posy: " + pos[1]);
             }
         });
+*/
 
         helper.setPopupPanel((RelativeLayout) rootView.findViewById(R.id.popupPanel));
         helper.setPopupDot((ImageView) rootView.findViewById(R.id.dot));
@@ -170,13 +176,12 @@ public class StockDetailFragment extends BaseFragment {
         CompareButton bistBankaButton = (CompareButton) rootView.findViewById(R.id.bistBankaButton);
         CompareButton usdButton = (CompareButton) rootView.findViewById(R.id.usdButton);
         CompareButton eurButton = (CompareButton) rootView.findViewById(R.id.eurButton);
-        final DateTextView sDateView = (DateTextView) rootView.findViewById(R.id.startingDateView);
+        sDateView = (DateTextView) rootView.findViewById(R.id.startingDateView);
         final DateTextView eDateView = (DateTextView) rootView.findViewById(R.id.endingDateView);
         sDateView.setActivity(getActivity());
         eDateView.setActivity(getActivity());
 
         reAdjustDate(sDateView.getDateText(), sDateView, eDateView, true);
-//
 //        tmpStartDate = sDateView.getDateText();
 //        tmpEndDate = eDateView.getDateText();
         eDateView.getTextView().addTextChangedListener( new DateViewTextWatcher(app, sDateView, eDateView, comparables, false));
@@ -199,8 +204,10 @@ public class StockDetailFragment extends BaseFragment {
                         comparables.remove(button.tag);
                     }
                     if(comparables.size() <= 1){
+                        percentIndicator.setVisibility(View.INVISIBLE);
                         drawMainGraph(app, sDateView.getFormatConvertedDateText(), eDateView.getFormatConvertedDateText(),snapshotGridView, period, daysBetween);
                     }else{
+                        percentIndicator.setVisibility(View.VISIBLE);
                         drawComparableGraph(app, comparables, sDateView.getFormatConvertedDateText(), eDateView.getFormatConvertedDateText(), period);
                     }
                 }
@@ -224,6 +231,8 @@ public class StockDetailFragment extends BaseFragment {
         helper.cleanBarGraph();
         loadingLayout.setVisibility(View.VISIBLE);
 
+        startDate = startDate.substring(0,8) + "090000";
+        endDate = endDate.substring(0,8) + "173000";
         Log.d(TAG, "START DATE: " + startDate + " - endDate: " + endDate + " - period: " + period);
         if(gridView != null){
             app.getBus().post(new EventSnapshotRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY),gridView));
@@ -242,11 +251,21 @@ public class StockDetailFragment extends BaseFragment {
 
         Log.d(TAG, "ON RESPONSE - responsecode: " + response.code() + " - response:" + response.raw());
         Log.d(TAG, "RESPONSE : " + response.body().toString());
+
         loadingLayout.setVisibility(View.GONE);
         if (response.isSuccessful()) {
-            //ArrayList<MainGraphDot> graphDots = response.body();
+            ArrayList<MainGraphDot> graphDots = response.body();
+            if(graphDots.size() == 0){
+                //sDateView.getTextView().setText(dateBefore);
+                startDateChanged = true;
+                DateTime dateTime = TimeUtil.getDateTime(sDateView.getDateText(), true, false);
+                sDateView.setDateText(TimeUtil.getDateBeforeOrAfter(dateTime, -1, true, false));
+                //TODO this can be dangerous
+                Log.d(TAG, "DATA NULL GO ONE DAY BEFORE");
+                return;
+            }
             //1 is interday
-            helper.init(response.body(), event.getPeriod() == 1, event.getDaysBetween());
+            helper.init(graphDots, event.getPeriod() == 1, event.getDaysBetween());
             sc.scrollTo(0, 0);
         }else{
             app.getBus().post(new ApiErrorEvent(response.code(), response.message(),true));
@@ -276,8 +295,8 @@ public class StockDetailFragment extends BaseFragment {
             DecimalFormat capitalFormatter = new DecimalFormat("#,###");
             ArrayList<SnapshotGridAdapter.SnapShotItem> items = new ArrayList<>();
             items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_StockName), snapshotData.getName()));
-            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Last), Double.toString(snapshotData.getLast()) + " TL"));
-            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Change), (Double.toString(snapshotData.getDailyChangePercentage())+ " %")));
+            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Last), Double.toString(GraphHelper.round(snapshotData.getLast(),2)) + " TL"));
+            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Change), (Double.toString(GraphHelper.round(snapshotData.getDailyChangePercentage(),2))+ " %")));
             items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Volume), volumeFormatter.format(snapshotData.getDailyVolume().longValue() / 1000) + " MiO TL"));
             items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_HighestLowest), snapshotData.getDailyHighest() + " - " + snapshotData.getDailyLowest()));
             items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_MarketCapital), capitalFormatter.format(snapshotData.getMarketCapital().longValue() / 100000) + " MiO TL"));
@@ -322,8 +341,9 @@ public class StockDetailFragment extends BaseFragment {
                     startDate.setDateText(TimeUtil.getDateBeforeOrAfter(dateTime, -2, true, false));
 //                    daysAdjusted = true;
                 } else {
-                    startDateChanged = false;
-                    endDate.setDateText(TimeUtil.getDateBeforeOrAfter(endDate.getDateTime(), 1, true, false));
+                    //TODO
+                    //startDateChanged = false;
+                    //endDate.setDateText(TimeUtil.getDateBeforeOrAfter(endDate.getDateTime(), 1, true, false));
 //                    daysAdjusted = true;
                 }
             }
@@ -352,9 +372,11 @@ public class StockDetailFragment extends BaseFragment {
                      startDateChanged = true;
                     startDate.setDateText(TimeUtil.getDateBeforeOrAfter(startDate.getDateTime(), -2, true, false));
 //                     daysAdjusted = true;
-                } else {
+                }
+                 else {
+                     //TODO
                      startDateChanged = false;
-                    endDate.setDateText(TimeUtil.getDateBeforeOrAfter(endDate.getDateTime(), 1, true, false));
+                     endDate.setDateText(TimeUtil.getDateBeforeOrAfter(endDate.getDateTime(), 1, true, false));
 //                     daysAdjusted = true;
                 }
             }

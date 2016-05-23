@@ -71,10 +71,10 @@ public class SavedDocumentsAdapter extends RecyclerView.Adapter<SavedDocumentsAd
         notifyItemInserted(position);
     }
 
-    public void remove(int position) {
-        if (this.data != null) {
+    public void remove(int position, SavedDocumentObject report) {
+        if (data != null) {
             if(!data.isEmpty()){
-                this.data.remove(position);
+                data.remove(report);
                 notifyItemRemoved(position);
             }
         }
@@ -116,7 +116,7 @@ public class SavedDocumentsAdapter extends RecyclerView.Adapter<SavedDocumentsAd
                 File file = new File(path);
                 if(file.exists()){
                     Log.d(TAG, "FILE EXISTS");
-                    remove(position);
+                    remove(position, report);
                     file.delete();
 
                 }else{

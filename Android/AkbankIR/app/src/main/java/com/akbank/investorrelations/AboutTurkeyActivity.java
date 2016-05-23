@@ -82,7 +82,7 @@ public class AboutTurkeyActivity extends BaseActivity {
         setPdfContentView(pdf2Layout, aboutTurkeyObject, 2);
     }
 
-    private void setPdfContentView(View view, final AboutTurkeyObject aboutTurkeyObject, int pdfIndex){
+    private void setPdfContentView(View view, final AboutTurkeyObject aboutTurkeyObject, final int pdfIndex){
 
         TextView aboutTurkeyPdfName = (TextView) view.findViewById(R.id.aboutTurkeyDescription);
         if(pdfIndex == 1){
@@ -101,8 +101,13 @@ public class AboutTurkeyActivity extends BaseActivity {
                 FragmentManager fm = getFragmentManager();//getSupportFragmentManager();
                 DownloadDialogFragment newFragment = new DownloadDialogFragment();
                 Bundle b = new Bundle();
-                b.putString("title", aboutTurkeyObject.getTitle());
-                b.putString("url", aboutTurkeyObject.getPdf());
+                if(pdfIndex == 1){
+                    b.putString("url", aboutTurkeyObject.getPdf());
+                    b.putString("title", aboutTurkeyObject.getPdfTitle());
+                }else{
+                    b.putString("url", aboutTurkeyObject.getPdf2());
+                    b.putString("title", aboutTurkeyObject.getPdfTitle2());
+                }
                 b.putBoolean("shouldShowAfterDownload", false);
                 newFragment.setArguments(b);
                 newFragment.show(fm, getString(R.string.Downloading));
@@ -117,8 +122,13 @@ public class AboutTurkeyActivity extends BaseActivity {
                 FragmentManager fm = getFragmentManager();//getSupportFragmentManager();
                 DownloadDialogFragment newFragment = new DownloadDialogFragment();
                 Bundle b = new Bundle();
-                b.putString("title", aboutTurkeyObject.getTitle());
-                b.putString("url", aboutTurkeyObject.getPdf());
+                if(pdfIndex == 1){
+                    b.putString("url", aboutTurkeyObject.getPdf());
+                    b.putString("title", aboutTurkeyObject.getPdfTitle());
+                }else{
+                    b.putString("url", aboutTurkeyObject.getPdf2());
+                    b.putString("title", aboutTurkeyObject.getPdfTitle2());
+                }
                 b.putBoolean("shouldShowAfterDownload", true);
                 newFragment.setArguments(b);
                 newFragment.show(fm, getString(R.string.Opening));

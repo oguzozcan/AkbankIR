@@ -3,6 +3,7 @@ package com.akbank.investorrelations;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -111,6 +112,7 @@ public class InvestorDaysDetailActivity extends YouTubeBaseActivity implements Y
             // loadVideo() will auto play video
             // Use cueVideo() method, if you don't want to play it automatically
             player.loadVideo(postFix);
+            Log.d("InvestorDaysDetailAct", "Video postfix: " + postFix);
             // Hiding player controls CHROMELESS
             player.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
         }

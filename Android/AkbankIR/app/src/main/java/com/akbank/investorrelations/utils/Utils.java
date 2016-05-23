@@ -48,6 +48,19 @@ public class Utils {
         return 0;
     }
 
+//    private int getActionBarHeight(Activity activity) {
+//        int actionBarHeight = activity.getSupportActionBar().getHeight();
+//        if (actionBarHeight != 0)
+//            return actionBarHeight;
+//        final TypedValue tv = new TypedValue();
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+//            if (activity.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+//                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, activity.getResources().getDisplayMetrics());
+//        } else if (activity.getTheme().resolveAttribute(com.actionbarsherlock.R.attr.actionBarSize, tv, true))
+//            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, activity.getResources().getDisplayMetrics());
+//        return actionBarHeight;
+//    }
+
     /**
      * This method converts device specific pixels to density independent pixels.
      *

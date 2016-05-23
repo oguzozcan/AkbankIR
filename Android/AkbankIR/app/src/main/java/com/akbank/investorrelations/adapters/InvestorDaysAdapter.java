@@ -82,6 +82,7 @@ public class InvestorDaysAdapter extends RecyclerView.Adapter<InvestorDaysAdapte
             @Override
             public void onClick(View view) {
                 Intent detail = new Intent(activity, InvestorDaysDetailActivity.class);
+                detail.putExtra("investor_days", report);
                 detail.putExtra("postfix", report.getVideo());
                 activity.startActivity(detail);
             }

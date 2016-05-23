@@ -45,7 +45,7 @@
     <string name="Menu_SavedDocuments">Saved Documents</string>
 
     <!--SubMenus-->
-    <string name="Sub_Menu_1_Financial">Financial Results &amp; Earning Presentation</string>
+    <string name="Sub_Menu_1_Financial">Financial Results &amp; Earnings Presentation</string>
     <string name="Sub_Menu_1_Investor">Investor Presentation</string>
     <string name="Sub_Menu_1_Akbank_Analyst">Akbank Analyst and Investor Days</string>
     <string name="Sub_Menu_1_Annual_Reports">Annual Reports</string>

@@ -92,7 +92,8 @@ public class DateTextView extends LinearLayout implements View.OnClickListener, 
         String dateText = "";
         if(textView.getText().toString().equals("")){
             if(isStartDate ){
-                dateText = TimeUtil.getDateBeforeOrAfterToday(-1, true, false);
+                //TODO control it was -1
+                dateText = TimeUtil.getDateBeforeOrAfterToday(0, true, false);
             }else{
                 dateText = TimeUtil.getTodayJoda(true, false);
             }

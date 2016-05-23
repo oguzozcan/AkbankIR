@@ -13,8 +13,6 @@ public class DataSaver {
 
     private final SharedPreferences saveArea;
     private final SharedPreferences.Editor saveAreaEditor;
-    //final Context context;
-//	private static final DataSaver instance = new DataSaver();
 
     public DataSaver(final Context context, final String saveAreaName, final boolean clearOnLoad) {
         saveArea = context.getSharedPreferences(saveAreaName, Context.MODE_PRIVATE);
