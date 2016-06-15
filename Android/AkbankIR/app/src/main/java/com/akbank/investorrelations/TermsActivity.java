@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.akbank.investorrelations.fragments.TermsFragment;
 
+import java.util.Calendar;
 import java.util.Locale;
 
 public class TermsActivity extends BaseActivity {
@@ -68,7 +69,6 @@ public class TermsActivity extends BaseActivity {
                 }
             }
         });
-
     }
 
     @Override

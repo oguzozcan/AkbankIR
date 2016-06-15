@@ -48,8 +48,9 @@ public class InvestorDaysAdapter extends RecyclerView.Adapter<InvestorDaysAdapte
         inflater = (LayoutInflater) act
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (events != null) {
-            events.remove(0);
+            //events.remove(0);
             data = new ArrayList<>(events);
+            data.remove(0);
         }
     }
 

@@ -39,7 +39,7 @@ public class InvestorDaysActivity extends BaseActivity {
 
     @Override
     protected void setTag() {
-        TAG = "InvestorPresentationActivity";
+        TAG = "InvestorDaysActivity";
     }
 
     @Override

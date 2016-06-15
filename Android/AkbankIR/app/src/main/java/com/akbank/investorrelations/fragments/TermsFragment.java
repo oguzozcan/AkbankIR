@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.akbank.investorrelations.AkbankApp;
 import com.akbank.investorrelations.ItemListActivity;
 import com.akbank.investorrelations.R;
 import com.akbank.investorrelations.busevents.EventDeviceRegisterResponse;
@@ -83,15 +84,19 @@ public class TermsFragment extends BaseFragment {
         //setTag();
     }
 
+
+
     public void setLocale(String lang) {
-        Locale myLocale = new Locale(lang);
-        Log.d(TAG, "SET LOCALE: " + lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
-        TimeUtil.changeLocale(myLocale);
+//        Locale myLocale = new Locale(lang);
+//        Log.d(TAG, "SET LOCALE: " + lang);
+//        Resources res = getActivity().getBaseContext().getResources();
+//        DisplayMetrics dm = res.getDisplayMetrics();
+//        Configuration conf = res.getConfiguration();
+//        conf.locale = myLocale;
+//        res.updateConfiguration(conf, dm);
+//        TimeUtil.changeLocale(myLocale);
+
+        AkbankApp.setLocale(getActivity().getApplication().getApplicationContext(), lang);
 
 //        Intent intent = getActivity().getBaseContext().getPackageManager()
 //                .getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
@@ -108,13 +113,6 @@ public class TermsFragment extends BaseFragment {
                 getActivity().finish();
             }
         }, 150);
-//        getActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//
-//            }
-//        });
     }
 
     boolean notFirstEntrance;
@@ -125,7 +123,8 @@ public class TermsFragment extends BaseFragment {
         textView = (TextView) view.findViewById(R.id.termsTv);
         Button confirmButton = (Button) view.findViewById(R.id.confirmButton);
         loadingBar = (RelativeLayout) view.findViewById(R.id.loadingLayout);
-        loadingBar.setVisibility(View.VISIBLE);
+        //TODO
+        loadingBar.setVisibility(View.GONE);
 //        final String android_id = Settings.Secure.getString(getContext().getContentResolver(),
 //                Settings.Secure.ANDROID_ID);
 //        final String android_id = Utils.getDeviceId(getActivity());
@@ -164,7 +163,11 @@ public class TermsFragment extends BaseFragment {
             loadingBar.setVisibility(View.GONE);
         }else{
             textView.setVisibility(View.VISIBLE);
-            app.getBus().post(new EventPagesRequest(pageIndex == 1 ? Constants.TURKISH : Constants.ENGLISH, pageIndex));
+            Spanned htmlAsSpanned = Html.fromHtml(pageIndex == 1 ? Constants.HTML_TERMS_OF_SERVICE_TR : Constants.HTML_TERMS_OF_SERVICE_EN);
+            textView.setText(htmlAsSpanned);
+
+//TODO
+            //app.getBus().post(new EventPagesRequest(pageIndex == 1 ? Constants.TURKISH : Constants.ENGLISH, pageIndex));
         }
         return view;
     }

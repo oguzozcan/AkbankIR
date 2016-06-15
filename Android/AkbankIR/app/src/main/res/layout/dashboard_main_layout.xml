@@ -50,8 +50,6 @@
         </RelativeLayout>
 
 
-
-
         <RelativeLayout
             android:id="@+id/investorPresentationTitleLayout"
             android:layout_width="match_parent"

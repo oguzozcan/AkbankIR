@@ -3,6 +3,7 @@ package com.akbank.investorrelations;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.akbank.investorrelations.adapters.NavDrawerListAdapter;
 import com.akbank.investorrelations.fragments.BaseFragment;
@@ -55,6 +57,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
         mDrawerLinearLayout = (RelativeLayout) findViewById(R.id.right_drawer);
         final ExpandableListView mDrawerList = (ExpandableListView) findViewById(R.id.drawer_menu);
         //TODO
+
+        setOrientation();
+
         if(mDrawerList != null)
            mDrawerList.setChildIndicator(null);
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -263,6 +268,28 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
                 BaseActivity.this.startActivity(termsIntent);
             }
         });
+    }
+
+    void setOrientation(){
+
+        if ((getResources().getConfiguration().screenLayout &      Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+           // Toast.makeText(this, "Large screen",Toast.LENGTH_LONG).show();
+            setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+
+        }
+        else if ((getResources().getConfiguration().screenLayout &      Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+            //Toast.makeText(this, "Normal sized screen" , Toast.LENGTH_LONG).show();
+            setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        }
+        else if ((getResources().getConfiguration().screenLayout &      Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL) {
+            //Toast.makeText(this, "Small sized screen" , Toast.LENGTH_LONG).show();
+            setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+        else {
+            //Toast.makeText(this, "Screen size is neither large, normal or small" , Toast.LENGTH_LONG).show();
+            setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
     }
 
     void init() {

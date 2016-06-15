@@ -54,7 +54,11 @@ public class CalendarActivityFragment extends BaseFragment {
 
     @Override
     protected void setTag() {
-        TAG = "Takvim";
+        if(AkbankApp.localeTr.toString().equalsIgnoreCase("en")){
+            TAG = "Calendar";
+        }else{
+            TAG = "Takvim";
+        }
     }
 
     @Override
@@ -105,7 +109,6 @@ public class CalendarActivityFragment extends BaseFragment {
                         filterEnabled = false;
                     }
                     filterMajorElseIrEvents = false;
-
                     eventsListView.setAdapter(new EventsCalendarAdapter(getActivity(), sortCalendarEventsAccordingToDate(calendarEvents)));
                 }
             }
@@ -138,7 +141,7 @@ public class CalendarActivityFragment extends BaseFragment {
         ArrayList<CalendarEvent> calendarEventsFromDate = new ArrayList<>();
         List<CalendarDay> majorList = new ArrayList<CalendarDay>();
         List<CalendarDay> irList = new ArrayList<CalendarDay>();
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance(AkbankApp.localeTr);
         for(CalendarEvent ce : calendarEvents){
             if(TimeUtil.getDaysInBetween(fromDate, TimeUtil.getDateTime(ce.getEventDate(), TimeUtil.dtfApiFormat)) >= 0){
                 Date date;

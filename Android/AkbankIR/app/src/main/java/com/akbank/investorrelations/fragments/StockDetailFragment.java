@@ -7,10 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -18,6 +16,7 @@ import android.widget.TextView;
 import com.akbank.investorrelations.AkbankApp;
 import com.akbank.investorrelations.ItemDetailActivity;
 import com.akbank.investorrelations.ItemListActivity;
+import com.akbank.investorrelations.R;
 import com.akbank.investorrelations.adapters.SnapshotGridAdapter;
 import com.akbank.investorrelations.busevents.EventComparableGraphRequest;
 import com.akbank.investorrelations.busevents.EventComparableGraphResponse;
@@ -43,7 +42,6 @@ import org.joda.time.DateTime;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import com.akbank.investorrelations.R;
 import retrofit2.Response;
 
 /**
@@ -262,7 +260,7 @@ public class StockDetailFragment extends BaseFragment {
                 sDateView.setDateText(TimeUtil.getDateBeforeOrAfter(dateTime, -1, true, false));
                 //TODO this can be dangerous
                 Log.d(TAG, "DATA NULL GO ONE DAY BEFORE");
-                return;
+                //return;
             }
             //1 is interday
             helper.init(graphDots, event.getPeriod() == 1, event.getDaysBetween());
@@ -292,14 +290,14 @@ public class StockDetailFragment extends BaseFragment {
             SnapshotData snapshotData = snapshotDataList.get(0);
             //NumberFormat nf = NumberFormat.getCurrencyInstance(TimeUtil.localeTr);
             DecimalFormat volumeFormatter = new DecimalFormat("#,###,###");
-            DecimalFormat capitalFormatter = new DecimalFormat("#,###");
+            DecimalFormat capitalFormatter = new DecimalFormat("##,###");
             ArrayList<SnapshotGridAdapter.SnapShotItem> items = new ArrayList<>();
             items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_StockName), snapshotData.getName()));
-            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Last), Double.toString(GraphHelper.round(snapshotData.getLast(),2)) + " TL"));
-            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Change), (Double.toString(GraphHelper.round(snapshotData.getDailyChangePercentage(),2))+ " %")));
-            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Volume), volumeFormatter.format(snapshotData.getDailyVolume().longValue() / 1000) + " MiO TL"));
+            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Last), Double.toString(GraphHelper.round(snapshotData.getLast(),3)) + " TL"));
+            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Change), (Double.toString(GraphHelper.round(snapshotData.getDailyChangePercentage(),3))+ " %")));
+            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_Volume), volumeFormatter.format((snapshotData.getDailyVolume().longValue()) / 1000) + " MiO TL"));
             items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_HighestLowest), snapshotData.getDailyHighest() + " - " + snapshotData.getDailyLowest()));
-            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_MarketCapital), capitalFormatter.format(snapshotData.getMarketCapital().longValue() / 100000) + " MiO TL"));
+            items.add(new SnapshotGridAdapter.SnapShotItem(getString(R.string.Stock_MarketCapital), capitalFormatter.format(snapshotData.getMarketCapital().longValue() / 1000000) + " BiO TL"));
             SnapshotGridAdapter adapter = new SnapshotGridAdapter(getContext(), items);
             event.getSnapShotGridView().setAdapter(adapter);
         }else{
@@ -340,12 +338,25 @@ public class StockDetailFragment extends BaseFragment {
                     startDateChanged = true;
                     startDate.setDateText(TimeUtil.getDateBeforeOrAfter(dateTime, -2, true, false));
 //                    daysAdjusted = true;
-                } else {
-                    //TODO
+                }
+                else if(TimeUtil.getDayOfWeek(dateText) == 1 ){
+                    DateTime dt = DateTime.now();
+                    int hour = dt.getHourOfDay();
+                    int minute = dt.getMinuteOfHour();
+                    //TODO TEST THIS
+                    Log.d(TAG, "HOUR: " + hour + " : " + minute);
+                    if(hour < 10 && minute < 31){
+                        startDateChanged = true;
+                        startDate.setDateText(TimeUtil.getDateBeforeOrAfter(dateTime, -3, true, false));
+                    }
+                }
+
+//                else {
+
                     //startDateChanged = false;
                     //endDate.setDateText(TimeUtil.getDateBeforeOrAfter(endDate.getDateTime(), 1, true, false));
 //                    daysAdjusted = true;
-                }
+//                }
             }
 
         } else if (dateText.equals(endDate.getDateText())) {

@@ -3,10 +3,13 @@ package com.akbank.investorrelations;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -35,6 +38,7 @@ import com.akbank.investorrelations.services.SnapshotRestApi;
 import com.akbank.investorrelations.services.SustainabilityReportRestApi;
 import com.akbank.investorrelations.services.WebcastsRestApi;
 import com.akbank.investorrelations.services.WebcastsService;
+import com.akbank.investorrelations.utils.Constants;
 import com.akbank.investorrelations.utils.DataSaver;
 import com.akbank.investorrelations.utils.TimeUtil;
 import com.squareup.okhttp.Cache;
@@ -64,6 +68,8 @@ public class AkbankApp extends Application {
     private static Bus mBus;
     public static Locale localeTr = new Locale("tr");
     private DataSaver dataSaver;
+
+    private String TAG = "AKBANKAPP";
 
     @Override
     public void onCreate() {
@@ -122,9 +128,21 @@ public class AkbankApp extends Application {
 //                        .addCustomStyle(TextField.class, R.attr.textFieldStyle)
                         .build()
         );
-        localeTr = getResources().getConfiguration().locale;
-        TimeUtil.changeLocale(localeTr);
+        boolean notFirstEntrance = dataSaver.getBoolean(Constants.FIRST_ENTRANCE_KEY);
+        if (notFirstEntrance) {
 
+            String lang = dataSaver.getString(Constants.SELECTED_LANGUAGE_KEY);
+            Log.d(TAG, "NOT FIRST ENTRANCE lang: " + lang);
+            if (lang.equalsIgnoreCase(Constants.TURKISH)) {
+                localeTr = setLocale(getApplicationContext(),Constants.TURKISH_LOCALE_CODE);
+            } else {
+                localeTr = setLocale(getApplicationContext(),Constants.ENGLISH_LOCALE_CODE);
+            }
+        } else {
+            Log.d(TAG, "FIRST ENTRANCE: ");
+            localeTr = getResources().getConfiguration().locale;
+            TimeUtil.changeLocale(localeTr);
+        }
         registerBusEvents(retrofitForex, retrofit, retrofit1);
     }
 
@@ -133,7 +151,19 @@ public class AkbankApp extends Application {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    private Retrofit createRetrofitObject(String url){
+    public static Locale setLocale(Context context, String lang) {
+        Locale myLocale = new Locale(lang);
+        Log.d("AkbankApp", "SET LOCALE: " + lang);
+        Resources res = context.getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        TimeUtil.changeLocale(myLocale);
+        return myLocale;
+    }
+
+    private Retrofit createRetrofitObject(String url) {
         return new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -141,14 +171,14 @@ public class AkbankApp extends Application {
                 .build();
     }
 
-    public void registerBusEvents(Retrofit retrofitForex, Retrofit retrofit, Retrofit retrofit1){
-        if(retrofitForex == null){
+    public void registerBusEvents(Retrofit retrofitForex, Retrofit retrofit, Retrofit retrofit1) {
+        if (retrofitForex == null) {
             retrofitForex = createRetrofitObject(ROOT_URL_FOREX);
         }
-        if(retrofit == null){
+        if (retrofit == null) {
             retrofit = createRetrofitObject(ROOT_URL);
         }
-        if(retrofit1 == null){
+        if (retrofit1 == null) {
             retrofit1 = createRetrofitObject(ROOT_URL_1);
         }
         getBus().register(this);
@@ -189,7 +219,7 @@ public class AkbankApp extends Application {
             } else {
                 Toast.makeText(getApplicationContext(), "İnternetinizi kontrol edin ve tekrar deneyin.", Toast.LENGTH_LONG).show();
             }
-        }else{
+        } else {
             Toast.makeText(getApplicationContext(), "İnternetinizi kontrol edin ve tekrar deneyin.", Toast.LENGTH_LONG).show();
         }
         //Log.e("ReaderApp", event.getErrorMessage());

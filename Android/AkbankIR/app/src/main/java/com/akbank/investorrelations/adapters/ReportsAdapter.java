@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,8 +58,9 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.DataObje
         inflater = (LayoutInflater) act
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (events != null) {
-            events.remove(0);
+            //events.remove(0);
             data = new ArrayList<>(events);
+            data.remove(0);
         }
     }
 

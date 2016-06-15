@@ -21,6 +21,7 @@
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="?actionBarSize"
             app:mcv_selectionColor="@color/warm_grey"
             app:mcv_arrowColor="@color/tomato"
             app:mcv_dateTextAppearance="@color/warm_grey"
@@ -31,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/calendarView"
-            android:layout_marginTop="-10dp"
+            android:layout_marginTop="-5dp"
             android:layout_marginBottom="8dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
@@ -44,6 +45,7 @@
                 android:layout_weight="3"
                 android:drawableLeft="@drawable/red_shape"
                 android:drawablePadding="4dp"
+                android:padding="8dp"
                 android:lines="2"
                 android:text="@string/Calendar_Event_IR" />
 
@@ -58,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:lines="2"
+                android:padding="8dp"
                 android:drawableLeft="@drawable/black_calendar_shape"
                 android:drawablePadding="4dp"
                 android:text="@string/Calendar_Event_Major" />

@@ -66,7 +66,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".CalendarActivity"
-            android:configChanges="locale|orientation"
+            android:configChanges="locale|orientation|keyboardHidden"
             android:label="@string/title_activity_calendar"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

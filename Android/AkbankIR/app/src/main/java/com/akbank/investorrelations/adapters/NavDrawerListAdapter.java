@@ -108,13 +108,20 @@ public class NavDrawerListAdapter extends BaseExpandableListAdapter {
             view = inflater.inflate(R.layout.row_sub_menu_navigation_drawer, null);//viewgroup
         }
 
-//        if(!isEnglish){
-//            if(groupPosition == 1 && childPosition == 1){
-//                view.setVisibility(View.GONE);
-//            }
+//        if(position == 1 && !isEnglish){
+//            txtTitle.setTextSize(0);
 //        }
 
+
+
         TextView text = (TextView)view;
+        if(!isEnglish){
+            if(groupPosition == 1 && childPosition == 1){
+               // view.setVisibility(View.GONE);
+                text.setTextSize(0);
+                text.setPadding(0,0,0,0);
+            }
+        }
         text.setText(child);
         view.setTag(child);
         return view;

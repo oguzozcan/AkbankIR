@@ -16,6 +16,15 @@
 #   public *;
 #}
 
+-dontwarn org.joda.**
+-dontwarn org.codehaus.mojo.**
+-dontwarn de.hdodenhof.circleimageview
+#-dontwarn org.apache.http.**
+-dontwarn com.google.android.gms.**
+-dontwarn com.github.citux.datetimepicker.**
+-dontwarn java.nio.file.**
+-dontwarn rx.**
+
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
 -keepattributes Exceptions

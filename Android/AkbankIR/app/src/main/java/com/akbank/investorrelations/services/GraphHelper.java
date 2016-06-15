@@ -20,6 +20,7 @@ import com.akbank.investorrelations.objects.GraphDot;
 import com.akbank.investorrelations.objects.MainGraphDot;
 import com.akbank.investorrelations.utils.TimeUtil;
 import com.akbank.investorrelations.utils.Utils;
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
@@ -30,8 +31,10 @@ import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.Series;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 /**
@@ -132,7 +135,8 @@ public class GraphHelper {
 
             for(MainGraphDot gd :  graphDots){
                 double y = gd.getCloseValue() ;
-                dataPoints[i] = new DataPoint(i, round(y,2));
+                //Log.d(TAG, "Y rounded: " + round(y,2)) ;
+                dataPoints[i] = new DataPoint(i, y);
                 dataPoints2[i] = new DataPoint(i,1);
                 //dateDataPoints[i] = new DataPoint(i, gd.getDate());
                 dates[i] = TimeUtil.getDateTxtAccordingToMillis(gd.getDate(), isInterday ? TimeUtil.dtfBarGraphTime : TimeUtil.dtfBarGraph);
@@ -173,6 +177,7 @@ public class GraphHelper {
             series.setDrawDataPoints(true);
             series.setDataPointsRadius(1);
             graphView.addSeries(series2);
+
             if(barGraph != null){
                 BarGraphSeries<DataPoint> barGraphSeries = setBarGraphSerie(volumeDataPoints, Color.RED);
                 barGraph.addSeries(barGraphSeries);
@@ -181,6 +186,10 @@ public class GraphHelper {
                 barGraph.getGridLabelRenderer().setVerticalLabelsVisible(false);
                 if(dates.length > 0){
                     StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(barGraph);
+                    //String[] newDates = manipulateDates(dates, isInterday, daysBetween);
+//                    for(int j = 0 ; j < newDates.length; j ++){
+//                        Log.d(TAG, "DATEEE: " + newDates[j]);
+//                    }
                     staticLabelsFormatter.setHorizontalLabels(manipulateDates(dates, isInterday, daysBetween));
                     barGraph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
                     barGraph.getViewport().setXAxisBoundsManual(true);
@@ -206,11 +215,18 @@ public class GraphHelper {
             graphView.getGridLabelRenderer().setTextSize(graphTextSize);
             graphView.getGridLabelRenderer().setVerticalAxisTitleTextSize(graphTextSize);
             graphView.getGridLabelRenderer().setHorizontalAxisTitleTextSize(graphTextSize);
+            NumberFormat nf = NumberFormat.getInstance();
+            nf.setMinimumFractionDigits(2);
+            nf.setMaximumFractionDigits(2);
+            nf.setMinimumIntegerDigits(1);
+            graphView.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(nf, nf));
             //graphView.setTitleTextSize(graphTextSize);
             graphView.getSecondScale().setMinY(min);
             graphView.getSecondScale().setMaxY(max);
+            graphView.getSecondScale().setLabelFormatter(new DefaultLabelFormatter(nf,nf));
             graphView.getViewport().setMinX(0);
             graphView.getViewport().setMaxX(graphDots.size());
+
             graphView.getGridLabelRenderer().reloadStyles();
         }
     }
@@ -331,19 +347,19 @@ public class GraphHelper {
                     newDates[3] = dates[size -1];
                     return newDates;
                 case 90:
-                    String[] newDates1 = new String[6];
+                    String[] newDates1 = new String[8];// 6
                     newDates1[0] = dates[0];
-                    Log.d(TAG, "DATES 0: " + newDates1[0]);
-                    period = size / 6;
-                    Log.d(TAG, "PERIOD: " + period + "size: " + size);
+                   // Log.d(TAG, "DATES 0: " + newDates1[0]);
+                    period = size / 8;
+                   // Log.d(TAG, "PERIOD: " + period + "size: " + size);
                     lastIndex = period;
-                    for(int j = 1 ; j < 5; j++){
+                    for(int j = 1 ; j < 7; j++){
                         newDates1[j] = dates[lastIndex];
-                        Log.d(TAG, "DATES: " + newDates1[j]);
+                       // Log.d(TAG, "DATES: " + newDates1[j]);
                         lastIndex+=period;
                     }
-                    newDates1[5] = dates[size -1];
-                    Log.d(TAG, "DATES 5: " + newDates1[5]);
+                    newDates1[7] = dates[7];
+                   // Log.d(TAG, "DATES 5: " + newDates1[7]);
                     return newDates1;
                 case 180:
                     newDates = new String[3];
@@ -379,9 +395,13 @@ public class GraphHelper {
     public static double round(double value, int places) {
         if (places < 0) return value;
 
-        BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
+       // BigDecimal bd = new BigDecimal(value);//Double.toString()
+      //  bd = bd.round(new MathContext(places));
+        //bd = bd.setScale(places, RoundingMode.HALF_UP);
+        //Log.d("", "DOUBLE STRING: " + bd.toString());
+        //Log.d("", "DOUBLE: " + bd.doubleValue());
+       // Log.d("", "DOUBLE big decimal: " + bd);
+        return new BigDecimal(value).round(new MathContext(places)).doubleValue();//bd.doubleValue();
     }
 
     public void cleanGraph(){
@@ -484,7 +504,7 @@ public class GraphHelper {
         double max = 0;
         double min = 0;
         for(int i = 0; i < totalData.size(); i ++){
-            double y = totalData.get(i).getChangePercentage();
+            double y = totalData.get(i).getChangePercentage();//round(,3);
             if(i == 0){
                 max = y;
                 min = y;
@@ -506,6 +526,7 @@ public class GraphHelper {
         Log.d(TAG, "DATA POINTS SIZE: " + graphDots.size());
         int i = 0;
         for(GraphDot gd :  graphDots){
+            //double newValue = round(gd.getChangePercentage(),3);
             dataPoints[i] = new DataPoint(i, gd.getChangePercentage());
             i ++;
         }
