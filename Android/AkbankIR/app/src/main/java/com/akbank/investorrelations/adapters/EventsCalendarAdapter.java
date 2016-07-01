@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.akbank.investorrelations.AkbankApp;
 import com.akbank.investorrelations.R;
 import com.akbank.investorrelations.objects.CalendarEvent;
 import com.akbank.investorrelations.utils.TimeUtil;
@@ -94,8 +95,8 @@ public class EventsCalendarAdapter extends RecyclerView.Adapter<EventsCalendarAd
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
         final CalendarEvent event = getItem(position);
-        String eventDate = TimeUtil.getDateTime(event.getEventDate(), TimeUtil.dtfApiFormat, TimeUtil.dtfOutWOTimeShort);
-        String weekDay = TimeUtil.getDateTime(event.getEventDate(), TimeUtil.dtfApiFormat, TimeUtil.dtfOutWeekday);
+        String eventDate = TimeUtil.getDateTime(event.getEventDate(), TimeUtil.dtfApiFormat, TimeUtil.dtfOutWOTimeShort, AkbankApp.localeTr);
+        String weekDay = TimeUtil.getDateTime(event.getEventDate(), TimeUtil.dtfApiFormat, TimeUtil.dtfOutWeekday, AkbankApp.localeTr);
         holder.dateTv.setText(new StringBuilder().append(eventDate).append("\n").append(weekDay).toString());
         holder.eventNameTv.setText(event.getTitle());
         Log.d(TAG, "EVENT TYPE: " + event.getType() + " - " + eventDate);

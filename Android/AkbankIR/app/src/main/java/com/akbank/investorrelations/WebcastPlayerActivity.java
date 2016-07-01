@@ -54,7 +54,7 @@ public class WebcastPlayerActivity extends BaseActivity implements MediaPlayer.O
             assert titleTv != null;
             titleTv.setText(fileName);
         }
-        String eventDate = TimeUtil.getDateTime(date, TimeUtil.dfISO, TimeUtil.dtfOutWOTime);
+        String eventDate = TimeUtil.getDateTime(date, TimeUtil.dfISO, TimeUtil.dtfOutWOTime, AkbankApp.localeTr);
         if (eventDate != null) {
             assert dateTv != null;
             dateTv.setText(eventDate);

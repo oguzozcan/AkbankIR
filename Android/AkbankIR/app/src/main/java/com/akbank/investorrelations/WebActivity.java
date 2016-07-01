@@ -22,8 +22,12 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
 
+import com.akbank.investorrelations.busevents.EventPagesRequest;
+import com.akbank.investorrelations.busevents.EventPagesResponse;
+import com.akbank.investorrelations.objects.PagesObject;
 import com.akbank.investorrelations.utils.Constants;
 import com.joanzapata.pdfview.PDFView;
+import com.squareup.otto.Subscribe;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -34,6 +38,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import retrofit2.Response;
+
 public class WebActivity extends BaseActivity implements Html.ImageGetter {
 
     @Override
@@ -43,6 +49,7 @@ public class WebActivity extends BaseActivity implements Html.ImageGetter {
 
     String title;
     TextView textView;
+    WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +59,7 @@ public class WebActivity extends BaseActivity implements Html.ImageGetter {
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_web, null, false);
         mContent.addView(contentView, 0);
-        WebView webView = (WebView) contentView.findViewById(R.id.webView);
+        webView = (WebView) contentView.findViewById(R.id.webView);
         textView = (TextView) contentView.findViewById(R.id.htmlTitle);
 
         textView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -65,6 +72,7 @@ public class WebActivity extends BaseActivity implements Html.ImageGetter {
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        webView.getSettings().setDomStorageEnabled(true);
         String fileName = getIntent().getStringExtra("file_name");
         String uri = getIntent().getStringExtra("uri");
         title = getIntent().getStringExtra("title");
@@ -73,64 +81,82 @@ public class WebActivity extends BaseActivity implements Html.ImageGetter {
         if(title != null){
             TAG = title;
         }
+
+        app.getBus().register(this);
+
         if(type.equals("web")){
             //webView.loadUrl("file:///android_asset/html/"+fileName);
             //StringEscapeUtils.unescapeJson(comment.getComment()
             boolean isLocalHtml = false;
             String html = "";
+            int id = 0;
             switch (position){
                 case 0:
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_CORPORATE_GOVERNANCE);
-                    Log.d(TAG, "HTML: " + html);
+                    id = Constants.PAGE_ID_Corporate_Governance;
                     isLocalHtml = true;
                     break;
                 case 1:
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_ARTICLES_OF_ASSOCIATION);
+                    id = Constants.PAGE_ID_Articles_of_Association;
                     isLocalHtml = true;
                     break;
                 case 3:
-                    html = StringEscapeUtils.unescapeJava(Constants.HTML_ANNUAL_GENERAL_MEETING_DOCUMENTS);
+//                    html = StringEscapeUtils.unescapeJava(Constants.HTML_ANNUAL_GENERAL_MEETING_DOCUMENTS);
+                    id = Constants.PAGE_ID_Annual_General_Meeting_Documents;
                     isLocalHtml = true;
                     break;
                 case 4:
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_ABOUT_SUZAN_SABANCI);
+                    id = Constants.PAGE_ID_About_Suzan_Sabancı_Dincer;
                     isLocalHtml = true;
                     break;
                 case 5:
+                    id = Constants.PAGE_ID_Capital_Trade_Registry_Information;
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_CAPITAL_TRADE_REGISTRY_INFORMATION);
                     isLocalHtml = true;
                     break;
                 case 6:
+                    id = Constants.PAGE_ID_Ethical_Principles;
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_ETHICAL_PRINCIPLES);
                     isLocalHtml = true;
                     break;
                 case 7:
+                    id = Constants.PAGE_ID_Compliance;
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_COMPLIANCE);
                     isLocalHtml = true;
                     break;
                 case 8:
+                    id = Constants.PAGE_ID_Compensation_Policy;
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_COMPANSATION);
                     isLocalHtml = true;
                     break;
                 case 9:
+                    id = Constants.PAGE_ID_Donation_Contribution_Policy;
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_DONATION_CONTRUBUTION);
                     isLocalHtml = true;
                     break;
                 case 10:
+                    id = Constants.PAGE_ID_Disclosure_Policy;
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_DISCLOSURE_POLICY);
                     isLocalHtml = true;
                     break;
                 case 12:
+                    id = Constants.PAGE_ID_Dividend_Policy;
                     html = StringEscapeUtils.unescapeJava(Constants.HTML_DIVIDENT_POLICY);
                     isLocalHtml = true;
                     break;
             }
             //webView.loadData(html,"text/html", "UTF-8");
             if(isLocalHtml){
-                Spanned htmlAsSpanned = Html.fromHtml(html, this, null);
-                textView.setText(htmlAsSpanned);
-                webView.setVisibility(View.GONE);
-                textView.setVisibility(View.VISIBLE);
+
+                //TODO
+                requestPage(id);
+//                Spanned htmlAsSpanned = Html.fromHtml(html, this, null);
+//                textView.setText(htmlAsSpanned);
+//                webView.setVisibility(View.GONE);
+//                textView.setVisibility(View.VISIBLE);
+                //TODO
                 //webView.loadDataWithBaseURL("", html, "text/html", "UTF-8", "");
             }else{
                 textView.setVisibility(View.GONE);
@@ -206,6 +232,33 @@ public class WebActivity extends BaseActivity implements Html.ImageGetter {
         tvName.setText(title);*/
         //webView.setWebViewClient(new HelloWebViewClient());
         //webView.loadUrl(url);
+    }
+
+    @Subscribe
+    public void onLoadPages(EventPagesResponse eventPagesResponse){
+        Response<PagesObject> response = eventPagesResponse.getResponse();
+//        Log.d(TAG, "ON RESPONSE - responsecode: " + response.code() + " - response:" + response.raw());
+//        Log.d(TAG, "RESPONSE : " + response.body().toString());
+//        //loadingLayout.setVisibility(View.GONE);
+        if (response.isSuccessful()) {
+            PagesObject page = response.body();
+            Spanned htmlAsSpanned = Html.fromHtml(page.getText(), this, null);
+            textView.setText(htmlAsSpanned);
+            webView = (WebView)findViewById(R.id.webView);
+            webView.setVisibility(View.GONE);
+            textView.setVisibility(View.VISIBLE);
+        }
+
+
+        //                Spanned htmlAsSpanned = Html.fromHtml(html, this, null);
+//                textView.setText(htmlAsSpanned);
+//                webView.setVisibility(View.GONE);
+//                textView.setVisibility(View.VISIBLE);
+
+    }
+
+    public void requestPage(int id) {
+        app.getBus().post(new EventPagesRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY),id));
     }
 
     @Override

@@ -1,0 +1,109 @@
+<resources>
+    <string name="app_name">Investor Relations</string>
+    <string name="title_item_detail">Item Detail</string>
+    <!-- Buttons -->
+    <string name="Ok">Tamam</string>
+    <string name="Cancel">İptal</string>
+    <string name="Confirm">Onayla</string>
+    <string name="Button_Delete">SİL</string>
+    <string name="Button_ViewDetails">Detayları görüntüle</string>
+
+    <!-- Alerts -->
+
+    <!-- Labels -->
+    <string name="SavingFile">Dosya Kaydediliyor</string>
+    <string name="NotSavingFile">Dosya daha önce kaydedilmiş</string>
+    <string name="International">Uluslararası</string>
+    <string name="Local">Yerel</string>
+    <string name="View">Görüntüle</string>
+    <string name="Listen">Dinle</string>
+    <string name="Save">Kaydet</string>
+    <string name="Downloading">İndiriliyor</string>
+    <string name="Opening">Açılıyor</string>
+    <string name="ContactUs">Bize Ulaşın</string>
+
+    <string name="no_mail_app">E-mail uygulaması mevcut değil.</string>
+    <string name="send_mail">E-mail Yolla …</string>
+
+    <!-- Menu -->
+    <string name="Menu_Menu">Menü</string>
+    <string name="Menu_Dashboard">Ana Panel</string>
+    <string name="Menu_InvestorToolkit">Yatırımcı Araçları</string>
+    <string name="Menu_AnnouncementsAndNews">Duyurular ve Haberler</string>
+    <string name="Menu_Stocks">Hisse Değeri</string>
+    <string name="Menu_Calendar">Takvim</string>
+    <string name="Menu_AnalystCoverage">Analistler</string>
+    <string name="Menu_CorporateGovernance">Kurumsal Yönetim</string>
+    <string name="Menu_AboutTurkey">Türkiye Hakkında</string>
+    <string name="Menu_IRTeam">Yatırımcı İlişkileri</string>
+    <string name="Menu_SavedDocuments">Kayıtlı Dökümanlar</string>
+
+    <!--SubMenus-->
+    <string name="Sub_Menu_1_Financial">Finansal Bilgiler</string>
+    <string name="Sub_Menu_1_Investor">Investor Presentation</string>
+    <!-- <string name="Sub_Menu_1_Investor">BU TURKCEDE GÖZUKMEYECEK</string> -->
+    <string name="Sub_Menu_1_Akbank_Analyst">Akbank Analist ve Yatırımcı Günleri</string>
+    <string name="Sub_Menu_1_Annual_Reports">Faaliyet Raporları</string>
+
+    <string name="Sub_Menu_1_Webcasts">Webcasts</string>
+    <string name="Sub_Menu_1_Sustainability">Sürdürülebilirlik Raporları</string>
+
+    <string name="Sub_Menu_2_Corparate">Kurumsal Yönetim</string>
+    <string name="Sub_Menu_2_Articles">Ana Sözleşme</string>
+    <string name="Sub_Menu_2_Renumuration">Ücretlendirme Politikası</string>
+    <string name="Sub_Menu_2_Annual">Genel Kurul Dökümanları</string>
+    <string name="Sub_Menu_2_About">Suzan Sabancı Dinçer</string>
+    <string name="Sub_Menu_2_Capital">Sermaye ve Ticaret Sicil Belgeleri</string>
+    <string name="Sub_Menu_2_Ethnical">Etik İlkeler</string>
+    <string name="Sub_Menu_2_Compliance">MASAK Uyum Politikası</string>
+    <string name="Sub_Menu_2_Compensation">Personel Tazminat Politikası</string>
+    <string name="Sub_Menu_2_Donation">Bağış ve Yardım Politikası</string>
+    <string name="Sub_Menu_2_Disclosure">Bilgilendirme Politikası</string>
+    <string name="Sub_Menu_2_Anti_Bribery">Rüşvet ve Yolsuzlukla Mücadele Politikası</string>
+    <string name="Sub_Menu_2_Divident_Policy">Kar Dağıtım Politikası</string>
+
+    <string name="Terms_of_Services">Kullanım Koşulları</string>
+
+    <!-- Screen titles -->
+
+    <!-- Dashboard cell headers -->
+    <string name="DashboardHeader_News">Son Haberler</string>
+    <string name="DashboardHeader_InvestorPresentation">Yatırımcı Sunumu</string>
+    <string name="DashboardHeader_Stock">Hisse Değeri</string>
+    <string name="DashboardHeader_AboutTurkey">Türkiye Hakkında</string>
+    <string name="DashboardHeader_Webcasts">Webcasts</string>
+    <string name="DashboardHeader_Calendar">Takvim</string>
+    <string name="DashboardHeader_AnnualReports">Faaliyet Raporları</string>
+    <string name="DashboardHeader_Ratings">Rating Notları</string>
+
+    <!-- Reports cell headers -->
+    <string name="ReportHeader_Latest">Son Rapor</string>
+    <string name="ReportHeader_Previous">Önceki Raporlar</string>
+    <!-- Investor day's headers -->
+    <string name="InvestorDay_LatestInvDays">Son Yatırımcı Günü</string>
+    <string name="InvestorDay_PrevInvDays">Önceki yatırımcı günleri</string>
+    <!-- Webcasts headers -->
+    <!-- Presentations headers -->
+    <!-- Investor Toolkit Subitems -->
+    <!-- Calendar screen -->
+    <string name="Calendar_Event_IR">Yatırımcı İlişkileri Takvimi</string>
+    <string name="Calendar_Event_Major">TR Ekonomik Takvim</string>
+    <string name="Calendar_Agenda">Gündem</string>
+    <!-- Stock screen -->
+    <string name="Stock_Current">GÜNİÇİ</string>
+    <string name="Stock_OneMonth">1 AY</string>
+    <string name="Stock_ThreeMonth">3 AY</string>
+    <string name="Stock_SixMonth">6 AY</string>
+    <string name="Stock_Year">1 YIL</string>
+    <string name="Stock_StockName">Hisse Senedi</string>
+    <string name="Stock_Change">%Değişim</string>
+    <string name="Stock_Last">Son</string>
+    <string name="Stock_Volume">Hacim</string>
+    <string name="Stock_Volume_TL">Hacim (TL)</string>
+    <string name="Stock_HighestLowest">En Yüksek - En Düşük</string>
+    <string name="Stock_MarketCapital">Piyasa Değeri</string>
+    <!-- Ratings screen -->
+
+    <string name="title_activity_irteam">IRTeamActivity</string>
+    <string name="title_activity_calendar">CalendarActivity</string>
+</resources>

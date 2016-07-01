@@ -29,17 +29,16 @@ import retrofit2.Response;
 
 public class EarningPresentationActivity extends BaseActivity {
 
-    private View contentView;
-    private RecyclerView reportsList;
+    //private View contentView;
+    //private RecyclerView reportsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater) this
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
-        contentView = inflater.inflate(R.layout.activity_earning_presentation, null, false);
+        View contentView = inflater.inflate(R.layout.activity_earning_presentation, null, false);
         mContent.addView(contentView, 0);
-        reportsList = (RecyclerView) findViewById(R.id.reportsList);
     }
 
     @Override
@@ -52,6 +51,7 @@ public class EarningPresentationActivity extends BaseActivity {
         super.onStart();
         app.getBus().register(this);
         app.getBus().post(new EventEarningPresentationsRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY)));
+        Log.d(TAG, "EARNING PRESENTATION: language key: " + ds.getLangString(Constants.SELECTED_LANGUAGE_KEY) );
     }
 
     @Override
@@ -74,17 +74,31 @@ public class EarningPresentationActivity extends BaseActivity {
         //loadingLayout.setVisibility(View.GONE);
         if (response.isSuccessful()) {
             ArrayList<ReportObject> reports = response.body();
+            reports = filterOutEnglishTitles(reports);
             setReportObject(reports.get(0));
+            RecyclerView reportsList = (RecyclerView) findViewById(R.id.reportsList);
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
             reportsList.setLayoutManager(mLayoutManager);
             reportsList.setAdapter(new ReportsAdapter(this, reports));
+
         }else{
             app.getBus().post(new ApiErrorEvent(response.code(), response.message(),true));
         }
     }
 
+    private ArrayList<ReportObject> filterOutEnglishTitles(ArrayList<ReportObject> reports){
+        ArrayList<ReportObject> newReports = new ArrayList<>();
+        for(ReportObject report : reports){
+            String title = report.getTitle();
+            if(!title.toLowerCase().contains("quarter results")){
+                newReports.add(report);
+            }
+        }
+        return newReports;
+    }
+
     private void setReportObject(final ReportObject reportObject ) {
-        RelativeLayout webcastLayout = (RelativeLayout) contentView.findViewById(R.id.latestReport);
+        RelativeLayout webcastLayout = (RelativeLayout) findViewById(R.id.latestReport);
         TextView description = (TextView) webcastLayout.findViewById(R.id.reportDescription);
         description.setText(reportObject.getTitle());
         TextView saveButton = (TextView) webcastLayout.findViewById(R.id.saveButton);

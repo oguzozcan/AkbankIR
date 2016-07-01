@@ -24,6 +24,8 @@ import com.akbank.investorrelations.utils.TimeUtil;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.format.ArrayWeekDayFormatter;
+import com.prolificinteractive.materialcalendarview.format.MonthArrayTitleFormatter;
 import com.squareup.otto.Subscribe;
 
 import org.joda.time.DateTime;
@@ -115,6 +117,8 @@ public class CalendarActivityFragment extends BaseFragment {
         });
         fromDate = DateTime.now();//TimeUtil.getTodayJoda(TimeUtil.dtfApiFormat);
         calendarView.setDateSelected(new Date(System.currentTimeMillis()), true);
+        calendarView.setTitleFormatter(new MonthArrayTitleFormatter(getResources().getTextArray(R.array.custom_months)));
+        calendarView.setWeekDayFormatter(new ArrayWeekDayFormatter(getResources().getTextArray(R.array.custom_weekdays)));
         DataSaver ds = app.getDataSaver();
         app.getBus().post(new EventCalendarRequest(ds.getLangString(Constants.SELECTED_LANGUAGE_KEY)));
         return view;

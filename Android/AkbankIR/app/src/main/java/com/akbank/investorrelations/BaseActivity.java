@@ -187,7 +187,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
                             intent.putExtra("type", "web");
                             break;
                         case 11:
-                            intent.putExtra("file_name", lang.equalsIgnoreCase(Constants.TURKISH) ? "anti-bribery-anti-corruption-policy-tr" :"anti-bribery-anti-corruption-policy.pdf");
+                            intent.putExtra("file_name", lang.equalsIgnoreCase(Constants.TURKISH) ? "anti-bribery-anti-corruption-policy-tr.pdf" :"anti-bribery-anti-corruption-policy.pdf");
                             intent.putExtra("title", getString(R.string.Sub_Menu_2_Anti_Bribery));
                             intent.putExtra("type", "pdf");
                             break;
@@ -275,7 +275,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseFrag
         if ((getResources().getConfiguration().screenLayout &      Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
            // Toast.makeText(this, "Large screen",Toast.LENGTH_LONG).show();
             setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-
+        }
+        else if ((getResources().getConfiguration().screenLayout &      Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+            // Toast.makeText(this, "Large screen",Toast.LENGTH_LONG).show();
+            setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         }
         else if ((getResources().getConfiguration().screenLayout &      Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
             //Toast.makeText(this, "Normal sized screen" , Toast.LENGTH_LONG).show();

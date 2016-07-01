@@ -86,7 +86,9 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.DataObje
     public void onBindViewHolder(DataObjectHolder holder, int position) {
         final ReportObject report = getItem(position);
         holder.titleTv.setText(report.getTitle());
-        Picasso.with(activity).load(AkbankApp.ROOT_URL + report.getImage()).placeholder(R.drawable.group_copy_4).into(holder.pdfIcon);
+        Log.d(TAG, "Report name: " + report.getTitle());
+        if(activity != null)
+         Picasso.with(activity).load(AkbankApp.ROOT_URL + report.getImage()).placeholder(R.drawable.group_copy_4).into(holder.pdfIcon);
 
         //holder.saveTv.setText(webcast.getCreatedDate());
         //String date = TimeUtil.getDateTime(webcast.getDate(), TimeUtil.dfISO, TimeUtil.dtfOutWOTimeShort);

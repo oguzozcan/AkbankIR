@@ -152,9 +152,16 @@ public class TimeUtil {
     }
 
 
-    public static String getDateTime(String dateTimeText, DateTimeFormatter fromFormat, DateTimeFormatter toFormat) {
+    public static String getDateTime(String dateTimeText, DateTimeFormatter fromFormat, DateTimeFormatter toFormat, Locale locale) {
         //DateTime dt= fromFormat.parseDateTime(dateTimeText).toDateTime();
-        return toFormat.print(fromFormat.parseDateTime(dateTimeText));
+//        Locale l = new Locale(locale.getLanguage());
+        if(locale.getLanguage().equals("tr-tr")){
+            locale = new Locale("tr");
+        }
+        //Log.d(TAG, "LOCALE: " + locale.getLanguage().toString());
+        //return toFormat.withLocale(l).withOffsetParsed().print(fromFormat.withLocale(l).withOffsetParsed().parseDateTime(dateTimeText));
+
+        return toFormat.withLocale(locale).print(fromFormat.parseDateTime(dateTimeText));
     }
 
     public static String convertSimpleDateToReadableForm(String date, boolean isTimeIncluded) {

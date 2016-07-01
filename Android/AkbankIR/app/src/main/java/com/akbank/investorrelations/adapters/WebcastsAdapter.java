@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.akbank.investorrelations.AkbankApp;
 import com.akbank.investorrelations.WebcastPlayerActivity;
 import com.akbank.investorrelations.objects.WebcastObject;
 import com.akbank.investorrelations.utils.TimeUtil;
@@ -84,7 +85,7 @@ public class WebcastsAdapter extends RecyclerView.Adapter<WebcastsAdapter.DataOb
         final WebcastObject webcast = getItem(position);
         holder.titleTv.setText(webcast.getTitle());
         holder.dateTv.setText(webcast.getCreatedDate());
-        String date = TimeUtil.getDateTime(webcast.getDate(), TimeUtil.dfISO, TimeUtil.dtfOutWOTimeShort);
+        String date = TimeUtil.getDateTime(webcast.getDate(), TimeUtil.dfISO, TimeUtil.dtfOutWOTimeShort, AkbankApp.localeTr);
         holder.dateTv.setText(date);
         holder.listenButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -11,6 +11,6 @@ import retrofit2.http.Path;
  * Created by oguzemreozcan on 19/04/16.
  */
 public interface PagesRestApi {
-    @GET("/pages/{pages}")
+    @GET("/governance/{pages}")
     Call<PagesObject> getPage(@Header("Accept-Language") String language,@Path("pages") int pages);
 }

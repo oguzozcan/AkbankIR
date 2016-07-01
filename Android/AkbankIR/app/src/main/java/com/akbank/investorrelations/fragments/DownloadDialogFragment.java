@@ -92,14 +92,15 @@ public class DownloadDialogFragment extends DialogFragment {
 
         File f = new File(path);
         File file[] = f.listFiles();
-        Log.d("Files", "Path: " + path + "Size: " + file.length);
-        for (int i = 0; i < file.length; i++) {
-            Log.d("Files", "FileName:" + file[i].getName());
-            if (title.equals(file[i].getName()) ){
-                Log.d("Files", "FilePresent filename is" + file[i].getName());
-                return true;
+        // Log.d("Files", "Path: " + path + "Size: " + file.length);
+        if (file != null)
+            for (int i = 0; i < file.length; i++) {
+                Log.d("Files", "FileName:" + file[i].getName());
+                if (title.equals(file[i].getName())) {
+                    Log.d("Files", "FilePresent filename is" + file[i].getName());
+                    return true;
+                }
             }
-        }
         return false;
     }
 
@@ -117,8 +118,8 @@ public class DownloadDialogFragment extends DialogFragment {
         String status = shouldShownAfterDownload ? getString(R.string.Opening) : getString(R.string.Downloading);
         statusTextTv.setText(status);
 
-        if(isFilePresent){
-            if(shouldShownAfterDownload){
+        if (isFilePresent) {
+            if (shouldShownAfterDownload) {
                 String path = Environment.getExternalStorageDirectory().toString() + SavedDocumentObject.FOLDER_PATH + "/" + title;
                 Intent intentPdf = new Intent(activity, WebActivity.class);
                 intentPdf.putExtra("uri", path);
@@ -134,7 +135,7 @@ public class DownloadDialogFragment extends DialogFragment {
                     Toast.makeText(getActivity().getApplicationContext(), getString(R.string.NotSavingFile), Toast.LENGTH_SHORT).show();
                 }
             }, 200);
-        } else{
+        } else {
             final DownloadManager dm = (DownloadManager) activity.getSystemService(BaseActivity.DOWNLOAD_SERVICE);
             DownloadManager.Request request = new DownloadManager.Request(
                     Uri.parse((AkbankApp.ROOT_URL_1 + fileName)));

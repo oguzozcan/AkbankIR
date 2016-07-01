@@ -52,6 +52,10 @@ import com.jjoe64.graphview.GraphView;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -73,29 +77,29 @@ public class ItemListActivity extends BaseActivity {
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
-    private boolean mTwoPane;
+    //private boolean mTwoPane;
     private ViewPager mPager;
     private GraphHelper helper;
-    private LinearLayout calendarView;
+    //private LinearLayout calendarView;
     private RelativeLayout annualReportView;
     private RelativeLayout investorPresentationView;
     private RelativeLayout webcastView;
     private RelativeLayout aboutTurkeyView;
     private RecyclerView ratingsGridView;
-    private LinearLayout progressBarLayout;
+    //private LinearLayout progressBarLayout;
     boolean stopSliding = false;
     private Runnable animateViewPager;
     private Handler handler;
     private static final long ANIM_VIEWPAGER_DELAY = 5000;
     private static final long ANIM_VIEWPAGER_DELAY_USER_VIEW = 10000;
-    View contentView;
+    //View contentView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater) this
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
-        contentView = inflater.inflate(R.layout.activity_item_list, null, false);
+        View contentView = inflater.inflate(R.layout.activity_item_list, null, false);
         mContent.addView(contentView, 0);
         TimeUtil.changeLocale(getResources().getConfiguration().locale);
         StaggeredGridLayoutManager lm = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
@@ -104,13 +108,13 @@ public class ItemListActivity extends BaseActivity {
         ratingsGridView.setNestedScrollingEnabled(true);
         //mDrawer.addView(contentView, 0);
         //setContentView(R.layout.activity_item_list);
-        calendarView = (LinearLayout) contentView.findViewById(R.id.calendarLayout);
+        //
         annualReportView = (RelativeLayout) contentView.findViewById(R.id.annualReportLayout);
         webcastView = (RelativeLayout) contentView.findViewById(R.id.webcastLayout);
         aboutTurkeyView = (RelativeLayout) contentView.findViewById(R.id.aboutTurkeyLayout);
         investorPresentationView = (RelativeLayout) contentView.findViewById(R.id.latestPresentation);
 
-        progressBarLayout = (LinearLayout) contentView.findViewById(R.id.progressBarLayout);
+        //progressBarLayout = (LinearLayout) contentView.findViewById(R.id.progressBarLayout);
 
         setNavigationFromTitles(contentView);
 
@@ -140,7 +144,8 @@ public class ItemListActivity extends BaseActivity {
             // large-screen layouts (res/values-w900dp).
             // If this view is present, then the
             // activity should be in two-pane mode.
-            mTwoPane = true;
+
+            // mTwoPane = true;
         }
 
         final DataSaver ds = app.getDataSaver();
@@ -305,7 +310,7 @@ public class ItemListActivity extends BaseActivity {
             ratingsGridView.setLayoutManager(lm);
             ratingsGridView.setAdapter(new RatingsGridViewAdapter(this, ratingsArray));
 
-            RelativeLayout ratingsTitleLayout = (RelativeLayout) contentView.findViewById(R.id.ratingsTitleLayout);
+            RelativeLayout ratingsTitleLayout = (RelativeLayout) findViewById(R.id.ratingsTitleLayout); //contentView.
             ratingsTitleLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -349,7 +354,7 @@ public class ItemListActivity extends BaseActivity {
         }
     }
 
-//    @Subscribe
+    //    @Subscribe
 //    public void onFileDownloaded(final EventFileDownloadResponse event) {
 //        Response<ResponseBody> response = event.getResponse();
 //        Log.d(TAG, "ON RESPONSE file download");
@@ -363,15 +368,26 @@ public class ItemListActivity extends BaseActivity {
 //            app.getBus().post(new ApiErrorEvent(response.code(), response.message(), true));
 //        }
 //    }
-
     private void setEventDate(TextView tv, String date, boolean newLine) {
-        String eventDate = TimeUtil.getDateTime(date, TimeUtil.dtfApiFormat, TimeUtil.dtfOutWOTime);
-        String weekDay = TimeUtil.getDateTime(date, TimeUtil.dtfApiFormat, TimeUtil.dtfOutWeekday);
+
+        DateTimeFormatter dtfApiFormat = DateTimeFormat.forPattern("yyyy-MM-dd").withLocale(AkbankApp.localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
+        DateTimeFormatter dtfOutWOTime = DateTimeFormat.forPattern("dd MMMM yyyy").withLocale(AkbankApp.localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
+        DateTimeFormatter dtfOutWeekday = DateTimeFormat.forPattern("EEEE").withLocale(AkbankApp.localeTr).withZone(DateTimeZone.forID("Europe/Istanbul"));
+
+        Log.d(TAG, "SEt EVENT DATE LANG: " + AkbankApp.localeTr.toString());
+        Locale locale = getResources().getConfiguration().locale;
+        Log.d(TAG, "SEt EVENT DATE LANG locale: " + locale);
+        String eventDate = TimeUtil.getDateTime(date, dtfApiFormat, dtfOutWOTime, locale);
+        String weekDay = TimeUtil.getDateTime(date, dtfApiFormat, dtfOutWeekday, locale);
+        Log.d(TAG, "EVENT DATE: " + eventDate + "- weekDay: " + weekDay);
+
         if (newLine) {
             tv.setText(new StringBuilder().append(eventDate).append("\n").append(weekDay).toString());
         } else {
             tv.setText(new StringBuilder().append(eventDate).append(" ").append(weekDay).toString());
         }
+
+        tv.invalidate();
     }
 
     private void drawMainGraph(AkbankApp app, String startDate, String endDate, int period, int daysBetween) {
@@ -555,9 +571,17 @@ public class ItemListActivity extends BaseActivity {
 
     private void setCalendarLayout(DashboardContainerObject dashboardContainerObject) {
         ArrayList<CalendarEvent> calendarEvents = dashboardContainerObject.getCalendarEvents();
+        LinearLayout calendarView = (LinearLayout) findViewById(R.id.calendarLayout); //contentView.
+
         final TextView descriptionTextView = (TextView) calendarView.findViewById(R.id.eventDescription);
         final TextView eventDateTextView = (TextView) calendarView.findViewById(R.id.eventDetailDate);
-
+        eventDateTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentCalendar = new Intent(ItemListActivity.this, CalendarActivity.class);
+                ItemListActivity.this.startActivity(intentCalendar);
+            }
+        });
         for (int i = 0; i < calendarEvents.size(); i++) {
             final CalendarEvent ce = calendarEvents.get(i);
             Log.d(TAG, "CALENDAR EVENT: " + ce.getEventDate() + " - ce.type: " + ce.getType() + "-desc: " + ce.getDescription());
@@ -606,15 +630,16 @@ public class ItemListActivity extends BaseActivity {
                     }
                 });
 
-                dateTextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intentCalendar = new Intent(ItemListActivity.this, CalendarActivity.class);
-                        ItemListActivity.this.startActivity(intentCalendar);
-                    }
-                });
+//                dateTextView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Intent intentCalendar = new Intent(ItemListActivity.this, CalendarActivity.class);
+//                        ItemListActivity.this.startActivity(intentCalendar);
+//                    }
+//                });
             }
         }
+        calendarView.invalidate();
     }
 
     private void setAnnualReportLayout(final DashboardContainerObject dashboardContainerObject) {
@@ -673,7 +698,7 @@ public class ItemListActivity extends BaseActivity {
         annualObjectDescription.setVisibility(View.VISIBLE);
         if (investorPresentationObject.getDescription().equals("")) {
             annualObjectDescription.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             Spanned htmlAsSpanned = Html.fromHtml(investorPresentationObject.getDescription());
             annualObjectDescription.setText(htmlAsSpanned);
         }
@@ -712,9 +737,7 @@ public class ItemListActivity extends BaseActivity {
         });
     }
 
-
-
-//    private void setReportObject(final ReportObject reportObject ) {
+    //    private void setReportObject(final ReportObject reportObject ) {
 //        RelativeLayout webcastLayout = (RelativeLayout) contentView.findViewById(R.id.latestReport);
 //        TextView description = (TextView) webcastLayout.findViewById(R.id.reportDescription);
 //        TextView description2 = (TextView) webcastLayout.findViewById(R.id.reportDescription2);
@@ -803,7 +826,7 @@ public class ItemListActivity extends BaseActivity {
         webcastTitle.setText(webcastObject.getTitle());
         TextView listenButton = (TextView) webcastView.findViewById(R.id.listenButton);
         TextView dateText = (TextView) webcastView.findViewById(R.id.dateText);
-        String date = TimeUtil.getDateTime(webcastObject.getDate(), TimeUtil.dfISO, TimeUtil.dtfOutWOTimeShort);
+        String date = TimeUtil.getDateTime(webcastObject.getDate(), TimeUtil.dfISO, TimeUtil.dtfOutWOTimeShort,AkbankApp.localeTr);
         //String date = TimeUtil.getDateTime(webcastObject.getDate(), TimeUtil.dtfForex, TimeUtil.dtfOutWOTimeShort);
         dateText.setText(date);
         listenButton.setOnClickListener(new View.OnClickListener() {

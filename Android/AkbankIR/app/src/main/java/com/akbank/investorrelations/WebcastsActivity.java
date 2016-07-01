@@ -86,7 +86,7 @@ public class WebcastsActivity extends BaseActivity {
         webcastTitle.setText(webcastObject.getTitle());
         TextView listenButton = (TextView) webcastLayout.findViewById(R.id.listenButton);
         TextView dateText = (TextView ) webcastLayout.findViewById(R.id.dateText);
-        String date = TimeUtil.getDateTime(webcastObject.getDate(), TimeUtil.dfISO, TimeUtil.dtfOutWOTimeShort);
+        String date = TimeUtil.getDateTime(webcastObject.getDate(), TimeUtil.dfISO, TimeUtil.dtfOutWOTimeShort, AkbankApp.localeTr);
         dateText.setText(date);
         listenButton.setOnClickListener(new View.OnClickListener() {
             @Override
