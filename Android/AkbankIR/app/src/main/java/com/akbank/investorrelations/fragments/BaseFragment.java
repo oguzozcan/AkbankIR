@@ -19,7 +19,6 @@ public abstract class BaseFragment extends Fragment {
     public OnFragmentInteractionListener mListener;
     public DataSaver ds;
 
-
     public BaseFragment() {
         setTag();
     }
